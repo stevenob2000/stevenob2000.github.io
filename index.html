@@ -1,740 +1,724 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.4">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  <meta charset="UTF-8">
+  <title>Ticket Update Generator (TUG)</title>
+  <style>
+    body {
+      background-color: #3B5CA9;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    /* Three-column layout */
+    .page-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      min-height: 100vh;
+    }
+    .left-container,
+    .middle-container,
+    .right-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+    .left-container {
+      width: 25%;
+      /* Default hidden for testing */
+      display: none;
+    }
+    .middle-container {
+      width: 50%;
+      position: relative;
+    }
+    .right-container {
+      width: 25%;
+      /* Default hidden for testing */
+      display: none;
+    }
+    /* Updated header using flex */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .header h1, .header h2 {
+      margin: 0;
+      flex: 1;
+      text-align: center;
+    }
+    .subheader {
+      text-align: center;
+      font-size: 0.9em;
+      color: #999;
+      margin-bottom: 15px;
+      transition: color 0.3s;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+    button {
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+    /* Ensure buttons fill the width where needed */
+    .full-width-btn {
+      width: 100%;
+      margin-top: 15px;
+    }
+    /* Center output area styled as a div */
+    #result {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      background: #f4f4f4;
+      padding: 10px;
+      border: 1px solid #ccc;
+      min-height: 150px;
+      font-size: 14px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+    /* Right container output area */
+    #ticketCreatorOutput {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      background: #f4f4f4;
+      padding: 10px;
+      border: 1px solid #ccc;
+      min-height: 150px;
+      font-size: 14px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+    /* Enhanced styling for square radio buttons */
+    .radio-group {
+      margin-top: 5px;
+    }
+    .radio-group label {
+      display: inline-block;
+      margin-right: 15px;
+      font-weight: normal;
+      cursor: pointer;
+    }
+    .radio-group input[type="radio"] {
+      margin-right: 5px;
+      width: 20px;
+      height: 20px;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      border: 2px solid #555;
+      border-radius: 0;
+      cursor: pointer;
+      position: relative;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+    .radio-group input[type="radio"]:checked {
+      background-color: #555;
+      border-color: #555;
+    }
+    .radio-group input[type="radio"]:focus {
+      outline: none;
+      box-shadow: 0 0 2px 2px rgba(85,85,85,0.5);
+    }
+    /* Containers for input fields within form sections */
+    .fields-container {
+      margin-top: 15px;
+    }
+    /* Containers for action and copy buttons */
+    .action-container, .copy-container {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .action-container button, .copy-container button {
+      flex: 1;
+      width: 100%;
+    }
+    /* Style for call example columns */
+    .call-examples-container {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .call-example {
+      flex: 1;
+    }
+    /* Footer styling */
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.8em;
+      color: #fff;
+    }
+    /* Styling for right container message */
+    #ticketMessage {
+      text-align: center;
+      margin-top: 10px;
+      opacity: 1;
+      transition: opacity 1s ease-out;
+    }
+    /* Toggle button for dark mode */
+    #toggleDarkMode {
+      position: relative;
+    }
+    /* Toggle button for side panels */
+    #toggleSidePanels {
+      position: relative;
+    }
+    /* Dark mode styles */
+    .dark-mode {
+      background-color: #222;
+      color: #fff;
+    }
+    .dark-mode .left-container,
+    .dark-mode .middle-container,
+    .dark-mode .right-container {
+      background-color: #000;
+      color: #fff;
+      border-color: #555;
+    }
+    .dark-mode input,
+    .dark-mode textarea {
+      background-color: #333;
+      color: #fff;
+      border: 1px solid #555;
+    }
+    .dark-mode #result,
+    .dark-mode #ticketCreatorOutput {
+      background-color: #000;
+      color: #fff;
+      border-color: #555;
+    }
+    .dark-mode .subheader {
+      color: #ccc;
+    }
   </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Ticket Update Generator (TUG)&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background-color: #3B5CA9;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-family: Arial, sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-sizing: border-box;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transition: background-color 0.3s, color 0.3s;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>/* Three-column layout */</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.page-container {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>min-height: 100vh;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.left-container,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.middle-container,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.right-container {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 2px 5px rgba(0,0,0,0.1);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-sizing: border-box;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transition: background-color 0.3s, color 0.3s, border-color 0.3s;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.left-container {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 25%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>/* Default hidden for testing */</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: none;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.middle-container {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 50%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.right-container {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 25%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>/* Default hidden for testing */</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: none;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>/* Updated header using flex */</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.header {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>justify-content: space-between;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.header h1, .header h2 {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>flex: 1;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.subheader {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.9em;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #999;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transition: color 0.3s;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>label {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: block;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>input, textarea {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 5px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-sizing: border-box;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transition: background-color 0.3s, color 0.3s, border-color 0.3s;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>button {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 10px 15px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>/* Ensure buttons fill the width where needed */</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.full-width-btn {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>/* Center output area styled as a div */</p>
-<p class="p1"><span class="Apple-converted-space">    </span>#result {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>white-space: pre-wrap;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #f4f4f4;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid #ccc;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>min-height: 150px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>word-wrap: break-word;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>overflow-wrap: break-word;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transition: background-color 0.3s, color 0.3s, border-color 0.3s;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>/* Right container output area */</p>
-<p class="p1"><span class="Apple-converted-space">    </span>#ticketCreatorOutput {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>white-space: pre-wrap;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #f4f4f4;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid #ccc;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>min-height: 150px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>word-wrap: break-word;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>overflow-wrap: break-word;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transition: background-color 0.3s, color 0.3s, border-color 0.3s;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>/* Enhanced styling for square radio buttons */</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.radio-group {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 5px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.radio-group label {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: inline-block;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-right: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: normal;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.radio-group input[type="radio"] {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-right: 5px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>height: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>-webkit-appearance: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>-moz-appearance: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>appearance: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: 2px solid #555;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transition: background-color 0.2s ease, border-color 0.2s ease;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.radio-group input[type="radio"]:checked {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background-color: #555;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-color: #555;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.radio-group input[type="radio"]:focus {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>outline: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 0 2px 2px rgba(85,85,85,0.5);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>/* Containers for input fields within form sections */</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.fields-container {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>/* Containers for action and copy buttons */</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.action-container, .copy-container {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.action-container button, .copy-container button {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>flex: 1;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>/* Style for call example columns */</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.call-examples-container {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.call-example {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>flex: 1;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>/* Footer styling */</p>
-<p class="p1"><span class="Apple-converted-space">    </span>footer {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.8em;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>/* Styling for right container message */</p>
-<p class="p1"><span class="Apple-converted-space">    </span>#ticketMessage {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>opacity: 1;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transition: opacity 1s ease-out;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>/* Toggle button for dark mode */</p>
-<p class="p1"><span class="Apple-converted-space">    </span>#toggleDarkMode {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>/* Toggle button for side panels */</p>
-<p class="p1"><span class="Apple-converted-space">    </span>#toggleSidePanels {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>/* Dark mode styles */</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.dark-mode {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background-color: #222;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.dark-mode .left-container,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.dark-mode .middle-container,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.dark-mode .right-container {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background-color: #000;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-color: #555;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.dark-mode input,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.dark-mode textarea {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background-color: #333;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid #555;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.dark-mode #result,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.dark-mode #ticketCreatorOutput {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background-color: #000;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-color: #555;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.dark-mode .subheader {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #ccc;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="page-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Left Container: Account Loader (hidden by default) --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="left-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;Account Loader&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="subheader"&gt;Non-functional, for demonstration purposes only&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;form id="leftForm"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="fields-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="site"&gt;Site:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="site" placeholder="Enter Site"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="fields-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="address1"&gt;Address 1:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="address1" placeholder="Enter Address 1"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="fields-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="address2"&gt;Address 2:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="address2" placeholder="Enter Address 2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="fields-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="city"&gt;City:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="city" placeholder="Enter City"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="fields-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="state"&gt;State:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="state" placeholder="Enter State"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="fields-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="zip"&gt;Zip:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="zip" placeholder="Enter Zip"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="fields-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="country"&gt;Country:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="country" placeholder="Enter Country"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="fields-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="contact"&gt;Contact:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="contact" placeholder="Enter Contact"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="fields-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="phoneNumber"&gt;Phone Number:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="phoneNumber" placeholder="Enter Phone Number"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="fields-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="email"&gt;Email:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="email" id="email" placeholder="Enter Email"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Placeholder Button --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button type="button" class="full-width-btn"&gt;Pull Account Info&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/form&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Middle Container: Ticket Update Generator --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="middle-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button type="button" id="toggleDarkMode"&gt;Switch to Dark Mode&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1&gt;Ticket Update Generator (TUG)&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button type="button" id="toggleSidePanels"&gt;Toggle Side Panels&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="subheader"&gt;Functional Version 1&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;form id="ticketForm"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Update Type Radio Buttons (only two options) --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;label&gt;Update Type:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="radio-group"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="radio" name="callType" value="ticketCreation" checked onclick="handleCallTypeChange()"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>Ticket Creation</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="radio" name="callType" value="nocall" onclick="handleCallTypeChange()"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>General Ticket Update</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Caller Fields (for ticket creation; hidden when General Ticket Update is selected) --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="callerFields" class="fields-container" style="display: none;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="callerName"&gt;Caller Name:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="callerName" placeholder="Enter caller name"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="callerNumber"&gt;Caller Number:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="callerNumber" placeholder="Enter caller number"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Ticket Creation Fields --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="ticketCreationFields" class="fields-container" style="display: block;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="tc_accountNumber"&gt;Account Number:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="tc_accountNumber" placeholder="Enter account number" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="tc_callersName"&gt;Caller's Name:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="tc_callersName" placeholder="Enter caller's name" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="tc_callersNumber"&gt;Caller's Number:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="tc_callersNumber" placeholder="Enter caller's number" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="tc_lconName"&gt;LCON Name:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="tc_lconName" placeholder="Enter LCON name" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="tc_lconNumber"&gt;LCON Number:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="tc_lconNumber" placeholder="Enter LCON number" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="tc_businessHours"&gt;Business Hours:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="tc_businessHours" placeholder="Enter business hours" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="tc_accessHours"&gt;Access Hours (For IWs):&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="tc_accessHours" placeholder="Enter access hours for IWs" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="tc_accessInstructions"&gt;Access Special Instructions (e.g., Side door after 5PM):&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="tc_accessInstructions" placeholder="Enter special access instructions" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="tc_carrierInfo"&gt;Carrier Info (Circuit ID/Account/Number):&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="tc_carrierInfo" placeholder="Enter carrier info" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;!-- New input box for Carrier Ticket --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="tc_carrierTicket"&gt;Carrier Ticket:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="tc_carrierTicket" placeholder="Enter carrier ticket"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="tc_problemStatement"&gt;Current Problem Statement/Issue:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="tc_problemStatement" placeholder="Enter problem statement/issue" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="tc_troubleshootingResults"&gt;Troubleshooting Performed and Results:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="tc_troubleshootingResults" placeholder="Enter troubleshooting performed and results" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="tc_currentStatus"&gt;Current Status:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="tc_currentStatus" placeholder="Enter current status" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="tc_recommendedNextSteps"&gt;Recommended Next Steps:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="tc_recommendedNextSteps" placeholder="Enter recommended next steps" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Standard Fields for General Ticket Update --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="standardFields" class="fields-container" style="display: none;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="ticketUpdateReason"&gt;Ticket Update Reason:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="ticketUpdateReason" placeholder="Enter ticket update reason" required&gt;</p>
-<p class="p2"><span class="Apple-converted-space">          </span></p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;!-- New radio group for call update type --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label&gt;Is this ticket update due to call?&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="radio-group"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="radio" name="updateCallType" value="nocall" checked&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>No Call</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="radio" name="updateCallType" value="inbound"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>Inbound Call</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="radio" name="updateCallType" value="outbound"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>Outbound Call</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">          </span></p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="currentProblemStatement"&gt;Current Problem Statement/Issue:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="currentProblemStatement" placeholder="Enter current problem statement/issue" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="troubleshootingResults"&gt;Troubleshooting Performed and Results:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="troubleshootingResults" placeholder="Enter troubleshooting performed and results" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="currentStatus"&gt;Current Status:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="currentStatus" placeholder="Enter current status" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="recommendedNextSteps"&gt;Recommended Next Steps:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="recommendedNextSteps" placeholder="Enter recommended next steps" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Dedicated Team Radio Buttons (USPS removed) --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;label&gt;Dedicated Team:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="radio-group" id="providerRadios"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="radio" name="provider" value="" checked onclick="handleProviderChange()"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>None</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="radio" name="provider" value="voip" onclick="handleProviderChange()"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>VOIP</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="radio" name="provider" value="grid" onclick="handleProviderChange()"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>GRID</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Container for Conditional Dedicated Team Fields --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="providerFields"&gt;&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Troubleshooting/Other Input --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;label for="troubleshootingOther"&gt;Troubleshooting/Other:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;textarea id="troubleshootingOther" placeholder="Enter troubleshooting/other details" rows="10"&gt;&lt;/textarea&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Action Buttons for Generating and Clearing Template --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="action-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button type="button" onclick="generateTemplate()"&gt;Generate Template&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button type="button" onclick="clearOutput()"&gt;Clear All&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/form&gt;</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2&gt;Generated Ticket Template:&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="result"&gt;&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- Copy Buttons below the result box --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="copy-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button type="button" onclick="copyFormattedTemplate()"&gt;Copy Formatted Template&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button type="button" onclick="highlightOutput()"&gt;Highlight Output&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Right Container: Ticket Creator (hidden by default) --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="right-container" style="display: none;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;Ticket Creator&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="subheader"&gt;Non-functional, for demonstration purposes only&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- Cloned output box for ticket creator --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2&gt;Ticket Creator Output:&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="ticketCreatorOutput"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;button type="button" id="ticketCreatorButton" class="full-width-btn"&gt;Create Ticket&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="ticketMessage" style="display: none;"&gt;Ticket created in ConnectWise!&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">  </span></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;footer&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>Created by Steven Burgos, with invaluable support from my teammates.</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/footer&gt;</p>
-<p class="p2"><span class="Apple-converted-space">  </span></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Toggle Dark Mode</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById("toggleDarkMode").addEventListener("click", function() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(document.body.classList.contains("dark-mode")) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.body.classList.remove("dark-mode");</p>
-<p class="p1"><span class="Apple-converted-space">        </span>this.textContent = "Switch to Dark Mode";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.body.classList.add("dark-mode");</p>
-<p class="p1"><span class="Apple-converted-space">        </span>this.textContent = "Switch to Light Mode";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function handleCallTypeChange() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const callType = document.querySelector('input[name="callType"]:checked')?.value;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (callType === "ticketCreation") {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById("ticketCreationFields").style.display = "block";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById("standardFields").style.display = "none";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById("callerFields").style.display = "none";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById("ticketCreationFields").style.display = "none";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById("standardFields").style.display = "block";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById("callerFields").style.display = "none";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function handleProviderChange() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const provider = document.querySelector('input[name="provider"]:checked')?.value;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const container = document.getElementById("providerFields");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (provider === "voip") {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>container.innerHTML =</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;label for="phoneNumberIssue"&gt;All/Partial/Single Phone Number Issue:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;input type="text" id="phoneNumberIssue" placeholder="Enter All/Partial/Single Phone Number Issue"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;label for="numbersAffected"&gt;Number(s) Affected:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;input type="text" id="numbersAffected" placeholder="Enter number(s) affected"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;label for="callFeaturesAffected"&gt;Call Feature(s) Affected:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;input type="text" id="callFeaturesAffected" placeholder="Enter call feature(s) affected"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;label for="macAddress"&gt;Mac Address:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;input type="text" id="macAddress" placeholder="Enter Mac Address"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;label for="serialNumber"&gt;Serial Number:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;input type="text" id="serialNumber" placeholder="Enter Serial Number"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;label for="adtranIP"&gt;Adtran LB IP Address:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;input type="text" id="adtranIP" placeholder="Enter Adtran LB IP Address"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;div class="call-examples-container"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">            </span>'&lt;div class="call-example"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;strong&gt;Call Examples 1&lt;/strong&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;label for="call1_datetime"&gt;Date &amp; Time:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;input type="text" id="call1_datetime" placeholder="Enter Date &amp; Time"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;label for="call1_phone"&gt;Phone Number:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;input type="text" id="call1_phone" placeholder="Enter Phone Number"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;label for="call1_destination"&gt;Destination Number:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;input type="text" id="call1_destination" placeholder="Enter Destination Number"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;label for="call1_error"&gt;Error Received:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;input type="text" id="call1_error" placeholder="Enter Error Received"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">            </span>'&lt;/div&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">            </span>'&lt;div class="call-example"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;strong&gt;Call Examples 2&lt;/strong&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;label for="call2_datetime"&gt;Date &amp; Time:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;input type="text" id="call2_datetime" placeholder="Enter Date &amp; Time"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;label for="call2_phone"&gt;Phone Number:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;input type="text" id="call2_phone" placeholder="Enter Phone Number"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;label for="call2_destination"&gt;Destination Number:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;input type="text" id="call2_destination" placeholder="Enter Destination Number"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;label for="call2_error"&gt;Error Received:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;input type="text" id="call2_error" placeholder="Enter Error Received"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">            </span>'&lt;/div&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">            </span>'&lt;div class="call-example"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;strong&gt;Call Examples 3&lt;/strong&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;label for="call3_datetime"&gt;Date &amp; Time:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;input type="text" id="call3_datetime" placeholder="Enter Date &amp; Time"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;label for="call3_phone"&gt;Phone Number:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;input type="text" id="call3_phone" placeholder="Enter Phone Number"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;label for="call3_destination"&gt;Destination Number:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;input type="text" id="call3_destination" placeholder="Enter Destination Number"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;label for="call3_error"&gt;Error Received:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">              </span>'&lt;input type="text" id="call3_error" placeholder="Enter Error Received"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">            </span>'&lt;/div&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;/div&gt;';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} else if (provider === "grid") {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>container.innerHTML =</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;label for="mallName"&gt;Mall Name:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;input type="text" id="mallName" placeholder="Enter Mall Name"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;label for="managementReit"&gt;Management/REIT:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;input type="text" id="managementReit" placeholder="Enter Management/REIT"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;label for="mdf"&gt;MDF:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;input type="text" id="mdf" placeholder="Enter MDF"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;label for="idf"&gt;IDF:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;input type="text" id="idf" placeholder="Enter IDF"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;label for="port"&gt;Port:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;input type="text" id="port" placeholder="Enter Port"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;label for="speeds"&gt;Speeds:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;input type="text" id="speeds" placeholder="Enter Speeds"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;label for="staticOrDhcp"&gt;Static or DHCP:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;input type="text" id="staticOrDhcp" placeholder="Enter Static or DHCP"&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;label for="staticIPAddresses"&gt;Static IP Addresses:&lt;/label&gt;' +</p>
-<p class="p1"><span class="Apple-converted-space">          </span>'&lt;input type="text" id="staticIPAddresses" placeholder="Enter Static IP Addresses"&gt;';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>container.innerHTML = "";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function generateTemplate() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>console.log("generateTemplate triggered");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>let template = "";</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// Helper: only add line if value is non-empty.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>function addTemplateLine(label, value) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>if (value &amp;&amp; value.trim() !== "") {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>template += "&lt;strong&gt;" + label + ":&lt;/strong&gt; " + value + "&lt;br&gt;";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>template += "&lt;strong&gt;Ticket Update Template&lt;/strong&gt;&lt;br&gt;";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>template += "&lt;strong&gt;--------------------------&lt;/strong&gt;&lt;br&gt;&lt;br&gt;";</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>const callType = document.querySelector('input[name="callType"]:checked')?.value || "";</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (callType === "ticketCreation") {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Update Type", "Ticket Creation");</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const tc_accountNumber = document.getElementById("tc_accountNumber")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const tc_callersName = document.getElementById("tc_callersName")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const tc_callersNumber = document.getElementById("tc_callersNumber")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const tc_lconName = document.getElementById("tc_lconName")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const tc_lconNumber = document.getElementById("tc_lconNumber")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const tc_businessHours = document.getElementById("tc_businessHours")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const tc_accessHours = document.getElementById("tc_accessHours")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const tc_accessInstructions = document.getElementById("tc_accessInstructions")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const tc_carrierInfo = document.getElementById("tc_carrierInfo")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const tc_carrierTicket = document.getElementById("tc_carrierTicket")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const tc_problemStatement = document.getElementById("tc_problemStatement")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const tc_troubleshootingResults = document.getElementById("tc_troubleshootingResults")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const tc_currentStatus = document.getElementById("tc_currentStatus")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const tc_recommendedNextSteps = document.getElementById("tc_recommendedNextSteps")?.value || "";</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Account Number", tc_accountNumber);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Caller's Name", tc_callersName);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Caller's Number", tc_callersNumber);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("LCON Name", tc_lconName);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("LCON Number", tc_lconNumber);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Business Hours", tc_businessHours);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Access Hours (For IWs)", tc_accessHours);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Access Special Instructions", tc_accessInstructions);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Carrier Info", tc_carrierInfo);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Carrier Ticket", tc_carrierTicket);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Current Problem Statement/Issue", tc_problemStatement);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Troubleshooting Performed and Results", tc_troubleshootingResults);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Current Status", tc_currentStatus);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Recommended Next Steps", tc_recommendedNextSteps);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} else { // General Ticket Update</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Update Type", "General Ticket Update");</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const ticketUpdateReason = document.getElementById("ticketUpdateReason")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Ticket Update Reason", ticketUpdateReason);</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const updateCallType = document.querySelector('input[name="updateCallType"]:checked')?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Call Update Type", updateCallType);</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const std_currentProblemStatement = document.getElementById("currentProblemStatement")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const troubleshootingResults = document.getElementById("troubleshootingResults")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const currentStatus = document.getElementById("currentStatus")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const recommendedNextSteps = document.getElementById("recommendedNextSteps")?.value || "";</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Current Problem Statement/Issue", std_currentProblemStatement);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Troubleshooting Performed and Results", troubleshootingResults);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Current Status", currentStatus);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Recommended Next Steps", recommendedNextSteps);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>const provider = document.querySelector('input[name="provider"]:checked')?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>addTemplateLine("Dedicated Team", provider ? provider : "None");</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (provider === "voip") {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const phoneNumberIssue = document.getElementById("phoneNumberIssue")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const numbersAffected = document.getElementById("numbersAffected")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const callFeaturesAffected = document.getElementById("callFeaturesAffected")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const macAddress = document.getElementById("macAddress")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const serialNumber = document.getElementById("serialNumber")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const adtranIP = document.getElementById("adtranIP")?.value || "";</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("All/Partial/Single Phone Number Issue", phoneNumberIssue);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Number(s) Affected", numbersAffected);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Call Feature(s) Affected", callFeaturesAffected);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Mac Address", macAddress);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Serial Number", serialNumber);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Adtran LB IP Address", adtranIP);</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const call1_datetime = document.getElementById("call1_datetime")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const call1_phone = document.getElementById("call1_phone")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const call1_destination = document.getElementById("call1_destination")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const call1_error = document.getElementById("call1_error")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Call Examples 1 - Date &amp; Time", call1_datetime);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Call Examples 1 - Phone Number", call1_phone);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Call Examples 1 - Destination Number", call1_destination);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Call Examples 1 - Error Received", call1_error);</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const call2_datetime = document.getElementById("call2_datetime")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const call2_phone = document.getElementById("call2_phone")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const call2_destination = document.getElementById("call2_destination")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const call2_error = document.getElementById("call2_error")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Call Examples 2 - Date &amp; Time", call2_datetime);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Call Examples 2 - Phone Number", call2_phone);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Call Examples 2 - Destination Number", call2_destination);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Call Examples 2 - Error Received", call2_error);</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const call3_datetime = document.getElementById("call3_datetime")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const call3_phone = document.getElementById("call3_phone")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const call3_destination = document.getElementById("call3_destination")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const call3_error = document.getElementById("call3_error")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Call Examples 3 - Date &amp; Time", call3_datetime);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Call Examples 3 - Phone Number", call3_phone);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Call Examples 3 - Destination Number", call3_destination);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Call Examples 3 - Error Received", call3_error);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} else if (provider === "grid") {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const mallName = document.getElementById("mallName")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const managementReit = document.getElementById("managementReit")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const mdf = document.getElementById("mdf")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const idf = document.getElementById("idf")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const port = document.getElementById("port")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const speeds = document.getElementById("speeds")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const staticOrDhcp = document.getElementById("staticOrDhcp")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const staticIPAddresses = document.getElementById("staticIPAddresses")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Mall Name", mallName);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Management/REIT", managementReit);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("MDF", mdf);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("IDF", idf);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Port", port);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Speeds", speeds);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Static or DHCP", staticOrDhcp);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>addTemplateLine("Static IP Addresses", staticIPAddresses);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>const troubleshootingOther = document.getElementById("troubleshootingOther")?.value || "";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>addTemplateLine("Troubleshooting/Other", troubleshootingOther);</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (template.length &gt; 30000) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>alert("You have hit the Bryan Limit");</p>
-<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("result").innerHTML = template;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("ticketCreatorOutput").innerHTML = template;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>console.log("Template generated:", template);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function copyFormattedTemplate() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const htmlContent = document.getElementById("result").innerHTML;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const blob = new Blob([htmlContent], { type: "text/html" });</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const clipboardItem = new ClipboardItem({ "text/html": blob });</p>
-<p class="p1"><span class="Apple-converted-space">      </span>navigator.clipboard.write([clipboardItem]).then(function() {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>alert("Template (with formatting) copied to clipboard!");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}, function(err) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>alert("Failed to copy: " + err);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function highlightOutput() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>var output = document.getElementById("result");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>var range = document.createRange();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>range.selectNodeContents(output);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>var selection = window.getSelection();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>selection.removeAllRanges();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>selection.addRange(range);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function clearOutput() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("result").innerHTML = "";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("ticketCreatorOutput").innerHTML = "";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("ticketForm").reset();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>handleCallTypeChange();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>handleProviderChange();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>handleCallTypeChange();</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById("toggleSidePanels").addEventListener("click", function() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>var left = document.querySelector(".left-container");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>var right = document.querySelector(".right-container");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if(left.style.display === "none") {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>left.style.display = "block";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>right.style.display = "block";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>left.style.display = "none";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>right.style.display = "none";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById("ticketCreatorButton").addEventListener("click", function() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>var btn = document.getElementById("ticketCreatorButton");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>var msg = document.getElementById("ticketMessage");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>btn.disabled = true;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>msg.style.display = "block";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>msg.style.opacity = 1;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>setTimeout(function() {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>msg.style.opacity = 0;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>setTimeout(function(){</p>
-<p class="p1"><span class="Apple-converted-space">          </span>msg.style.display = "none";</p>
-<p class="p1"><span class="Apple-converted-space">          </span>btn.disabled = false;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}, 1000);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}, 5000);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+  <div class="page-container">
+    <!-- Left Container: Account Loader (hidden by default) -->
+    <div class="left-container">
+      <div class="header">
+        <h2>Account Loader</h2>
+      </div>
+      <div class="subheader">Non-functional, for demonstration purposes only</div>
+      <form id="leftForm">
+        <div class="fields-container">
+          <label for="site">Site:</label>
+          <input type="text" id="site" placeholder="Enter Site">
+        </div>
+        <div class="fields-container">
+          <label for="address1">Address 1:</label>
+          <input type="text" id="address1" placeholder="Enter Address 1">
+        </div>
+        <div class="fields-container">
+          <label for="address2">Address 2:</label>
+          <input type="text" id="address2" placeholder="Enter Address 2">
+        </div>
+        <div class="fields-container">
+          <label for="city">City:</label>
+          <input type="text" id="city" placeholder="Enter City">
+        </div>
+        <div class="fields-container">
+          <label for="state">State:</label>
+          <input type="text" id="state" placeholder="Enter State">
+        </div>
+        <div class="fields-container">
+          <label for="zip">Zip:</label>
+          <input type="text" id="zip" placeholder="Enter Zip">
+        </div>
+        <div class="fields-container">
+          <label for="country">Country:</label>
+          <input type="text" id="country" placeholder="Enter Country">
+        </div>
+        <div class="fields-container">
+          <label for="contact">Contact:</label>
+          <input type="text" id="contact" placeholder="Enter Contact">
+        </div>
+        <div class="fields-container">
+          <label for="phoneNumber">Phone Number:</label>
+          <input type="text" id="phoneNumber" placeholder="Enter Phone Number">
+        </div>
+        <div class="fields-container">
+          <label for="email">Email:</label>
+          <input type="email" id="email" placeholder="Enter Email">
+        </div>
+        <!-- Placeholder Button -->
+        <button type="button" class="full-width-btn">Pull Account Info</button>
+      </form>
+    </div>
+    
+    <!-- Middle Container: Ticket Update Generator -->
+    <div class="middle-container">
+      <div class="header">
+        <button type="button" id="toggleDarkMode">Switch to Dark Mode</button>
+        <h1>Ticket Update Generator (TUG)</h1>
+        <button type="button" id="toggleSidePanels">Toggle Side Panels</button>
+      </div>
+      <div class="subheader">Functional Version 1</div>
+      <form id="ticketForm">
+        <!-- Update Type Radio Buttons (only two options) -->
+        <label>Update Type:</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="callType" value="ticketCreation" checked onclick="handleCallTypeChange()">
+            Ticket Creation
+          </label>
+          <label>
+            <input type="radio" name="callType" value="nocall" onclick="handleCallTypeChange()">
+            General Ticket Update
+          </label>
+        </div>
+        
+        <!-- Caller Fields (for ticket creation; hidden when General Ticket Update is selected) -->
+        <div id="callerFields" class="fields-container" style="display: none;">
+          <label for="callerName">Caller Name:</label>
+          <input type="text" id="callerName" placeholder="Enter caller name">
+          <label for="callerNumber">Caller Number:</label>
+          <input type="text" id="callerNumber" placeholder="Enter caller number">
+        </div>
+        
+        <!-- Ticket Creation Fields -->
+        <div id="ticketCreationFields" class="fields-container" style="display: block;">
+          <label for="tc_accountNumber">Account Number:</label>
+          <input type="text" id="tc_accountNumber" placeholder="Enter account number" required>
+          <label for="tc_callersName">Caller's Name:</label>
+          <input type="text" id="tc_callersName" placeholder="Enter caller's name" required>
+          <label for="tc_callersNumber">Caller's Number:</label>
+          <input type="text" id="tc_callersNumber" placeholder="Enter caller's number" required>
+          <label for="tc_lconName">LCON Name:</label>
+          <input type="text" id="tc_lconName" placeholder="Enter LCON name" required>
+          <label for="tc_lconNumber">LCON Number:</label>
+          <input type="text" id="tc_lconNumber" placeholder="Enter LCON number" required>
+          <label for="tc_businessHours">Business Hours:</label>
+          <input type="text" id="tc_businessHours" placeholder="Enter business hours" required>
+          <label for="tc_accessHours">Access Hours (For IWs):</label>
+          <input type="text" id="tc_accessHours" placeholder="Enter access hours for IWs" required>
+          <label for="tc_accessInstructions">Access Special Instructions (e.g., Side door after 5PM):</label>
+          <input type="text" id="tc_accessInstructions" placeholder="Enter special access instructions" required>
+          <label for="tc_carrierInfo">Carrier Info (Circuit ID/Account/Number):</label>
+          <input type="text" id="tc_carrierInfo" placeholder="Enter carrier info" required>
+          <!-- New input box for Carrier Ticket -->
+          <label for="tc_carrierTicket">Carrier Ticket:</label>
+          <input type="text" id="tc_carrierTicket" placeholder="Enter carrier ticket">
+          <label for="tc_problemStatement">Current Problem Statement/Issue:</label>
+          <input type="text" id="tc_problemStatement" placeholder="Enter problem statement/issue" required>
+          <label for="tc_troubleshootingResults">Troubleshooting Performed and Results:</label>
+          <input type="text" id="tc_troubleshootingResults" placeholder="Enter troubleshooting performed and results" required>
+          <label for="tc_currentStatus">Current Status:</label>
+          <input type="text" id="tc_currentStatus" placeholder="Enter current status" required>
+          <label for="tc_recommendedNextSteps">Recommended Next Steps:</label>
+          <input type="text" id="tc_recommendedNextSteps" placeholder="Enter recommended next steps" required>
+        </div>
+        
+        <!-- Standard Fields for General Ticket Update -->
+        <div id="standardFields" class="fields-container" style="display: none;">
+          <label for="ticketUpdateReason">Ticket Update Reason:</label>
+          <input type="text" id="ticketUpdateReason" placeholder="Enter ticket update reason" required>
+          
+          <!-- New radio group for call update type -->
+          <label>Is this ticket update due to call?</label>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="updateCallType" value="nocall" checked>
+              No Call
+            </label>
+            <label>
+              <input type="radio" name="updateCallType" value="inbound">
+              Inbound Call
+            </label>
+            <label>
+              <input type="radio" name="updateCallType" value="outbound">
+              Outbound Call
+            </label>
+          </div>
+          
+          <label for="currentProblemStatement">Current Problem Statement/Issue:</label>
+          <input type="text" id="currentProblemStatement" placeholder="Enter current problem statement/issue" required>
+          <label for="troubleshootingResults">Troubleshooting Performed and Results:</label>
+          <input type="text" id="troubleshootingResults" placeholder="Enter troubleshooting performed and results" required>
+          <label for="currentStatus">Current Status:</label>
+          <input type="text" id="currentStatus" placeholder="Enter current status" required>
+          <label for="recommendedNextSteps">Recommended Next Steps:</label>
+          <input type="text" id="recommendedNextSteps" placeholder="Enter recommended next steps" required>
+        </div>
+        
+        <!-- Dedicated Team Radio Buttons (USPS removed) -->
+        <label>Dedicated Team:</label>
+        <div class="radio-group" id="providerRadios">
+          <label>
+            <input type="radio" name="provider" value="" checked onclick="handleProviderChange()">
+            None
+          </label>
+          <label>
+            <input type="radio" name="provider" value="voip" onclick="handleProviderChange()">
+            VOIP
+          </label>
+          <label>
+            <input type="radio" name="provider" value="grid" onclick="handleProviderChange()">
+            GRID
+          </label>
+        </div>
+        
+        <!-- Container for Conditional Dedicated Team Fields -->
+        <div id="providerFields"></div>
+        
+        <!-- Troubleshooting/Other Input -->
+        <label for="troubleshootingOther">Troubleshooting/Other:</label>
+        <textarea id="troubleshootingOther" placeholder="Enter troubleshooting/other details" rows="10"></textarea>
+        
+        <!-- Action Buttons for Generating and Clearing Template -->
+        <div class="action-container">
+          <button type="button" onclick="generateTemplate()">Generate Template</button>
+          <button type="button" onclick="clearOutput()">Clear All</button>
+        </div>
+      </form>
+      
+      <h2>Generated Ticket Template:</h2>
+      <div id="result"></div>
+      
+      <!-- Copy Buttons below the result box -->
+      <div class="copy-container">
+        <button type="button" onclick="copyFormattedTemplate()">Copy Formatted Template</button>
+        <button type="button" onclick="highlightOutput()">Highlight Output</button>
+      </div>
+    </div>
+    
+    <!-- Right Container: Ticket Creator (hidden by default) -->
+    <div class="right-container" style="display: none;">
+      <div class="header">
+        <h2>Ticket Creator</h2>
+      </div>
+      <div class="subheader">Non-functional, for demonstration purposes only</div>
+      <!-- Cloned output box for ticket creator -->
+      <h2>Ticket Creator Output:</h2>
+      <div id="ticketCreatorOutput"></div>
+      <button type="button" id="ticketCreatorButton" class="full-width-btn">Create Ticket</button>
+      <div id="ticketMessage" style="display: none;">Ticket created in ConnectWise!</div>
+    </div>
+  </div>
+  
+  <footer>
+    Created by Steven Burgos, with invaluable support from my teammates.
+  </footer>
+  
+  <script>
+    // Toggle Dark Mode
+    document.getElementById("toggleDarkMode").addEventListener("click", function() {
+      if(document.body.classList.contains("dark-mode")) {
+        document.body.classList.remove("dark-mode");
+        this.textContent = "Switch to Dark Mode";
+      } else {
+        document.body.classList.add("dark-mode");
+        this.textContent = "Switch to Light Mode";
+      }
+    });
+    
+    function handleCallTypeChange() {
+      const callType = document.querySelector('input[name="callType"]:checked')?.value;
+      if (callType === "ticketCreation") {
+        document.getElementById("ticketCreationFields").style.display = "block";
+        document.getElementById("standardFields").style.display = "none";
+        document.getElementById("callerFields").style.display = "none";
+      } else {
+        document.getElementById("ticketCreationFields").style.display = "none";
+        document.getElementById("standardFields").style.display = "block";
+        document.getElementById("callerFields").style.display = "none";
+      }
+    }
+    
+    function handleProviderChange() {
+      const provider = document.querySelector('input[name="provider"]:checked')?.value;
+      const container = document.getElementById("providerFields");
+      if (provider === "voip") {
+        container.innerHTML =
+          '<label for="phoneNumberIssue">All/Partial/Single Phone Number Issue:</label>' +
+          '<input type="text" id="phoneNumberIssue" placeholder="Enter All/Partial/Single Phone Number Issue">' +
+          '<label for="numbersAffected">Number(s) Affected:</label>' +
+          '<input type="text" id="numbersAffected" placeholder="Enter number(s) affected">' +
+          '<label for="callFeaturesAffected">Call Feature(s) Affected:</label>' +
+          '<input type="text" id="callFeaturesAffected" placeholder="Enter call feature(s) affected">' +
+          '<label for="macAddress">Mac Address:</label>' +
+          '<input type="text" id="macAddress" placeholder="Enter Mac Address">' +
+          '<label for="serialNumber">Serial Number:</label>' +
+          '<input type="text" id="serialNumber" placeholder="Enter Serial Number">' +
+          '<label for="adtranIP">Adtran LB IP Address:</label>' +
+          '<input type="text" id="adtranIP" placeholder="Enter Adtran LB IP Address">' +
+          '<div class="call-examples-container">' +
+            '<div class="call-example">' +
+              '<strong>Call Examples 1</strong>' +
+              '<label for="call1_datetime">Date & Time:</label>' +
+              '<input type="text" id="call1_datetime" placeholder="Enter Date & Time">' +
+              '<label for="call1_phone">Phone Number:</label>' +
+              '<input type="text" id="call1_phone" placeholder="Enter Phone Number">' +
+              '<label for="call1_destination">Destination Number:</label>' +
+              '<input type="text" id="call1_destination" placeholder="Enter Destination Number">' +
+              '<label for="call1_error">Error Received:</label>' +
+              '<input type="text" id="call1_error" placeholder="Enter Error Received">' +
+            '</div>' +
+            '<div class="call-example">' +
+              '<strong>Call Examples 2</strong>' +
+              '<label for="call2_datetime">Date & Time:</label>' +
+              '<input type="text" id="call2_datetime" placeholder="Enter Date & Time">' +
+              '<label for="call2_phone">Phone Number:</label>' +
+              '<input type="text" id="call2_phone" placeholder="Enter Phone Number">' +
+              '<label for="call2_destination">Destination Number:</label>' +
+              '<input type="text" id="call2_destination" placeholder="Enter Destination Number">' +
+              '<label for="call2_error">Error Received:</label>' +
+              '<input type="text" id="call2_error" placeholder="Enter Error Received">' +
+            '</div>' +
+            '<div class="call-example">' +
+              '<strong>Call Examples 3</strong>' +
+              '<label for="call3_datetime">Date & Time:</label>' +
+              '<input type="text" id="call3_datetime" placeholder="Enter Date & Time">' +
+              '<label for="call3_phone">Phone Number:</label>' +
+              '<input type="text" id="call3_phone" placeholder="Enter Phone Number">' +
+              '<label for="call3_destination">Destination Number:</label>' +
+              '<input type="text" id="call3_destination" placeholder="Enter Destination Number">' +
+              '<label for="call3_error">Error Received:</label>' +
+              '<input type="text" id="call3_error" placeholder="Enter Error Received">' +
+            '</div>' +
+          '</div>';
+      } else if (provider === "grid") {
+        container.innerHTML =
+          '<label for="mallName">Mall Name:</label>' +
+          '<input type="text" id="mallName" placeholder="Enter Mall Name">' +
+          '<label for="managementReit">Management/REIT:</label>' +
+          '<input type="text" id="managementReit" placeholder="Enter Management/REIT">' +
+          '<label for="mdf">MDF:</label>' +
+          '<input type="text" id="mdf" placeholder="Enter MDF">' +
+          '<label for="idf">IDF:</label>' +
+          '<input type="text" id="idf" placeholder="Enter IDF">' +
+          '<label for="port">Port:</label>' +
+          '<input type="text" id="port" placeholder="Enter Port">' +
+          '<label for="speeds">Speeds:</label>' +
+          '<input type="text" id="speeds" placeholder="Enter Speeds">' +
+          '<label for="staticOrDhcp">Static or DHCP:</label>' +
+          '<input type="text" id="staticOrDhcp" placeholder="Enter Static or DHCP">' +
+          '<label for="staticIPAddresses">Static IP Addresses:</label>' +
+          '<input type="text" id="staticIPAddresses" placeholder="Enter Static IP Addresses">';
+      } else {
+        container.innerHTML = "";
+      }
+    }
+    
+    function generateTemplate() {
+      console.log("generateTemplate triggered");
+      let template = "";
+      
+      // Helper: only add line if value is non-empty.
+      function addTemplateLine(label, value) {
+        if (value && value.trim() !== "") {
+          template += "<strong>" + label + ":</strong> " + value + "<br>";
+        }
+      }
+      
+      template += "<strong>Ticket Update Template</strong><br>";
+      template += "<strong>--------------------------</strong><br><br>";
+      
+      const callType = document.querySelector('input[name="callType"]:checked')?.value || "";
+      
+      if (callType === "ticketCreation") {
+        addTemplateLine("Update Type", "Ticket Creation");
+        const tc_accountNumber = document.getElementById("tc_accountNumber")?.value || "";
+        const tc_callersName = document.getElementById("tc_callersName")?.value || "";
+        const tc_callersNumber = document.getElementById("tc_callersNumber")?.value || "";
+        const tc_lconName = document.getElementById("tc_lconName")?.value || "";
+        const tc_lconNumber = document.getElementById("tc_lconNumber")?.value || "";
+        const tc_businessHours = document.getElementById("tc_businessHours")?.value || "";
+        const tc_accessHours = document.getElementById("tc_accessHours")?.value || "";
+        const tc_accessInstructions = document.getElementById("tc_accessInstructions")?.value || "";
+        const tc_carrierInfo = document.getElementById("tc_carrierInfo")?.value || "";
+        const tc_carrierTicket = document.getElementById("tc_carrierTicket")?.value || "";
+        const tc_problemStatement = document.getElementById("tc_problemStatement")?.value || "";
+        const tc_troubleshootingResults = document.getElementById("tc_troubleshootingResults")?.value || "";
+        const tc_currentStatus = document.getElementById("tc_currentStatus")?.value || "";
+        const tc_recommendedNextSteps = document.getElementById("tc_recommendedNextSteps")?.value || "";
+        
+        addTemplateLine("Account Number", tc_accountNumber);
+        addTemplateLine("Caller's Name", tc_callersName);
+        addTemplateLine("Caller's Number", tc_callersNumber);
+        addTemplateLine("LCON Name", tc_lconName);
+        addTemplateLine("LCON Number", tc_lconNumber);
+        addTemplateLine("Business Hours", tc_businessHours);
+        addTemplateLine("Access Hours (For IWs)", tc_accessHours);
+        addTemplateLine("Access Special Instructions", tc_accessInstructions);
+        addTemplateLine("Carrier Info", tc_carrierInfo);
+        addTemplateLine("Carrier Ticket", tc_carrierTicket);
+        addTemplateLine("Current Problem Statement/Issue", tc_problemStatement);
+        addTemplateLine("Troubleshooting Performed and Results", tc_troubleshootingResults);
+        addTemplateLine("Current Status", tc_currentStatus);
+        addTemplateLine("Recommended Next Steps", tc_recommendedNextSteps);
+      } else { // General Ticket Update
+        addTemplateLine("Update Type", "General Ticket Update");
+        const ticketUpdateReason = document.getElementById("ticketUpdateReason")?.value || "";
+        addTemplateLine("Ticket Update Reason", ticketUpdateReason);
+        
+        const updateCallType = document.querySelector('input[name="updateCallType"]:checked')?.value || "";
+        addTemplateLine("Call Update Type", updateCallType);
+        
+        const std_currentProblemStatement = document.getElementById("currentProblemStatement")?.value || "";
+        const troubleshootingResults = document.getElementById("troubleshootingResults")?.value || "";
+        const currentStatus = document.getElementById("currentStatus")?.value || "";
+        const recommendedNextSteps = document.getElementById("recommendedNextSteps")?.value || "";
+        
+        addTemplateLine("Current Problem Statement/Issue", std_currentProblemStatement);
+        addTemplateLine("Troubleshooting Performed and Results", troubleshootingResults);
+        addTemplateLine("Current Status", currentStatus);
+        addTemplateLine("Recommended Next Steps", recommendedNextSteps);
+      }
+      
+      const provider = document.querySelector('input[name="provider"]:checked')?.value || "";
+      addTemplateLine("Dedicated Team", provider ? provider : "None");
+      
+      if (provider === "voip") {
+        const phoneNumberIssue = document.getElementById("phoneNumberIssue")?.value || "";
+        const numbersAffected = document.getElementById("numbersAffected")?.value || "";
+        const callFeaturesAffected = document.getElementById("callFeaturesAffected")?.value || "";
+        const macAddress = document.getElementById("macAddress")?.value || "";
+        const serialNumber = document.getElementById("serialNumber")?.value || "";
+        const adtranIP = document.getElementById("adtranIP")?.value || "";
+        
+        addTemplateLine("All/Partial/Single Phone Number Issue", phoneNumberIssue);
+        addTemplateLine("Number(s) Affected", numbersAffected);
+        addTemplateLine("Call Feature(s) Affected", callFeaturesAffected);
+        addTemplateLine("Mac Address", macAddress);
+        addTemplateLine("Serial Number", serialNumber);
+        addTemplateLine("Adtran LB IP Address", adtranIP);
+        
+        const call1_datetime = document.getElementById("call1_datetime")?.value || "";
+        const call1_phone = document.getElementById("call1_phone")?.value || "";
+        const call1_destination = document.getElementById("call1_destination")?.value || "";
+        const call1_error = document.getElementById("call1_error")?.value || "";
+        addTemplateLine("Call Examples 1 - Date & Time", call1_datetime);
+        addTemplateLine("Call Examples 1 - Phone Number", call1_phone);
+        addTemplateLine("Call Examples 1 - Destination Number", call1_destination);
+        addTemplateLine("Call Examples 1 - Error Received", call1_error);
+        
+        const call2_datetime = document.getElementById("call2_datetime")?.value || "";
+        const call2_phone = document.getElementById("call2_phone")?.value || "";
+        const call2_destination = document.getElementById("call2_destination")?.value || "";
+        const call2_error = document.getElementById("call2_error")?.value || "";
+        addTemplateLine("Call Examples 2 - Date & Time", call2_datetime);
+        addTemplateLine("Call Examples 2 - Phone Number", call2_phone);
+        addTemplateLine("Call Examples 2 - Destination Number", call2_destination);
+        addTemplateLine("Call Examples 2 - Error Received", call2_error);
+        
+        const call3_datetime = document.getElementById("call3_datetime")?.value || "";
+        const call3_phone = document.getElementById("call3_phone")?.value || "";
+        const call3_destination = document.getElementById("call3_destination")?.value || "";
+        const call3_error = document.getElementById("call3_error")?.value || "";
+        addTemplateLine("Call Examples 3 - Date & Time", call3_datetime);
+        addTemplateLine("Call Examples 3 - Phone Number", call3_phone);
+        addTemplateLine("Call Examples 3 - Destination Number", call3_destination);
+        addTemplateLine("Call Examples 3 - Error Received", call3_error);
+      } else if (provider === "grid") {
+        const mallName = document.getElementById("mallName")?.value || "";
+        const managementReit = document.getElementById("managementReit")?.value || "";
+        const mdf = document.getElementById("mdf")?.value || "";
+        const idf = document.getElementById("idf")?.value || "";
+        const port = document.getElementById("port")?.value || "";
+        const speeds = document.getElementById("speeds")?.value || "";
+        const staticOrDhcp = document.getElementById("staticOrDhcp")?.value || "";
+        const staticIPAddresses = document.getElementById("staticIPAddresses")?.value || "";
+        addTemplateLine("Mall Name", mallName);
+        addTemplateLine("Management/REIT", managementReit);
+        addTemplateLine("MDF", mdf);
+        addTemplateLine("IDF", idf);
+        addTemplateLine("Port", port);
+        addTemplateLine("Speeds", speeds);
+        addTemplateLine("Static or DHCP", staticOrDhcp);
+        addTemplateLine("Static IP Addresses", staticIPAddresses);
+      }
+      
+      const troubleshootingOther = document.getElementById("troubleshootingOther")?.value || "";
+      addTemplateLine("Troubleshooting/Other", troubleshootingOther);
+      
+      if (template.length > 30000) {
+        alert("You have hit the Bryan Limit");
+        return;
+      }
+      
+      document.getElementById("result").innerHTML = template;
+      document.getElementById("ticketCreatorOutput").innerHTML = template;
+      console.log("Template generated:", template);
+    }
+    
+    function copyFormattedTemplate() {
+      const htmlContent = document.getElementById("result").innerHTML;
+      const blob = new Blob([htmlContent], { type: "text/html" });
+      const clipboardItem = new ClipboardItem({ "text/html": blob });
+      navigator.clipboard.write([clipboardItem]).then(function() {
+        alert("Template (with formatting) copied to clipboard!");
+      }, function(err) {
+        alert("Failed to copy: " + err);
+      });
+    }
+    
+    function highlightOutput() {
+      var output = document.getElementById("result");
+      var range = document.createRange();
+      range.selectNodeContents(output);
+      var selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+    
+    function clearOutput() {
+      document.getElementById("result").innerHTML = "";
+      document.getElementById("ticketCreatorOutput").innerHTML = "";
+      document.getElementById("ticketForm").reset();
+      handleCallTypeChange();
+      handleProviderChange();
+    }
+    
+    handleCallTypeChange();
+    
+    document.getElementById("toggleSidePanels").addEventListener("click", function() {
+      var left = document.querySelector(".left-container");
+      var right = document.querySelector(".right-container");
+      if(left.style.display === "none") {
+        left.style.display = "block";
+        right.style.display = "block";
+      } else {
+        left.style.display = "none";
+        right.style.display = "none";
+      }
+    });
+    
+    document.getElementById("ticketCreatorButton").addEventListener("click", function() {
+      var btn = document.getElementById("ticketCreatorButton");
+      var msg = document.getElementById("ticketMessage");
+      btn.disabled = true;
+      msg.style.display = "block";
+      msg.style.opacity = 1;
+      setTimeout(function() {
+        msg.style.opacity = 0;
+        setTimeout(function(){
+          msg.style.display = "none";
+          btn.disabled = false;
+        }, 1000);
+      }, 5000);
+    });
+  </script>
 </body>
 </html>
