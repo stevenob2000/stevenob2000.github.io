@@ -17,7 +17,7 @@
     .hidden {
       display: none !important;
     }
-    /* Toggle switch styles */
+    /* Toggle switch container */
     .toggle-container {
       display: flex;
       align-items: center;
@@ -40,10 +40,7 @@
     .slider {
       position: absolute;
       cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background-color: #ccc;
       transition: 0.4s;
       border-radius: 24px;
@@ -65,6 +62,11 @@
     input:checked + .slider:before {
       transform: translateX(26px);
     }
+    /* Ensure "On"/"Off" text aligns with the switch height */
+    #darkModeStatus,
+    #sidePanelsStatus {
+      line-height: 24px; /* matches the switch height */
+    }
     /* Three-column layout */
     .page-container {
       display: flex;
@@ -84,7 +86,6 @@
     }
     .left-container {
       width: 25%;
-      /* Initially hidden; toggled via switch */
     }
     .middle-container {
       width: 50%;
@@ -92,7 +93,6 @@
     }
     .right-container {
       width: 25%;
-      /* Initially hidden; toggled via switch */
     }
     /* Responsive adjustments */
     @media (max-width: 768px) {
@@ -145,7 +145,8 @@
       margin-top: 15px;
     }
     /* Output boxes */
-    #result, #ticketCreatorOutput {
+    #result,
+    #ticketCreatorOutput {
       margin-top: 20px;
       white-space: pre-wrap;
       background: #f4f4f4;
@@ -187,21 +188,20 @@
       outline: none;
       box-shadow: 0 0 2px 2px rgba(85,85,85,0.5);
     }
-    /* Form fields container */
     .fields-container {
       margin-top: 15px;
     }
-    /* Action and copy buttons container */
-    .action-container, .copy-container {
+    .action-container,
+    .copy-container {
       display: flex;
       gap: 10px;
       margin-top: 10px;
     }
-    .action-container button, .copy-container button {
+    .action-container button,
+    .copy-container button {
       flex: 1;
       width: 100%;
     }
-    /* Call examples columns */
     .call-examples-container {
       display: flex;
       gap: 10px;
@@ -256,10 +256,6 @@
     }
     .dark-mode .subheader {
       color: #ccc;
-    }
-    /* Toggle switches styling */
-    .toggle-container .switch {
-      margin-left: 5px;
     }
   </style>
 </head>
@@ -486,7 +482,9 @@
   </footer>
   
   <script>
-    // On page load, check dark mode preference
+    /****************************************
+     * Dark Mode Switch Initialization
+     ****************************************/
     if (localStorage.getItem("darkMode") === "true") {
       document.body.classList.add("dark-mode");
       document.getElementById("darkModeSwitch").checked = true;
@@ -495,8 +493,10 @@
       document.getElementById("darkModeSwitch").checked = false;
       document.getElementById("darkModeStatus").textContent = "Off";
     }
-    
-    // Dark Mode switch functionality
+
+    /****************************************
+     * Dark Mode Switch Handler
+     ****************************************/
     document.getElementById("darkModeSwitch").addEventListener("change", function() {
       if (this.checked) {
         document.body.classList.add("dark-mode");
@@ -509,14 +509,19 @@
       }
     });
     
-    // Side Panels switch functionality
-    // Initially, side panels are hidden so switch should be off.
+    /****************************************
+     * Side Panels Switch Initialization
+     ****************************************/
+    // Initially, side panels are hidden => switch is off
     document.getElementById("sidePanelsSwitch").checked = false;
     document.getElementById("sidePanelsStatus").textContent = "Off";
-    
+
+    /****************************************
+     * Side Panels Switch Handler
+     ****************************************/
     function updateSidePanels(visible) {
-      var left = document.querySelector(".left-container");
-      var right = document.querySelector(".right-container");
+      const left = document.querySelector(".left-container");
+      const right = document.querySelector(".right-container");
       if (visible) {
         left.classList.remove("hidden");
         right.classList.remove("hidden");
@@ -531,15 +536,15 @@
     document.getElementById("sidePanelsSwitch").addEventListener("change", function() {
       updateSidePanels(this.checked);
     });
-    
-    // Also add touchend for iOS
     document.getElementById("sidePanelsSwitch").addEventListener("touchend", function(e) {
       e.preventDefault();
       this.checked = !this.checked;
       updateSidePanels(this.checked);
     });
     
-    // Generate Template with character limit check
+    /****************************************
+     * Template Generation
+     ****************************************/
     function generateTemplate() {
       let template = "";
       function addTemplateLine(label, value) {
@@ -723,50 +728,96 @@
       handleProviderChange();
     }
     
-    // Initialize view
+    // Call type and provider handling
+    function handleCallTypeChange() {
+      const callType = document.querySelector('input[name="callType"]:checked')?.value || "";
+      if (callType === "ticketCreation") {
+        document.getElementById("ticketCreationFields").style.display = "block";
+        document.getElementById("standardFields").style.display = "none";
+        document.getElementById("callerFields").style.display = "none";
+      } else {
+        document.getElementById("ticketCreationFields").style.display = "none";
+        document.getElementById("standardFields").style.display = "block";
+        document.getElementById("callerFields").style.display = "none";
+      }
+    }
+    function handleProviderChange() {
+      const provider = document.querySelector('input[name="provider"]:checked')?.value;
+      const container = document.getElementById("providerFields");
+      if (provider === "voip") {
+        container.innerHTML =
+          '<label for="phoneNumberIssue">All/Partial/Single Phone Number Issue:</label>' +
+          '<input type="text" id="phoneNumberIssue" placeholder="Enter All/Partial/Single Phone Number Issue">' +
+          '<label for="numbersAffected">Number(s) Affected:</label>' +
+          '<input type="text" id="numbersAffected" placeholder="Enter number(s) affected">' +
+          '<label for="callFeaturesAffected">Call Feature(s) Affected:</label>' +
+          '<input type="text" id="callFeaturesAffected" placeholder="Enter call feature(s) affected">' +
+          '<label for="macAddress">Mac Address:</label>' +
+          '<input type="text" id="macAddress" placeholder="Enter Mac Address">' +
+          '<label for="serialNumber">Serial Number:</label>' +
+          '<input type="text" id="serialNumber" placeholder="Enter Serial Number">' +
+          '<label for="adtranIP">Adtran LB IP Address:</label>' +
+          '<input type="text" id="adtranIP" placeholder="Enter Adtran LB IP Address">' +
+          '<div class="call-examples-container">' +
+            '<div class="call-example">' +
+              '<strong>Call Examples 1</strong>' +
+              '<label for="call1_datetime">Date & Time:</label>' +
+              '<input type="text" id="call1_datetime" placeholder="Enter Date & Time">' +
+              '<label for="call1_phone">Phone Number:</label>' +
+              '<input type="text" id="call1_phone" placeholder="Enter Phone Number">' +
+              '<label for="call1_destination">Destination Number:</label>' +
+              '<input type="text" id="call1_destination" placeholder="Enter Destination Number">' +
+              '<label for="call1_error">Error Received:</label>' +
+              '<input type="text" id="call1_error" placeholder="Enter Error Received">' +
+            '</div>' +
+            '<div class="call-example">' +
+              '<strong>Call Examples 2</strong>' +
+              '<label for="call2_datetime">Date & Time:</label>' +
+              '<input type="text" id="call2_datetime" placeholder="Enter Date & Time">' +
+              '<label for="call2_phone">Phone Number:</label>' +
+              '<input type="text" id="call2_phone" placeholder="Enter Phone Number">' +
+              '<label for="call2_destination">Destination Number:</label>' +
+              '<input type="text" id="call2_destination" placeholder="Enter Destination Number">' +
+              '<label for="call2_error">Error Received:</label>' +
+              '<input type="text" id="call2_error" placeholder="Enter Error Received">' +
+            '</div>' +
+            '<div class="call-example">' +
+              '<strong>Call Examples 3</strong>' +
+              '<label for="call3_datetime">Date & Time:</label>' +
+              '<input type="text" id="call3_datetime" placeholder="Enter Date & Time">' +
+              '<label for="call3_phone">Phone Number:</label>' +
+              '<input type="text" id="call3_phone" placeholder="Enter Phone Number">' +
+              '<label for="call3_destination">Destination Number:</label>' +
+              '<input type="text" id="call3_destination" placeholder="Enter Destination Number">' +
+              '<label for="call3_error">Error Received:</label>' +
+              '<input type="text" id="call3_error" placeholder="Enter Error Received">' +
+            '</div>' +
+          '</div>';
+      } else if (provider === "grid") {
+        container.innerHTML =
+          '<label for="mallName">Mall Name:</label>' +
+          '<input type="text" id="mallName" placeholder="Enter Mall Name">' +
+          '<label for="managementReit">Management/REIT:</label>' +
+          '<input type="text" id="managementReit" placeholder="Enter Management/REIT">' +
+          '<label for="mdf">MDF:</label>' +
+          '<input type="text" id="mdf" placeholder="Enter MDF">' +
+          '<label for="idf">IDF:</label>' +
+          '<input type="text" id="idf" placeholder="Enter IDF">' +
+          '<label for="port">Port:</label>' +
+          '<input type="text" id="port" placeholder="Enter Port">' +
+          '<label for="speeds">Speeds:</label>' +
+          '<input type="text" id="speeds" placeholder="Enter Speeds">' +
+          '<label for="staticOrDhcp">Static or DHCP:</label>' +
+          '<input type="text" id="staticOrDhcp" placeholder="Enter Static or DHCP">' +
+          '<label for="staticIPAddresses">Static IP Addresses:</label>' +
+          '<input type="text" id="staticIPAddresses" placeholder="Enter Static IP Addresses">';
+      } else {
+        container.innerHTML = "";
+      }
+    }
+    
+    // Initialize the call type fields
     handleCallTypeChange();
-    
-    // Side Panels toggle switch
-    document.getElementById("sidePanelsSwitch").addEventListener("change", function() {
-      if (this.checked) {
-        document.querySelector(".left-container").classList.remove("hidden");
-        document.querySelector(".right-container").classList.remove("hidden");
-        document.getElementById("sidePanelsStatus").textContent = "On";
-      } else {
-        document.querySelector(".left-container").classList.add("hidden");
-        document.querySelector(".right-container").classList.add("hidden");
-        document.getElementById("sidePanelsStatus").textContent = "Off";
-      }
-    });
-    document.getElementById("sidePanelsSwitch").addEventListener("touchend", function(e) {
-      e.preventDefault();
-      this.checked = !this.checked;
-      if (this.checked) {
-        document.querySelector(".left-container").classList.remove("hidden");
-        document.querySelector(".right-container").classList.remove("hidden");
-        document.getElementById("sidePanelsStatus").textContent = "On";
-      } else {
-        document.querySelector(".left-container").classList.add("hidden");
-        document.querySelector(".right-container").classList.add("hidden");
-        document.getElementById("sidePanelsStatus").textContent = "Off";
-      }
-    });
-    
-    // Ticket Creator button functionality
-    document.getElementById("ticketCreatorButton").addEventListener("click", function() {
-      var btn = document.getElementById("ticketCreatorButton");
-      var msg = document.getElementById("ticketMessage");
-      btn.disabled = true;
-      msg.style.display = "block";
-      msg.style.opacity = 1;
-      setTimeout(function() {
-        msg.style.opacity = 0;
-        setTimeout(function(){
-          msg.style.display = "none";
-          btn.disabled = false;
-        }, 1000);
-      }, 5000);
-    });
   </script>
 </body>
 </html>
