@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Ticket Update Generator (TUG)</title>
   <style>
+    /* Base Styles */
     body {
       background-color: #3B5CA9;
       font-family: Arial, sans-serif;
@@ -31,8 +32,7 @@
     }
     .left-container {
       width: 25%;
-      /* Default hidden for testing */
-      display: none;
+      display: none; /* hidden by default */
     }
     .middle-container {
       width: 50%;
@@ -40,10 +40,21 @@
     }
     .right-container {
       width: 25%;
-      /* Default hidden for testing */
-      display: none;
+      display: none; /* hidden by default */
     }
-    /* Updated header using flex */
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .page-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .left-container,
+      .middle-container,
+      .right-container {
+        width: 90%;
+      }
+    }
+    /* Header using flex for proper scaling */
     .header {
       display: flex;
       justify-content: space-between;
@@ -77,13 +88,12 @@
       padding: 10px 15px;
       cursor: pointer;
     }
-    /* Ensure buttons fill the width where needed */
     .full-width-btn {
       width: 100%;
       margin-top: 15px;
     }
-    /* Center output area styled as a div */
-    #result {
+    /* Output Boxes */
+    #result, #ticketCreatorOutput {
       margin-top: 20px;
       white-space: pre-wrap;
       background: #f4f4f4;
@@ -95,20 +105,7 @@
       overflow-wrap: break-word;
       transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
-    /* Right container output area */
-    #ticketCreatorOutput {
-      margin-top: 20px;
-      white-space: pre-wrap;
-      background: #f4f4f4;
-      padding: 10px;
-      border: 1px solid #ccc;
-      min-height: 150px;
-      font-size: 14px;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    }
-    /* Enhanced styling for square radio buttons */
+    /* Radio buttons styling */
     .radio-group {
       margin-top: 5px;
     }
@@ -139,11 +136,11 @@
       outline: none;
       box-shadow: 0 0 2px 2px rgba(85,85,85,0.5);
     }
-    /* Containers for input fields within form sections */
+    /* Form fields container */
     .fields-container {
       margin-top: 15px;
     }
-    /* Containers for action and copy buttons */
+    /* Action and copy buttons container */
     .action-container, .copy-container {
       display: flex;
       gap: 10px;
@@ -153,7 +150,7 @@
       flex: 1;
       width: 100%;
     }
-    /* Style for call example columns */
+    /* Call examples columns */
     .call-examples-container {
       display: flex;
       gap: 10px;
@@ -169,19 +166,22 @@
       font-size: 0.8em;
       color: #fff;
     }
-    /* Styling for right container message */
+    /* Message styling */
     #ticketMessage {
       text-align: center;
       margin-top: 10px;
       opacity: 1;
       transition: opacity 1s ease-out;
     }
-    /* Toggle button for dark mode */
-    #toggleDarkMode {
-      position: relative;
+    /* Error message styling */
+    #errorMessage {
+      color: red;
+      margin-top: 10px;
+      font-weight: bold;
+      display: none;
     }
-    /* Toggle button for side panels */
-    #toggleSidePanels {
+    /* Dark mode and toggle buttons */
+    #toggleDarkMode, #toggleSidePanels {
       position: relative;
     }
     /* Dark mode styles */
@@ -221,14 +221,14 @@
         <h2>Account Loader</h2>
       </div>
       <div class="subheader">Non-functional, for demonstration purposes only</div>
-      <form id="leftForm">
+      <form id="leftForm" role="form" aria-label="Account Loader Form">
         <div class="fields-container">
           <label for="site">Site:</label>
-          <input type="text" id="site" placeholder="Enter Site">
+          <input type="text" id="site" placeholder="Enter Site" required>
         </div>
         <div class="fields-container">
           <label for="address1">Address 1:</label>
-          <input type="text" id="address1" placeholder="Enter Address 1">
+          <input type="text" id="address1" placeholder="Enter Address 1" required>
         </div>
         <div class="fields-container">
           <label for="address2">Address 2:</label>
@@ -236,19 +236,19 @@
         </div>
         <div class="fields-container">
           <label for="city">City:</label>
-          <input type="text" id="city" placeholder="Enter City">
+          <input type="text" id="city" placeholder="Enter City" required>
         </div>
         <div class="fields-container">
           <label for="state">State:</label>
-          <input type="text" id="state" placeholder="Enter State">
+          <input type="text" id="state" placeholder="Enter State" required>
         </div>
         <div class="fields-container">
           <label for="zip">Zip:</label>
-          <input type="text" id="zip" placeholder="Enter Zip">
+          <input type="text" id="zip" placeholder="Enter Zip" required>
         </div>
         <div class="fields-container">
           <label for="country">Country:</label>
-          <input type="text" id="country" placeholder="Enter Country">
+          <input type="text" id="country" placeholder="Enter Country" required>
         </div>
         <div class="fields-container">
           <label for="contact">Contact:</label>
@@ -262,7 +262,6 @@
           <label for="email">Email:</label>
           <input type="email" id="email" placeholder="Enter Email">
         </div>
-        <!-- Placeholder Button -->
         <button type="button" class="full-width-btn">Pull Account Info</button>
       </form>
     </div>
@@ -270,13 +269,15 @@
     <!-- Middle Container: Ticket Update Generator -->
     <div class="middle-container">
       <div class="header">
+        <!-- Dark mode toggle button -->
         <button type="button" id="toggleDarkMode">Switch to Dark Mode</button>
         <h1>Ticket Update Generator (TUG)</h1>
+        <!-- Toggle side panels button -->
         <button type="button" id="toggleSidePanels">Toggle Side Panels</button>
       </div>
       <div class="subheader">Functional Version 1</div>
-      <form id="ticketForm">
-        <!-- Update Type Radio Buttons (only two options) -->
+      <form id="ticketForm" role="form" aria-label="Ticket Update Generator Form">
+        <!-- Update Type Radio Buttons -->
         <label>Update Type:</label>
         <div class="radio-group">
           <label>
@@ -289,7 +290,7 @@
           </label>
         </div>
         
-        <!-- Caller Fields (for ticket creation; hidden when General Ticket Update is selected) -->
+        <!-- Caller Fields (only for Ticket Creation) -->
         <div id="callerFields" class="fields-container" style="display: none;">
           <label for="callerName">Caller Name:</label>
           <input type="text" id="callerName" placeholder="Enter caller name">
@@ -317,7 +318,7 @@
           <input type="text" id="tc_accessInstructions" placeholder="Enter special access instructions" required>
           <label for="tc_carrierInfo">Carrier Info (Circuit ID/Account/Number):</label>
           <input type="text" id="tc_carrierInfo" placeholder="Enter carrier info" required>
-          <!-- New input box for Carrier Ticket -->
+          <!-- New input for Carrier Ticket -->
           <label for="tc_carrierTicket">Carrier Ticket:</label>
           <input type="text" id="tc_carrierTicket" placeholder="Enter carrier ticket">
           <label for="tc_problemStatement">Current Problem Statement/Issue:</label>
@@ -334,8 +335,6 @@
         <div id="standardFields" class="fields-container" style="display: none;">
           <label for="ticketUpdateReason">Ticket Update Reason:</label>
           <input type="text" id="ticketUpdateReason" placeholder="Enter ticket update reason" required>
-          
-          <!-- New radio group for call update type -->
           <label>Is this ticket update due to call?</label>
           <div class="radio-group">
             <label>
@@ -351,7 +350,6 @@
               Outbound Call
             </label>
           </div>
-          
           <label for="currentProblemStatement">Current Problem Statement/Issue:</label>
           <input type="text" id="currentProblemStatement" placeholder="Enter current problem statement/issue" required>
           <label for="troubleshootingResults">Troubleshooting Performed and Results:</label>
@@ -386,20 +384,23 @@
         <label for="troubleshootingOther">Troubleshooting/Other:</label>
         <textarea id="troubleshootingOther" placeholder="Enter troubleshooting/other details" rows="10"></textarea>
         
-        <!-- Action Buttons for Generating and Clearing Template -->
+        <!-- Action Buttons -->
         <div class="action-container">
           <button type="button" onclick="generateTemplate()">Generate Template</button>
           <button type="button" onclick="clearOutput()">Clear All</button>
         </div>
+        <!-- Error message for character limit -->
+        <div id="errorMessage" role="alert"></div>
       </form>
       
       <h2>Generated Ticket Template:</h2>
       <div id="result"></div>
       
-      <!-- Copy Buttons below the result box -->
+      <!-- Copy and Print Buttons -->
       <div class="copy-container">
         <button type="button" onclick="copyFormattedTemplate()">Copy Formatted Template</button>
         <button type="button" onclick="highlightOutput()">Highlight Output</button>
+        <button type="button" onclick="printTemplate()">Print Template</button>
       </div>
     </div>
     
@@ -409,7 +410,6 @@
         <h2>Ticket Creator</h2>
       </div>
       <div class="subheader">Non-functional, for demonstration purposes only</div>
-      <!-- Cloned output box for ticket creator -->
       <h2>Ticket Creator Output:</h2>
       <div id="ticketCreatorOutput"></div>
       <button type="button" id="ticketCreatorButton" class="full-width-btn">Create Ticket</button>
@@ -422,110 +422,41 @@
   </footer>
   
   <script>
-    // Toggle Dark Mode
+    // On page load, check for dark mode preference
+    if (localStorage.getItem("darkMode") === "true") {
+      document.body.classList.add("dark-mode");
+      document.getElementById("toggleDarkMode").textContent = "Switch to Light Mode";
+    }
+    
+    // Toggle Dark Mode and save preference
     document.getElementById("toggleDarkMode").addEventListener("click", function() {
       if(document.body.classList.contains("dark-mode")) {
         document.body.classList.remove("dark-mode");
         this.textContent = "Switch to Dark Mode";
+        localStorage.setItem("darkMode", "false");
       } else {
         document.body.classList.add("dark-mode");
         this.textContent = "Switch to Light Mode";
+        localStorage.setItem("darkMode", "true");
       }
     });
     
-    function handleCallTypeChange() {
-      const callType = document.querySelector('input[name="callType"]:checked')?.value;
-      if (callType === "ticketCreation") {
-        document.getElementById("ticketCreationFields").style.display = "block";
-        document.getElementById("standardFields").style.display = "none";
-        document.getElementById("callerFields").style.display = "none";
-      } else {
-        document.getElementById("ticketCreationFields").style.display = "none";
-        document.getElementById("standardFields").style.display = "block";
-        document.getElementById("callerFields").style.display = "none";
+    // Validate form before generating template
+    function validateForm() {
+      const form = document.getElementById("ticketForm");
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return false;
       }
+      return true;
     }
     
-    function handleProviderChange() {
-      const provider = document.querySelector('input[name="provider"]:checked')?.value;
-      const container = document.getElementById("providerFields");
-      if (provider === "voip") {
-        container.innerHTML =
-          '<label for="phoneNumberIssue">All/Partial/Single Phone Number Issue:</label>' +
-          '<input type="text" id="phoneNumberIssue" placeholder="Enter All/Partial/Single Phone Number Issue">' +
-          '<label for="numbersAffected">Number(s) Affected:</label>' +
-          '<input type="text" id="numbersAffected" placeholder="Enter number(s) affected">' +
-          '<label for="callFeaturesAffected">Call Feature(s) Affected:</label>' +
-          '<input type="text" id="callFeaturesAffected" placeholder="Enter call feature(s) affected">' +
-          '<label for="macAddress">Mac Address:</label>' +
-          '<input type="text" id="macAddress" placeholder="Enter Mac Address">' +
-          '<label for="serialNumber">Serial Number:</label>' +
-          '<input type="text" id="serialNumber" placeholder="Enter Serial Number">' +
-          '<label for="adtranIP">Adtran LB IP Address:</label>' +
-          '<input type="text" id="adtranIP" placeholder="Enter Adtran LB IP Address">' +
-          '<div class="call-examples-container">' +
-            '<div class="call-example">' +
-              '<strong>Call Examples 1</strong>' +
-              '<label for="call1_datetime">Date & Time:</label>' +
-              '<input type="text" id="call1_datetime" placeholder="Enter Date & Time">' +
-              '<label for="call1_phone">Phone Number:</label>' +
-              '<input type="text" id="call1_phone" placeholder="Enter Phone Number">' +
-              '<label for="call1_destination">Destination Number:</label>' +
-              '<input type="text" id="call1_destination" placeholder="Enter Destination Number">' +
-              '<label for="call1_error">Error Received:</label>' +
-              '<input type="text" id="call1_error" placeholder="Enter Error Received">' +
-            '</div>' +
-            '<div class="call-example">' +
-              '<strong>Call Examples 2</strong>' +
-              '<label for="call2_datetime">Date & Time:</label>' +
-              '<input type="text" id="call2_datetime" placeholder="Enter Date & Time">' +
-              '<label for="call2_phone">Phone Number:</label>' +
-              '<input type="text" id="call2_phone" placeholder="Enter Phone Number">' +
-              '<label for="call2_destination">Destination Number:</label>' +
-              '<input type="text" id="call2_destination" placeholder="Enter Destination Number">' +
-              '<label for="call2_error">Error Received:</label>' +
-              '<input type="text" id="call2_error" placeholder="Enter Error Received">' +
-            '</div>' +
-            '<div class="call-example">' +
-              '<strong>Call Examples 3</strong>' +
-              '<label for="call3_datetime">Date & Time:</label>' +
-              '<input type="text" id="call3_datetime" placeholder="Enter Date & Time">' +
-              '<label for="call3_phone">Phone Number:</label>' +
-              '<input type="text" id="call3_phone" placeholder="Enter Phone Number">' +
-              '<label for="call3_destination">Destination Number:</label>' +
-              '<input type="text" id="call3_destination" placeholder="Enter Destination Number">' +
-              '<label for="call3_error">Error Received:</label>' +
-              '<input type="text" id="call3_error" placeholder="Enter Error Received">' +
-            '</div>' +
-          '</div>';
-      } else if (provider === "grid") {
-        container.innerHTML =
-          '<label for="mallName">Mall Name:</label>' +
-          '<input type="text" id="mallName" placeholder="Enter Mall Name">' +
-          '<label for="managementReit">Management/REIT:</label>' +
-          '<input type="text" id="managementReit" placeholder="Enter Management/REIT">' +
-          '<label for="mdf">MDF:</label>' +
-          '<input type="text" id="mdf" placeholder="Enter MDF">' +
-          '<label for="idf">IDF:</label>' +
-          '<input type="text" id="idf" placeholder="Enter IDF">' +
-          '<label for="port">Port:</label>' +
-          '<input type="text" id="port" placeholder="Enter Port">' +
-          '<label for="speeds">Speeds:</label>' +
-          '<input type="text" id="speeds" placeholder="Enter Speeds">' +
-          '<label for="staticOrDhcp">Static or DHCP:</label>' +
-          '<input type="text" id="staticOrDhcp" placeholder="Enter Static or DHCP">' +
-          '<label for="staticIPAddresses">Static IP Addresses:</label>' +
-          '<input type="text" id="staticIPAddresses" placeholder="Enter Static IP Addresses">';
-      } else {
-        container.innerHTML = "";
-      }
-    }
-    
+    // Generate Template with validation and character limit check
     function generateTemplate() {
-      console.log("generateTemplate triggered");
+      if (!validateForm()) return;
+      
       let template = "";
       
-      // Helper: only add line if value is non-empty.
       function addTemplateLine(label, value) {
         if (value && value.trim() !== "") {
           template += "<strong>" + label + ":</strong> " + value + "<br>";
@@ -539,20 +470,20 @@
       
       if (callType === "ticketCreation") {
         addTemplateLine("Update Type", "Ticket Creation");
-        const tc_accountNumber = document.getElementById("tc_accountNumber")?.value || "";
-        const tc_callersName = document.getElementById("tc_callersName")?.value || "";
-        const tc_callersNumber = document.getElementById("tc_callersNumber")?.value || "";
-        const tc_lconName = document.getElementById("tc_lconName")?.value || "";
-        const tc_lconNumber = document.getElementById("tc_lconNumber")?.value || "";
-        const tc_businessHours = document.getElementById("tc_businessHours")?.value || "";
-        const tc_accessHours = document.getElementById("tc_accessHours")?.value || "";
-        const tc_accessInstructions = document.getElementById("tc_accessInstructions")?.value || "";
-        const tc_carrierInfo = document.getElementById("tc_carrierInfo")?.value || "";
-        const tc_carrierTicket = document.getElementById("tc_carrierTicket")?.value || "";
-        const tc_problemStatement = document.getElementById("tc_problemStatement")?.value || "";
-        const tc_troubleshootingResults = document.getElementById("tc_troubleshootingResults")?.value || "";
-        const tc_currentStatus = document.getElementById("tc_currentStatus")?.value || "";
-        const tc_recommendedNextSteps = document.getElementById("tc_recommendedNextSteps")?.value || "";
+        const tc_accountNumber = document.getElementById("tc_accountNumber").value;
+        const tc_callersName = document.getElementById("tc_callersName").value;
+        const tc_callersNumber = document.getElementById("tc_callersNumber").value;
+        const tc_lconName = document.getElementById("tc_lconName").value;
+        const tc_lconNumber = document.getElementById("tc_lconNumber").value;
+        const tc_businessHours = document.getElementById("tc_businessHours").value;
+        const tc_accessHours = document.getElementById("tc_accessHours").value;
+        const tc_accessInstructions = document.getElementById("tc_accessInstructions").value;
+        const tc_carrierInfo = document.getElementById("tc_carrierInfo").value;
+        const tc_carrierTicket = document.getElementById("tc_carrierTicket").value;
+        const tc_problemStatement = document.getElementById("tc_problemStatement").value;
+        const tc_troubleshootingResults = document.getElementById("tc_troubleshootingResults").value;
+        const tc_currentStatus = document.getElementById("tc_currentStatus").value;
+        const tc_recommendedNextSteps = document.getElementById("tc_recommendedNextSteps").value;
         
         addTemplateLine("Account Number", tc_accountNumber);
         addTemplateLine("Caller's Name", tc_callersName);
@@ -570,16 +501,16 @@
         addTemplateLine("Recommended Next Steps", tc_recommendedNextSteps);
       } else { // General Ticket Update
         addTemplateLine("Update Type", "General Ticket Update");
-        const ticketUpdateReason = document.getElementById("ticketUpdateReason")?.value || "";
+        const ticketUpdateReason = document.getElementById("ticketUpdateReason").value;
         addTemplateLine("Ticket Update Reason", ticketUpdateReason);
         
-        const updateCallType = document.querySelector('input[name="updateCallType"]:checked')?.value || "";
+        const updateCallType = document.querySelector('input[name="updateCallType"]:checked').value;
         addTemplateLine("Call Update Type", updateCallType);
         
-        const std_currentProblemStatement = document.getElementById("currentProblemStatement")?.value || "";
-        const troubleshootingResults = document.getElementById("troubleshootingResults")?.value || "";
-        const currentStatus = document.getElementById("currentStatus")?.value || "";
-        const recommendedNextSteps = document.getElementById("recommendedNextSteps")?.value || "";
+        const std_currentProblemStatement = document.getElementById("currentProblemStatement").value;
+        const troubleshootingResults = document.getElementById("troubleshootingResults").value;
+        const currentStatus = document.getElementById("currentStatus").value;
+        const recommendedNextSteps = document.getElementById("recommendedNextSteps").value;
         
         addTemplateLine("Current Problem Statement/Issue", std_currentProblemStatement);
         addTemplateLine("Troubleshooting Performed and Results", troubleshootingResults);
@@ -587,16 +518,16 @@
         addTemplateLine("Recommended Next Steps", recommendedNextSteps);
       }
       
-      const provider = document.querySelector('input[name="provider"]:checked')?.value || "";
+      const provider = document.querySelector('input[name="provider"]:checked').value;
       addTemplateLine("Dedicated Team", provider ? provider : "None");
       
       if (provider === "voip") {
-        const phoneNumberIssue = document.getElementById("phoneNumberIssue")?.value || "";
-        const numbersAffected = document.getElementById("numbersAffected")?.value || "";
-        const callFeaturesAffected = document.getElementById("callFeaturesAffected")?.value || "";
-        const macAddress = document.getElementById("macAddress")?.value || "";
-        const serialNumber = document.getElementById("serialNumber")?.value || "";
-        const adtranIP = document.getElementById("adtranIP")?.value || "";
+        const phoneNumberIssue = document.getElementById("phoneNumberIssue").value;
+        const numbersAffected = document.getElementById("numbersAffected").value;
+        const callFeaturesAffected = document.getElementById("callFeaturesAffected").value;
+        const macAddress = document.getElementById("macAddress").value;
+        const serialNumber = document.getElementById("serialNumber").value;
+        const adtranIP = document.getElementById("adtranIP").value;
         
         addTemplateLine("All/Partial/Single Phone Number Issue", phoneNumberIssue);
         addTemplateLine("Number(s) Affected", numbersAffected);
@@ -605,41 +536,41 @@
         addTemplateLine("Serial Number", serialNumber);
         addTemplateLine("Adtran LB IP Address", adtranIP);
         
-        const call1_datetime = document.getElementById("call1_datetime")?.value || "";
-        const call1_phone = document.getElementById("call1_phone")?.value || "";
-        const call1_destination = document.getElementById("call1_destination")?.value || "";
-        const call1_error = document.getElementById("call1_error")?.value || "";
+        const call1_datetime = document.getElementById("call1_datetime").value;
+        const call1_phone = document.getElementById("call1_phone").value;
+        const call1_destination = document.getElementById("call1_destination").value;
+        const call1_error = document.getElementById("call1_error").value;
         addTemplateLine("Call Examples 1 - Date & Time", call1_datetime);
         addTemplateLine("Call Examples 1 - Phone Number", call1_phone);
         addTemplateLine("Call Examples 1 - Destination Number", call1_destination);
         addTemplateLine("Call Examples 1 - Error Received", call1_error);
         
-        const call2_datetime = document.getElementById("call2_datetime")?.value || "";
-        const call2_phone = document.getElementById("call2_phone")?.value || "";
-        const call2_destination = document.getElementById("call2_destination")?.value || "";
-        const call2_error = document.getElementById("call2_error")?.value || "";
+        const call2_datetime = document.getElementById("call2_datetime").value;
+        const call2_phone = document.getElementById("call2_phone").value;
+        const call2_destination = document.getElementById("call2_destination").value;
+        const call2_error = document.getElementById("call2_error").value;
         addTemplateLine("Call Examples 2 - Date & Time", call2_datetime);
         addTemplateLine("Call Examples 2 - Phone Number", call2_phone);
         addTemplateLine("Call Examples 2 - Destination Number", call2_destination);
         addTemplateLine("Call Examples 2 - Error Received", call2_error);
         
-        const call3_datetime = document.getElementById("call3_datetime")?.value || "";
-        const call3_phone = document.getElementById("call3_phone")?.value || "";
-        const call3_destination = document.getElementById("call3_destination")?.value || "";
-        const call3_error = document.getElementById("call3_error")?.value || "";
+        const call3_datetime = document.getElementById("call3_datetime").value;
+        const call3_phone = document.getElementById("call3_phone").value;
+        const call3_destination = document.getElementById("call3_destination").value;
+        const call3_error = document.getElementById("call3_error").value;
         addTemplateLine("Call Examples 3 - Date & Time", call3_datetime);
         addTemplateLine("Call Examples 3 - Phone Number", call3_phone);
         addTemplateLine("Call Examples 3 - Destination Number", call3_destination);
         addTemplateLine("Call Examples 3 - Error Received", call3_error);
       } else if (provider === "grid") {
-        const mallName = document.getElementById("mallName")?.value || "";
-        const managementReit = document.getElementById("managementReit")?.value || "";
-        const mdf = document.getElementById("mdf")?.value || "";
-        const idf = document.getElementById("idf")?.value || "";
-        const port = document.getElementById("port")?.value || "";
-        const speeds = document.getElementById("speeds")?.value || "";
-        const staticOrDhcp = document.getElementById("staticOrDhcp")?.value || "";
-        const staticIPAddresses = document.getElementById("staticIPAddresses")?.value || "";
+        const mallName = document.getElementById("mallName").value;
+        const managementReit = document.getElementById("managementReit").value;
+        const mdf = document.getElementById("mdf").value;
+        const idf = document.getElementById("idf").value;
+        const port = document.getElementById("port").value;
+        const speeds = document.getElementById("speeds").value;
+        const staticOrDhcp = document.getElementById("staticOrDhcp").value;
+        const staticIPAddresses = document.getElementById("staticIPAddresses").value;
         addTemplateLine("Mall Name", mallName);
         addTemplateLine("Management/REIT", managementReit);
         addTemplateLine("MDF", mdf);
@@ -650,12 +581,17 @@
         addTemplateLine("Static IP Addresses", staticIPAddresses);
       }
       
-      const troubleshootingOther = document.getElementById("troubleshootingOther")?.value || "";
+      const troubleshootingOther = document.getElementById("troubleshootingOther").value;
       addTemplateLine("Troubleshooting/Other", troubleshootingOther);
       
+      // Check for character limit (30,000 characters)
       if (template.length > 30000) {
-        alert("You have hit the Bryan Limit");
+        const errorDiv = document.getElementById("errorMessage");
+        errorDiv.textContent = "You have hit the Bryan Limit";
+        errorDiv.style.display = "block";
         return;
+      } else {
+        document.getElementById("errorMessage").style.display = "none";
       }
       
       document.getElementById("result").innerHTML = template;
@@ -663,6 +599,7 @@
       console.log("Template generated:", template);
     }
     
+    // Copy formatted template to clipboard
     function copyFormattedTemplate() {
       const htmlContent = document.getElementById("result").innerHTML;
       const blob = new Blob([htmlContent], { type: "text/html" });
@@ -674,6 +611,7 @@
       });
     }
     
+    // Highlight output text for manual copying
     function highlightOutput() {
       var output = document.getElementById("result");
       var range = document.createRange();
@@ -683,7 +621,23 @@
       selection.addRange(range);
     }
     
+    // Print Template function
+    function printTemplate() {
+      const content = document.getElementById("result").innerHTML;
+      const printWindow = window.open('', '', 'height=600,width=800');
+      printWindow.document.write('<html><head><title>Print Template</title>');
+      printWindow.document.write('</head><body>');
+      printWindow.document.write(content);
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+      printWindow.focus();
+      printWindow.print();
+      printWindow.close();
+    }
+    
+    // Clear all fields with confirmation
     function clearOutput() {
+      if (!confirm("Are you sure you want to clear all?")) return;
       document.getElementById("result").innerHTML = "";
       document.getElementById("ticketCreatorOutput").innerHTML = "";
       document.getElementById("ticketForm").reset();
@@ -691,8 +645,10 @@
       handleProviderChange();
     }
     
+    // Initialize form view
     handleCallTypeChange();
     
+    // Toggle side panels visibility
     document.getElementById("toggleSidePanels").addEventListener("click", function() {
       var left = document.querySelector(".left-container");
       var right = document.querySelector(".right-container");
@@ -705,6 +661,7 @@
       }
     });
     
+    // Ticket Creator button functionality
     document.getElementById("ticketCreatorButton").addEventListener("click", function() {
       var btn = document.getElementById("ticketCreatorButton");
       var msg = document.getElementById("ticketMessage");
