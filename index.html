@@ -13,6 +13,10 @@
       box-sizing: border-box;
       transition: background-color 0.3s, color 0.3s;
     }
+    /* Hidden class for toggling side panels */
+    .hidden {
+      display: none !important;
+    }
     /* Three-column layout */
     .page-container {
       display: flex;
@@ -32,7 +36,8 @@
     }
     .left-container {
       width: 25%;
-      display: none; /* hidden by default */
+      /* Initially hidden */
+      /* Use the "hidden" class below */
     }
     .middle-container {
       width: 50%;
@@ -40,7 +45,8 @@
     }
     .right-container {
       width: 25%;
-      display: none; /* hidden by default */
+      /* Initially hidden */
+      /* Use the "hidden" class below */
     }
     /* Responsive adjustments */
     @media (max-width: 768px) {
@@ -213,8 +219,8 @@
 </head>
 <body>
   <div class="page-container">
-    <!-- Left Container: Account Loader (hidden by default) -->
-    <div class="left-container">
+    <!-- Left Container: Account Loader (initially hidden) -->
+    <div class="left-container hidden">
       <div class="header">
         <h2>Account Loader</h2>
       </div>
@@ -401,7 +407,7 @@
     </div>
     
     <!-- Right Container: Ticket Creator (hidden by default) -->
-    <div class="right-container" style="display: none;">
+    <div class="right-container hidden">
       <div class="header">
         <h2>Ticket Creator</h2>
       </div>
@@ -482,7 +488,7 @@
         addTemplateLine("Troubleshooting Performed and Results", tc_troubleshootingResults);
         addTemplateLine("Current Status", tc_currentStatus);
         addTemplateLine("Recommended Next Steps", tc_recommendedNextSteps);
-      } else { // General Ticket Update
+      } else {
         addTemplateLine("Update Type", "General Ticket Update");
         const ticketUpdateReason = document.getElementById("ticketUpdateReason").value;
         addTemplateLine("Ticket Update Reason", ticketUpdateReason);
@@ -624,18 +630,12 @@
     // Initialize view
     handleCallTypeChange();
     
-    // Toggle Side Panels using computed styles for compatibility (including iPhone)
+    // Toggle Side Panels using a class toggle for reliability
     document.getElementById("toggleSidePanels").addEventListener("click", function() {
       var left = document.querySelector(".left-container");
       var right = document.querySelector(".right-container");
-      var leftDisplay = window.getComputedStyle(left).display;
-      if (leftDisplay === "none") {
-        left.style.display = "block";
-        right.style.display = "block";
-      } else {
-        left.style.display = "none";
-        right.style.display = "none";
-      }
+      left.classList.toggle("hidden");
+      right.classList.toggle("hidden");
     });
     
     // Ticket Creator button functionality
