@@ -32,7 +32,7 @@
     }
     .left-container {
       width: 25%;
-      display: none; /* hidden by default */
+      display: none;
     }
     .middle-container {
       width: 50%;
@@ -40,7 +40,7 @@
     }
     .right-container {
       width: 25%;
-      display: none; /* hidden by default */
+      display: none;
     }
     /* Responsive adjustments */
     @media (max-width: 768px) {
@@ -88,11 +88,12 @@
       padding: 10px 15px;
       cursor: pointer;
     }
+    /* Ensure buttons fill the width where needed */
     .full-width-btn {
       width: 100%;
       margin-top: 15px;
     }
-    /* Output Boxes */
+    /* Center output area styled as a div */
     #result, #ticketCreatorOutput {
       margin-top: 20px;
       white-space: pre-wrap;
@@ -105,7 +106,7 @@
       overflow-wrap: break-word;
       transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
-    /* Radio buttons styling */
+    /* Enhanced styling for square radio buttons */
     .radio-group {
       margin-top: 5px;
     }
@@ -136,11 +137,11 @@
       outline: none;
       box-shadow: 0 0 2px 2px rgba(85,85,85,0.5);
     }
-    /* Form fields container */
+    /* Containers for input fields within form sections */
     .fields-container {
       margin-top: 15px;
     }
-    /* Action and copy buttons container */
+    /* Containers for action and copy buttons */
     .action-container, .copy-container {
       display: flex;
       gap: 10px;
@@ -150,7 +151,7 @@
       flex: 1;
       width: 100%;
     }
-    /* Call examples columns */
+    /* Style for call example columns */
     .call-examples-container {
       display: flex;
       gap: 10px;
@@ -180,7 +181,7 @@
       font-weight: bold;
       display: none;
     }
-    /* Dark mode and toggle buttons */
+    /* Toggle buttons styling */
     #toggleDarkMode, #toggleSidePanels {
       position: relative;
     }
@@ -224,11 +225,11 @@
       <form id="leftForm" role="form" aria-label="Account Loader Form">
         <div class="fields-container">
           <label for="site">Site:</label>
-          <input type="text" id="site" placeholder="Enter Site" required>
+          <input type="text" id="site" placeholder="Enter Site">
         </div>
         <div class="fields-container">
           <label for="address1">Address 1:</label>
-          <input type="text" id="address1" placeholder="Enter Address 1" required>
+          <input type="text" id="address1" placeholder="Enter Address 1">
         </div>
         <div class="fields-container">
           <label for="address2">Address 2:</label>
@@ -236,19 +237,19 @@
         </div>
         <div class="fields-container">
           <label for="city">City:</label>
-          <input type="text" id="city" placeholder="Enter City" required>
+          <input type="text" id="city" placeholder="Enter City">
         </div>
         <div class="fields-container">
           <label for="state">State:</label>
-          <input type="text" id="state" placeholder="Enter State" required>
+          <input type="text" id="state" placeholder="Enter State">
         </div>
         <div class="fields-container">
           <label for="zip">Zip:</label>
-          <input type="text" id="zip" placeholder="Enter Zip" required>
+          <input type="text" id="zip" placeholder="Enter Zip">
         </div>
         <div class="fields-container">
           <label for="country">Country:</label>
-          <input type="text" id="country" placeholder="Enter Country" required>
+          <input type="text" id="country" placeholder="Enter Country">
         </div>
         <div class="fields-container">
           <label for="contact">Contact:</label>
@@ -269,10 +270,8 @@
     <!-- Middle Container: Ticket Update Generator -->
     <div class="middle-container">
       <div class="header">
-        <!-- Dark mode toggle button -->
         <button type="button" id="toggleDarkMode">Switch to Dark Mode</button>
         <h1>Ticket Update Generator (TUG)</h1>
-        <!-- Toggle side panels button -->
         <button type="button" id="toggleSidePanels">Toggle Side Panels</button>
       </div>
       <div class="subheader">Functional Version 1</div>
@@ -290,7 +289,7 @@
           </label>
         </div>
         
-        <!-- Caller Fields (only for Ticket Creation) -->
+        <!-- Caller Fields (for Ticket Creation) -->
         <div id="callerFields" class="fields-container" style="display: none;">
           <label for="callerName">Caller Name:</label>
           <input type="text" id="callerName" placeholder="Enter caller name">
@@ -301,40 +300,40 @@
         <!-- Ticket Creation Fields -->
         <div id="ticketCreationFields" class="fields-container" style="display: block;">
           <label for="tc_accountNumber">Account Number:</label>
-          <input type="text" id="tc_accountNumber" placeholder="Enter account number" required>
+          <input type="text" id="tc_accountNumber" placeholder="Enter account number">
           <label for="tc_callersName">Caller's Name:</label>
-          <input type="text" id="tc_callersName" placeholder="Enter caller's name" required>
+          <input type="text" id="tc_callersName" placeholder="Enter caller's name">
           <label for="tc_callersNumber">Caller's Number:</label>
-          <input type="text" id="tc_callersNumber" placeholder="Enter caller's number" required>
+          <input type="text" id="tc_callersNumber" placeholder="Enter caller's number">
           <label for="tc_lconName">LCON Name:</label>
-          <input type="text" id="tc_lconName" placeholder="Enter LCON name" required>
+          <input type="text" id="tc_lconName" placeholder="Enter LCON name">
           <label for="tc_lconNumber">LCON Number:</label>
-          <input type="text" id="tc_lconNumber" placeholder="Enter LCON number" required>
+          <input type="text" id="tc_lconNumber" placeholder="Enter LCON number">
           <label for="tc_businessHours">Business Hours:</label>
-          <input type="text" id="tc_businessHours" placeholder="Enter business hours" required>
+          <input type="text" id="tc_businessHours" placeholder="Enter business hours">
           <label for="tc_accessHours">Access Hours (For IWs):</label>
-          <input type="text" id="tc_accessHours" placeholder="Enter access hours for IWs" required>
+          <input type="text" id="tc_accessHours" placeholder="Enter access hours for IWs">
           <label for="tc_accessInstructions">Access Special Instructions (e.g., Side door after 5PM):</label>
-          <input type="text" id="tc_accessInstructions" placeholder="Enter special access instructions" required>
+          <input type="text" id="tc_accessInstructions" placeholder="Enter special access instructions">
           <label for="tc_carrierInfo">Carrier Info (Circuit ID/Account/Number):</label>
-          <input type="text" id="tc_carrierInfo" placeholder="Enter carrier info" required>
-          <!-- New input for Carrier Ticket -->
+          <input type="text" id="tc_carrierInfo" placeholder="Enter carrier info">
+          <!-- New Carrier Ticket Field -->
           <label for="tc_carrierTicket">Carrier Ticket:</label>
           <input type="text" id="tc_carrierTicket" placeholder="Enter carrier ticket">
           <label for="tc_problemStatement">Current Problem Statement/Issue:</label>
-          <input type="text" id="tc_problemStatement" placeholder="Enter problem statement/issue" required>
+          <input type="text" id="tc_problemStatement" placeholder="Enter problem statement/issue">
           <label for="tc_troubleshootingResults">Troubleshooting Performed and Results:</label>
-          <input type="text" id="tc_troubleshootingResults" placeholder="Enter troubleshooting performed and results" required>
+          <input type="text" id="tc_troubleshootingResults" placeholder="Enter troubleshooting performed and results">
           <label for="tc_currentStatus">Current Status:</label>
-          <input type="text" id="tc_currentStatus" placeholder="Enter current status" required>
+          <input type="text" id="tc_currentStatus" placeholder="Enter current status">
           <label for="tc_recommendedNextSteps">Recommended Next Steps:</label>
-          <input type="text" id="tc_recommendedNextSteps" placeholder="Enter recommended next steps" required>
+          <input type="text" id="tc_recommendedNextSteps" placeholder="Enter recommended next steps">
         </div>
         
         <!-- Standard Fields for General Ticket Update -->
         <div id="standardFields" class="fields-container" style="display: none;">
           <label for="ticketUpdateReason">Ticket Update Reason:</label>
-          <input type="text" id="ticketUpdateReason" placeholder="Enter ticket update reason" required>
+          <input type="text" id="ticketUpdateReason" placeholder="Enter ticket update reason">
           <label>Is this ticket update due to call?</label>
           <div class="radio-group">
             <label>
@@ -351,13 +350,13 @@
             </label>
           </div>
           <label for="currentProblemStatement">Current Problem Statement/Issue:</label>
-          <input type="text" id="currentProblemStatement" placeholder="Enter current problem statement/issue" required>
+          <input type="text" id="currentProblemStatement" placeholder="Enter current problem statement/issue">
           <label for="troubleshootingResults">Troubleshooting Performed and Results:</label>
-          <input type="text" id="troubleshootingResults" placeholder="Enter troubleshooting performed and results" required>
+          <input type="text" id="troubleshootingResults" placeholder="Enter troubleshooting performed and results">
           <label for="currentStatus">Current Status:</label>
-          <input type="text" id="currentStatus" placeholder="Enter current status" required>
+          <input type="text" id="currentStatus" placeholder="Enter current status">
           <label for="recommendedNextSteps">Recommended Next Steps:</label>
-          <input type="text" id="recommendedNextSteps" placeholder="Enter recommended next steps" required>
+          <input type="text" id="recommendedNextSteps" placeholder="Enter recommended next steps">
         </div>
         
         <!-- Dedicated Team Radio Buttons (USPS removed) -->
@@ -422,7 +421,7 @@
   </footer>
   
   <script>
-    // On page load, check for dark mode preference
+    // On page load, check dark mode preference
     if (localStorage.getItem("darkMode") === "true") {
       document.body.classList.add("dark-mode");
       document.getElementById("toggleDarkMode").textContent = "Switch to Light Mode";
@@ -441,22 +440,9 @@
       }
     });
     
-    // Validate form before generating template
-    function validateForm() {
-      const form = document.getElementById("ticketForm");
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return false;
-      }
-      return true;
-    }
-    
-    // Generate Template with validation and character limit check
+    // Generate Template with character limit check
     function generateTemplate() {
-      if (!validateForm()) return;
-      
       let template = "";
-      
       function addTemplateLine(label, value) {
         if (value && value.trim() !== "") {
           template += "<strong>" + label + ":</strong> " + value + "<br>";
@@ -584,11 +570,9 @@
       const troubleshootingOther = document.getElementById("troubleshootingOther").value;
       addTemplateLine("Troubleshooting/Other", troubleshootingOther);
       
-      // Check for character limit (30,000 characters)
       if (template.length > 30000) {
-        const errorDiv = document.getElementById("errorMessage");
-        errorDiv.textContent = "You have hit the Bryan Limit";
-        errorDiv.style.display = "block";
+        document.getElementById("errorMessage").textContent = "You have hit the Bryan Limit";
+        document.getElementById("errorMessage").style.display = "block";
         return;
       } else {
         document.getElementById("errorMessage").style.display = "none";
@@ -599,7 +583,6 @@
       console.log("Template generated:", template);
     }
     
-    // Copy formatted template to clipboard
     function copyFormattedTemplate() {
       const htmlContent = document.getElementById("result").innerHTML;
       const blob = new Blob([htmlContent], { type: "text/html" });
@@ -611,7 +594,6 @@
       });
     }
     
-    // Highlight output text for manual copying
     function highlightOutput() {
       var output = document.getElementById("result");
       var range = document.createRange();
@@ -621,12 +603,10 @@
       selection.addRange(range);
     }
     
-    // Print Template function
     function printTemplate() {
       const content = document.getElementById("result").innerHTML;
       const printWindow = window.open('', '', 'height=600,width=800');
-      printWindow.document.write('<html><head><title>Print Template</title>');
-      printWindow.document.write('</head><body>');
+      printWindow.document.write('<html><head><title>Print Template</title></head><body>');
       printWindow.document.write(content);
       printWindow.document.write('</body></html>');
       printWindow.document.close();
@@ -635,7 +615,6 @@
       printWindow.close();
     }
     
-    // Clear all fields with confirmation
     function clearOutput() {
       if (!confirm("Are you sure you want to clear all?")) return;
       document.getElementById("result").innerHTML = "";
@@ -645,10 +624,8 @@
       handleProviderChange();
     }
     
-    // Initialize form view
     handleCallTypeChange();
     
-    // Toggle side panels visibility
     document.getElementById("toggleSidePanels").addEventListener("click", function() {
       var left = document.querySelector(".left-container");
       var right = document.querySelector(".right-container");
@@ -661,7 +638,6 @@
       }
     });
     
-    // Ticket Creator button functionality
     document.getElementById("ticketCreatorButton").addEventListener("click", function() {
       var btn = document.getElementById("ticketCreatorButton");
       var msg = document.getElementById("ticketMessage");
