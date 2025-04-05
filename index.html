@@ -32,7 +32,7 @@
     }
     .left-container {
       width: 25%;
-      display: none;
+      display: none; /* hidden by default */
     }
     .middle-container {
       width: 50%;
@@ -40,7 +40,7 @@
     }
     .right-container {
       width: 25%;
-      display: none;
+      display: none; /* hidden by default */
     }
     /* Responsive adjustments */
     @media (max-width: 768px) {
@@ -54,7 +54,7 @@
         width: 90%;
       }
     }
-    /* Header using flex for proper scaling */
+    /* Header using flex */
     .header {
       display: flex;
       justify-content: space-between;
@@ -88,12 +88,11 @@
       padding: 10px 15px;
       cursor: pointer;
     }
-    /* Ensure buttons fill the width where needed */
     .full-width-btn {
       width: 100%;
       margin-top: 15px;
     }
-    /* Center output area styled as a div */
+    /* Output boxes */
     #result, #ticketCreatorOutput {
       margin-top: 20px;
       white-space: pre-wrap;
@@ -106,7 +105,7 @@
       overflow-wrap: break-word;
       transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
-    /* Enhanced styling for square radio buttons */
+    /* Radio buttons styling */
     .radio-group {
       margin-top: 5px;
     }
@@ -126,7 +125,6 @@
       border: 2px solid #555;
       border-radius: 0;
       cursor: pointer;
-      position: relative;
       transition: background-color 0.2s ease, border-color 0.2s ease;
     }
     .radio-group input[type="radio"]:checked {
@@ -137,11 +135,11 @@
       outline: none;
       box-shadow: 0 0 2px 2px rgba(85,85,85,0.5);
     }
-    /* Containers for input fields within form sections */
+    /* Form fields container */
     .fields-container {
       margin-top: 15px;
     }
-    /* Containers for action and copy buttons */
+    /* Action and copy buttons container */
     .action-container, .copy-container {
       display: flex;
       gap: 10px;
@@ -151,7 +149,7 @@
       flex: 1;
       width: 100%;
     }
-    /* Style for call example columns */
+    /* Call examples columns */
     .call-examples-container {
       display: flex;
       gap: 10px;
@@ -167,14 +165,13 @@
       font-size: 0.8em;
       color: #fff;
     }
-    /* Message styling */
+    /* Message and error styling */
     #ticketMessage {
       text-align: center;
       margin-top: 10px;
       opacity: 1;
       transition: opacity 1s ease-out;
     }
-    /* Error message styling */
     #errorMessage {
       color: red;
       margin-top: 10px;
@@ -429,7 +426,7 @@
     
     // Toggle Dark Mode and save preference
     document.getElementById("toggleDarkMode").addEventListener("click", function() {
-      if(document.body.classList.contains("dark-mode")) {
+      if (document.body.classList.contains("dark-mode")) {
         document.body.classList.remove("dark-mode");
         this.textContent = "Switch to Dark Mode";
         localStorage.setItem("darkMode", "false");
@@ -624,12 +621,15 @@
       handleProviderChange();
     }
     
+    // Initialize view
     handleCallTypeChange();
     
+    // Toggle Side Panels using computed styles for compatibility (including iPhone)
     document.getElementById("toggleSidePanels").addEventListener("click", function() {
       var left = document.querySelector(".left-container");
       var right = document.querySelector(".right-container");
-      if(left.style.display === "none") {
+      var leftDisplay = window.getComputedStyle(left).display;
+      if (leftDisplay === "none") {
         left.style.display = "block";
         right.style.display = "block";
       } else {
@@ -638,6 +638,7 @@
       }
     });
     
+    // Ticket Creator button functionality
     document.getElementById("ticketCreatorButton").addEventListener("click", function() {
       var btn = document.getElementById("ticketCreatorButton");
       var msg = document.getElementById("ticketMessage");
