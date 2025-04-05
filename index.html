@@ -40,7 +40,10 @@
     .slider {
       position: absolute;
       cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background-color: #ccc;
       transition: 0.4s;
       border-radius: 24px;
@@ -62,11 +65,6 @@
     input:checked + .slider:before {
       transform: translateX(26px);
     }
-    /* Ensure "On"/"Off" text aligns with the switch height */
-    #darkModeStatus,
-    #sidePanelsStatus {
-      line-height: 24px; /* matches the switch height */
-    }
     /* Three-column layout */
     .page-container {
       display: flex;
@@ -86,6 +84,7 @@
     }
     .left-container {
       width: 25%;
+      /* Initially hidden via class "hidden" */
     }
     .middle-container {
       width: 50%;
@@ -93,6 +92,7 @@
     }
     .right-container {
       width: 25%;
+      /* Initially hidden via class "hidden" */
     }
     /* Responsive adjustments */
     @media (max-width: 768px) {
@@ -188,9 +188,11 @@
       outline: none;
       box-shadow: 0 0 2px 2px rgba(85,85,85,0.5);
     }
+    /* Form fields container */
     .fields-container {
       margin-top: 15px;
     }
+    /* Action and copy buttons container */
     .action-container,
     .copy-container {
       display: flex;
@@ -202,6 +204,7 @@
       flex: 1;
       width: 100%;
     }
+    /* Call examples columns */
     .call-examples-container {
       display: flex;
       gap: 10px;
@@ -322,7 +325,6 @@
             <input type="checkbox" id="darkModeSwitch">
             <span class="slider"></span>
           </label>
-          <span id="darkModeStatus">Off</span>
         </div>
         <h1>Ticket Update Generator (TUG)</h1>
         <!-- Side Panels Switch -->
@@ -332,7 +334,6 @@
             <input type="checkbox" id="sidePanelsSwitch">
             <span class="slider"></span>
           </label>
-          <span id="sidePanelsStatus">Off</span>
         </div>
       </div>
       <div class="subheader">Functional Version 1</div>
@@ -488,10 +489,8 @@
     if (localStorage.getItem("darkMode") === "true") {
       document.body.classList.add("dark-mode");
       document.getElementById("darkModeSwitch").checked = true;
-      document.getElementById("darkModeStatus").textContent = "On";
     } else {
       document.getElementById("darkModeSwitch").checked = false;
-      document.getElementById("darkModeStatus").textContent = "Off";
     }
 
     /****************************************
@@ -500,22 +499,13 @@
     document.getElementById("darkModeSwitch").addEventListener("change", function() {
       if (this.checked) {
         document.body.classList.add("dark-mode");
-        document.getElementById("darkModeStatus").textContent = "On";
         localStorage.setItem("darkMode", "true");
       } else {
         document.body.classList.remove("dark-mode");
-        document.getElementById("darkModeStatus").textContent = "Off";
         localStorage.setItem("darkMode", "false");
       }
     });
     
-    /****************************************
-     * Side Panels Switch Initialization
-     ****************************************/
-    // Initially, side panels are hidden => switch is off
-    document.getElementById("sidePanelsSwitch").checked = false;
-    document.getElementById("sidePanelsStatus").textContent = "Off";
-
     /****************************************
      * Side Panels Switch Handler
      ****************************************/
@@ -525,11 +515,9 @@
       if (visible) {
         left.classList.remove("hidden");
         right.classList.remove("hidden");
-        document.getElementById("sidePanelsStatus").textContent = "On";
       } else {
         left.classList.add("hidden");
         right.classList.add("hidden");
-        document.getElementById("sidePanelsStatus").textContent = "Off";
       }
     }
     
@@ -815,9 +803,6 @@
         container.innerHTML = "";
       }
     }
-    
-    // Initialize the call type fields
-    handleCallTypeChange();
   </script>
 </body>
 </html>
