@@ -113,7 +113,7 @@
       align-items: center;
       margin-bottom: 10px;
     }
-    /* Override header for left and right containers to center title */
+    /* Center headers in left/right containers */
     .left-container .header,
     .right-container .header {
       justify-content: center;
@@ -188,6 +188,14 @@
     .radio-group input[type="radio"]:checked {
       background-color: #555;
       border-color: #555;
+    }
+    /* Dark mode radio button adjustments */
+    .dark-mode .radio-group input[type="radio"] {
+      border-color: #bbb;
+    }
+    .dark-mode .radio-group input[type="radio"]:checked {
+      background-color: #03dac6;
+      border-color: #03dac6;
     }
     .radio-group input[type="radio"]:focus {
       outline: none;
