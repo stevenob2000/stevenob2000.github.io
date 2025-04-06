@@ -113,7 +113,12 @@
       align-items: center;
       margin-bottom: 10px;
     }
-    .header h1 {
+    /* Override header for left and right containers to center title */
+    .left-container .header,
+    .right-container .header {
+      justify-content: center;
+    }
+    .header h1, .header h2 {
       margin: 0;
       flex: 1;
       text-align: center;
