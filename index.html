@@ -189,7 +189,7 @@
       background-color: #555;
       border-color: #555;
     }
-    /* Dark mode radio button adjustments – rollback to teal accent (#03dac6) */
+    /* Dark mode radio button adjustments – teal accent (#03dac6) */
     .dark-mode .radio-group input[type="radio"] {
       border-color: #bbb;
     }
@@ -816,6 +816,25 @@
         container.innerHTML = "";
       }
     }
+    
+    /****************************************
+     * Ticket Creator Button Handler
+     ****************************************/
+    document.getElementById("ticketCreatorButton").addEventListener("click", function() {
+      var btn = document.getElementById("ticketCreatorButton");
+      var msg = document.getElementById("ticketMessage");
+      btn.disabled = true;
+      msg.style.display = "block";
+      msg.style.opacity = 1;
+      setTimeout(function() {
+        msg.style.opacity = 0;
+        setTimeout(function(){
+          msg.style.display = "none";
+          btn.disabled = false;
+        }, 1000);
+      }, 5000);
+    });
+    
   </script>
 </body>
 </html>
