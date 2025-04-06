@@ -372,10 +372,8 @@
           <input type="text" id="callerNumber" placeholder="Enter caller number">
         </div>
         
-        <!-- Ticket Creation Fields -->
+        <!-- Ticket Creation Fields (Account Number removed) -->
         <div id="ticketCreationFields" class="fields-container" style="display: block;">
-          <label for="tc_accountNumber">Account Number:</label>
-          <input type="text" id="tc_accountNumber" placeholder="Enter account number">
           <label for="tc_callersName">Caller's Name:</label>
           <input type="text" id="tc_callersName" placeholder="Enter caller's name">
           <label for="tc_callersNumber">Caller's Number:</label>
@@ -422,6 +420,14 @@
             <label>
               <input type="radio" name="updateCallType" value="outbound">
               Outbound Call
+            </label>
+            <label>
+              <input type="radio" name="updateCallType" value="teams">
+              Teams
+            </label>
+            <label>
+              <input type="radio" name="updateCallType" value="email">
+              Email
             </label>
           </div>
           <label for="currentProblemStatement">Current Problem Statement/Issue:</label>
@@ -561,7 +567,6 @@
       
       if (callType === "ticketCreation") {
         addTemplateLine("Update Type", "Ticket Creation");
-        const tc_accountNumber = document.getElementById("tc_accountNumber").value;
         const tc_callersName = document.getElementById("tc_callersName").value;
         const tc_callersNumber = document.getElementById("tc_callersNumber").value;
         const tc_lconName = document.getElementById("tc_lconName").value;
@@ -576,7 +581,6 @@
         const tc_currentStatus = document.getElementById("tc_currentStatus").value;
         const tc_recommendedNextSteps = document.getElementById("tc_recommendedNextSteps").value;
         
-        addTemplateLine("Account Number", tc_accountNumber);
         addTemplateLine("Caller's Name", tc_callersName);
         addTemplateLine("Caller's Number", tc_callersNumber);
         addTemplateLine("LCON Name", tc_lconName);
@@ -816,25 +820,6 @@
         container.innerHTML = "";
       }
     }
-    
-    /****************************************
-     * Ticket Creator Button Handler
-     ****************************************/
-    document.getElementById("ticketCreatorButton").addEventListener("click", function() {
-      var btn = document.getElementById("ticketCreatorButton");
-      var msg = document.getElementById("ticketMessage");
-      btn.disabled = true;
-      msg.style.display = "block";
-      msg.style.opacity = 1;
-      setTimeout(function() {
-        msg.style.opacity = 0;
-        setTimeout(function(){
-          msg.style.display = "none";
-          btn.disabled = false;
-        }, 1000);
-      }, 5000);
-    });
-    
   </script>
 </body>
 </html>
