@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Ticket Update Generator (TUG)</title>
   <style>
-    /* Base Styles */
     body {
       background-color: #3B5CA9;
       font-family: Arial, sans-serif;
@@ -13,30 +12,25 @@
       box-sizing: border-box;
       transition: background-color 0.3s, color 0.3s;
     }
-    /* Hidden class for toggling side panels */
     .hidden {
       display: none !important;
     }
-    /* Toggle switch container */
     .toggle-container {
       display: flex;
       align-items: center;
       gap: 5px;
     }
-    /* The switch - the box around the slider */
     .switch {
       position: relative;
       display: inline-block;
       width: 50px;
       height: 24px;
     }
-    /* Hide default HTML checkbox */
     .switch input {
       opacity: 0;
       width: 0;
       height: 0;
     }
-    /* The slider */
     .slider {
       position: absolute;
       cursor: pointer;
@@ -65,7 +59,6 @@
     input:checked + .slider:before {
       transform: translateX(26px);
     }
-    /* Three-column layout */
     .page-container {
       display: flex;
       justify-content: center;
@@ -84,7 +77,6 @@
     }
     .left-container {
       width: 25%;
-      /* Initially hidden via class "hidden" */
     }
     .middle-container {
       width: 50%;
@@ -92,9 +84,7 @@
     }
     .right-container {
       width: 25%;
-      /* Initially hidden via class "hidden" */
     }
-    /* Responsive adjustments */
     @media (max-width: 768px) {
       .page-container {
         flex-direction: column;
@@ -106,14 +96,12 @@
         width: 90%;
       }
     }
-    /* Header using flex */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
     }
-    /* Center headers in left/right containers */
     .left-container .header,
     .right-container .header {
       justify-content: center;
@@ -149,7 +137,6 @@
       width: 100%;
       margin-top: 15px;
     }
-    /* Output boxes */
     #result,
     #ticketCreatorOutput {
       margin-top: 20px;
@@ -163,7 +150,6 @@
       overflow-wrap: break-word;
       transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
-    /* Radio buttons styling */
     .radio-group {
       margin-top: 5px;
     }
@@ -189,7 +175,6 @@
       background-color: #555;
       border-color: #555;
     }
-    /* Dark mode radio button adjustments – teal accent (#03dac6) */
     .dark-mode .radio-group input[type="radio"] {
       border-color: #bbb;
     }
@@ -201,11 +186,9 @@
       outline: none;
       box-shadow: 0 0 2px 2px rgba(85,85,85,0.5);
     }
-    /* Form fields container */
     .fields-container {
       margin-top: 15px;
     }
-    /* Action and copy buttons container */
     .action-container,
     .copy-container {
       display: flex;
@@ -217,7 +200,6 @@
       flex: 1;
       width: 100%;
     }
-    /* Call examples columns */
     .call-examples-container {
       display: flex;
       gap: 10px;
@@ -226,14 +208,12 @@
     .call-example {
       flex: 1;
     }
-    /* Footer styling */
     footer {
       text-align: center;
       margin-top: 20px;
       font-size: 0.8em;
       color: #fff;
     }
-    /* Message and error styling */
     #ticketMessage {
       text-align: center;
       margin-top: 10px;
@@ -246,7 +226,6 @@
       font-weight: bold;
       display: none;
     }
-    /* Dark mode styles */
     .dark-mode {
       background-color: #222;
       color: #fff;
@@ -277,7 +256,6 @@
 </head>
 <body>
   <div class="page-container">
-    <!-- Left Container: Account Loader (initially hidden) -->
     <div class="left-container hidden">
       <div class="header">
         <h2>Account Loader</h2>
@@ -328,10 +306,8 @@
       </form>
     </div>
     
-    <!-- Middle Container: Ticket Update Generator -->
     <div class="middle-container">
       <div class="header">
-        <!-- Dark Mode Switch -->
         <div class="toggle-container">
           <label for="darkModeSwitch">Dark Mode:</label>
           <label class="switch">
@@ -340,7 +316,6 @@
           </label>
         </div>
         <h1>Ticket Update Generator (TUG)</h1>
-        <!-- Side Panels Switch -->
         <div class="toggle-container">
           <label for="sidePanelsSwitch">Side Panels:</label>
           <label class="switch">
@@ -351,7 +326,6 @@
       </div>
       <div class="subheader">Functional Version 1</div>
       <form id="ticketForm" role="form" aria-label="Ticket Update Generator Form">
-        <!-- Update Type Radio Buttons -->
         <label>Update Type:</label>
         <div class="radio-group">
           <label>
@@ -364,7 +338,6 @@
           </label>
         </div>
         
-        <!-- Caller Fields (for Ticket Creation) -->
         <div id="callerFields" class="fields-container" style="display: none;">
           <label for="callerName">Caller Name:</label>
           <input type="text" id="callerName" placeholder="Enter caller name">
@@ -372,7 +345,6 @@
           <input type="text" id="callerNumber" placeholder="Enter caller number">
         </div>
         
-        <!-- Ticket Creation Fields (Account Number removed) -->
         <div id="ticketCreationFields" class="fields-container" style="display: block;">
           <label for="tc_callersName">Caller's Name:</label>
           <input type="text" id="tc_callersName" placeholder="Enter caller's name">
@@ -390,7 +362,6 @@
           <input type="text" id="tc_accessInstructions" placeholder="Enter special access instructions">
           <label for="tc_carrierInfo">Carrier Info (Circuit ID/Account/Number):</label>
           <input type="text" id="tc_carrierInfo" placeholder="Enter carrier info">
-          <!-- New Carrier Ticket Field -->
           <label for="tc_carrierTicket">Carrier Ticket:</label>
           <input type="text" id="tc_carrierTicket" placeholder="Enter carrier ticket">
           <label for="tc_problemStatement">Current Problem Statement/Issue:</label>
@@ -403,15 +374,14 @@
           <input type="text" id="tc_recommendedNextSteps" placeholder="Enter recommended next steps">
         </div>
         
-        <!-- Standard Fields for General Ticket Update -->
         <div id="standardFields" class="fields-container" style="display: none;">
           <label for="ticketUpdateReason">Ticket Update Reason:</label>
           <input type="text" id="ticketUpdateReason" placeholder="Enter ticket update reason">
-          <label>Is this ticket update due to call?</label>
+          <label>Is this ticket update due to call or other?</label>
           <div class="radio-group">
             <label>
               <input type="radio" name="updateCallType" value="nocall" checked>
-              No Call
+              None
             </label>
             <label>
               <input type="radio" name="updateCallType" value="inbound">
@@ -440,7 +410,6 @@
           <input type="text" id="recommendedNextSteps" placeholder="Enter recommended next steps">
         </div>
         
-        <!-- Dedicated Team Radio Buttons -->
         <label>Dedicated Team:</label>
         <div class="radio-group" id="providerRadios">
           <label>
@@ -457,26 +426,21 @@
           </label>
         </div>
         
-        <!-- Container for Conditional Dedicated Team Fields -->
         <div id="providerFields"></div>
         
-        <!-- Troubleshooting/Other Input -->
         <label for="troubleshootingOther">Troubleshooting/Other:</label>
         <textarea id="troubleshootingOther" placeholder="Enter troubleshooting/other details" rows="10"></textarea>
         
-        <!-- Action Buttons -->
         <div class="action-container">
           <button type="button" onclick="generateTemplate()">Generate Template</button>
           <button type="button" onclick="clearOutput()">Clear All</button>
         </div>
-        <!-- Error message for character limit -->
         <div id="errorMessage" role="alert"></div>
       </form>
       
       <h2>Generated Ticket Template:</h2>
       <div id="result"></div>
       
-      <!-- Copy and Print Buttons -->
       <div class="copy-container">
         <button type="button" onclick="copyFormattedTemplate()">Copy Formatted Template</button>
         <button type="button" onclick="highlightOutput()">Highlight Output</button>
@@ -484,7 +448,6 @@
       </div>
     </div>
     
-    <!-- Right Container: Ticket Creator (initially hidden) -->
     <div class="right-container hidden">
       <div class="header">
         <h2>Ticket Creator</h2>
@@ -502,19 +465,12 @@
   </footer>
   
   <script>
-    /****************************************
-     * Dark Mode Switch Initialization
-     ****************************************/
     if (localStorage.getItem("darkMode") === "true") {
       document.body.classList.add("dark-mode");
       document.getElementById("darkModeSwitch").checked = true;
     } else {
       document.getElementById("darkModeSwitch").checked = false;
     }
-
-    /****************************************
-     * Dark Mode Switch Handler
-     ****************************************/
     document.getElementById("darkModeSwitch").addEventListener("change", function() {
       if (this.checked) {
         document.body.classList.add("dark-mode");
@@ -524,10 +480,6 @@
         localStorage.setItem("darkMode", "false");
       }
     });
-    
-    /****************************************
-     * Side Panels Switch Handler
-     ****************************************/
     function updateSidePanels(visible) {
       const left = document.querySelector(".left-container");
       const right = document.querySelector(".right-container");
@@ -539,7 +491,6 @@
         right.classList.add("hidden");
       }
     }
-    
     document.getElementById("sidePanelsSwitch").addEventListener("change", function() {
       updateSidePanels(this.checked);
     });
@@ -548,10 +499,6 @@
       this.checked = !this.checked;
       updateSidePanels(this.checked);
     });
-    
-    /****************************************
-     * Template Generation
-     ****************************************/
     function generateTemplate() {
       let template = "";
       function addTemplateLine(label, value) {
@@ -559,12 +506,9 @@
           template += "<strong>" + label + ":</strong> " + value + "<br>";
         }
       }
-      
       template += "<strong>Ticket Update Template</strong><br>";
       template += "<strong>--------------------------</strong><br><br>";
-      
       const callType = document.querySelector('input[name="callType"]:checked')?.value || "";
-      
       if (callType === "ticketCreation") {
         addTemplateLine("Update Type", "Ticket Creation");
         const tc_callersName = document.getElementById("tc_callersName").value;
@@ -580,7 +524,6 @@
         const tc_troubleshootingResults = document.getElementById("tc_troubleshootingResults").value;
         const tc_currentStatus = document.getElementById("tc_currentStatus").value;
         const tc_recommendedNextSteps = document.getElementById("tc_recommendedNextSteps").value;
-        
         addTemplateLine("Caller's Name", tc_callersName);
         addTemplateLine("Caller's Number", tc_callersNumber);
         addTemplateLine("LCON Name", tc_lconName);
@@ -598,24 +541,19 @@
         addTemplateLine("Update Type", "General Ticket Update");
         const ticketUpdateReason = document.getElementById("ticketUpdateReason").value;
         addTemplateLine("Ticket Update Reason", ticketUpdateReason);
-        
         const updateCallType = document.querySelector('input[name="updateCallType"]:checked').value;
         addTemplateLine("Call Update Type", updateCallType);
-        
         const std_currentProblemStatement = document.getElementById("currentProblemStatement").value;
         const troubleshootingResults = document.getElementById("troubleshootingResults").value;
         const currentStatus = document.getElementById("currentStatus").value;
         const recommendedNextSteps = document.getElementById("recommendedNextSteps").value;
-        
         addTemplateLine("Current Problem Statement/Issue", std_currentProblemStatement);
         addTemplateLine("Troubleshooting Performed and Results", troubleshootingResults);
         addTemplateLine("Current Status", currentStatus);
         addTemplateLine("Recommended Next Steps", recommendedNextSteps);
       }
-      
       const provider = document.querySelector('input[name="provider"]:checked').value;
       addTemplateLine("Dedicated Team", provider ? provider : "None");
-      
       if (provider === "voip") {
         const phoneNumberIssue = document.getElementById("phoneNumberIssue").value;
         const numbersAffected = document.getElementById("numbersAffected").value;
@@ -623,14 +561,12 @@
         const macAddress = document.getElementById("macAddress").value;
         const serialNumber = document.getElementById("serialNumber").value;
         const adtranIP = document.getElementById("adtranIP").value;
-        
         addTemplateLine("All/Partial/Single Phone Number Issue", phoneNumberIssue);
         addTemplateLine("Number(s) Affected", numbersAffected);
         addTemplateLine("Call Feature(s) Affected", callFeaturesAffected);
         addTemplateLine("Mac Address", macAddress);
         addTemplateLine("Serial Number", serialNumber);
         addTemplateLine("Adtran LB IP Address", adtranIP);
-        
         const call1_datetime = document.getElementById("call1_datetime").value;
         const call1_phone = document.getElementById("call1_phone").value;
         const call1_destination = document.getElementById("call1_destination").value;
@@ -639,7 +575,6 @@
         addTemplateLine("Call Examples 1 - Phone Number", call1_phone);
         addTemplateLine("Call Examples 1 - Destination Number", call1_destination);
         addTemplateLine("Call Examples 1 - Error Received", call1_error);
-        
         const call2_datetime = document.getElementById("call2_datetime").value;
         const call2_phone = document.getElementById("call2_phone").value;
         const call2_destination = document.getElementById("call2_destination").value;
@@ -648,7 +583,6 @@
         addTemplateLine("Call Examples 2 - Phone Number", call2_phone);
         addTemplateLine("Call Examples 2 - Destination Number", call2_destination);
         addTemplateLine("Call Examples 2 - Error Received", call2_error);
-        
         const call3_datetime = document.getElementById("call3_datetime").value;
         const call3_phone = document.getElementById("call3_phone").value;
         const call3_destination = document.getElementById("call3_destination").value;
@@ -675,10 +609,8 @@
         addTemplateLine("Static or DHCP", staticOrDhcp);
         addTemplateLine("Static IP Addresses", staticIPAddresses);
       }
-      
       const troubleshootingOther = document.getElementById("troubleshootingOther").value;
       addTemplateLine("Troubleshooting/Other", troubleshootingOther);
-      
       if (template.length > 30000) {
         document.getElementById("errorMessage").textContent = "You have hit the Bryan Limit";
         document.getElementById("errorMessage").style.display = "block";
@@ -686,7 +618,6 @@
       } else {
         document.getElementById("errorMessage").style.display = "none";
       }
-      
       document.getElementById("result").innerHTML = template;
       document.getElementById("ticketCreatorOutput").innerHTML = template;
       console.log("Template generated:", template);
@@ -733,7 +664,6 @@
       handleProviderChange();
     }
     
-    // Call type and provider handling
     function handleCallTypeChange() {
       const callType = document.querySelector('input[name="callType"]:checked')?.value || "";
       if (callType === "ticketCreation") {
@@ -746,6 +676,7 @@
         document.getElementById("callerFields").style.display = "none";
       }
     }
+    
     function handleProviderChange() {
       const provider = document.querySelector('input[name="provider"]:checked')?.value;
       const container = document.getElementById("providerFields");
