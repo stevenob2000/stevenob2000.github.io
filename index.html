@@ -524,7 +524,7 @@
       updateSidePanels(this.checked);
     });
     
-    // Function to show extra input field based on update call type selection
+    // Function to show extra input field based on update call type selection in the General Ticket Update section
     function updateCallTypeExtra() {
       var selected = document.querySelector('input[name="updateCallType"]:checked').value;
       var container = document.getElementById("updateCallTypeExtraField");
@@ -587,7 +587,7 @@
         addTemplateLine("Ticket Update Reason", ticketUpdateReason);
         const updateCallType = document.querySelector('input[name="updateCallType"]:checked').value;
         addTemplateLine("Call Update Type", updateCallType);
-        // Check for extra call update info if applicable
+        // Include extra info if provided
         if (updateCallType !== "nocall") {
           var extraInput = document.getElementById("updateCallTypeExtra");
           if (extraInput) {
