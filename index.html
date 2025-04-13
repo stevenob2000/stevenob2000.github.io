@@ -83,7 +83,9 @@
         flex-direction: column;
         align-items: center;
       }
-      .left-container, .middle-container, .right-container { width: 90%; }
+      .left-container, .middle-container, .right-container {
+        width: 90%;
+      }
     }
     .header {
       display: flex;
@@ -91,7 +93,8 @@
       align-items: center;
       margin-bottom: 10px;
     }
-    .left-container .header, .right-container .header {
+    .left-container .header,
+    .right-container .header {
       justify-content: center;
     }
     .header h1, .header h2 {
@@ -106,7 +109,10 @@
       margin-bottom: 15px;
       transition: color 0.3s;
     }
-    label { display: block; margin-top: 10px; }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
     input, textarea {
       width: 100%;
       padding: 8px;
@@ -114,8 +120,14 @@
       box-sizing: border-box;
       transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
-    button { padding: 10px 15px; cursor: pointer; }
-    .full-width-btn { width: 100%; margin-top: 15px; }
+    button {
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+    .full-width-btn {
+      width: 100%;
+      margin-top: 15px;
+    }
     #result, #ticketCreatorOutput {
       margin-top: 20px;
       white-space: pre-wrap;
@@ -127,7 +139,9 @@
       overflow-wrap: break-word;
       transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
-    .radio-group { margin-top: 5px; }
+    .radio-group {
+      margin-top: 5px;
+    }
     .radio-group label {
       display: inline-block;
       margin-right: 15px;
@@ -150,27 +164,89 @@
       background-color: #555;
       border-color: #555;
     }
-    .dark-mode .radio-group input[type="radio"] { border-color: #bbb; }
-    .dark-mode .radio-group input[type="radio"]:checked { background-color: #03dac6; border-color: #03dac6; }
-    .radio-group input[type="radio"]:focus { outline: none; box-shadow: 0 0 2px 2px rgba(85,85,85,0.5); }
-    .fields-container { margin-top: 15px; }
-    .action-container, .copy-container { display: flex; gap: 10px; margin-top: 10px; }
-    .action-container button, .copy-container button { flex: 1; width: 100%; }
-    .call-examples-container { display: flex; gap: 10px; margin-top: 10px; }
-    .call-example { flex: 1; }
-    footer { text-align: center; margin-top: 20px; font-size: 0.8em; color: #fff; }
-    #ticketMessage { text-align: center; margin-top: 10px; opacity: 1; transition: opacity 1s ease-out; }
-    #errorMessage { color: red; margin-top: 10px; font-weight: bold; display: none; }
-    .dark-mode { background-color: #222; color: #fff; }
-    .dark-mode .left-container, .dark-mode .middle-container, .dark-mode .right-container {
-      background-color: #000; color: #fff; border-color: #555;
+    .dark-mode .radio-group input[type="radio"] {
+      border-color: #bbb;
     }
-    .dark-mode input, .dark-mode textarea { background-color: #333; color: #fff; border: 1px solid #555; }
-    .dark-mode #result, .dark-mode #ticketCreatorOutput { background-color: #000; color: #fff; border-color: #555; }
-    .dark-mode .subheader { color: #ccc; }
+    .dark-mode .radio-group input[type="radio"]:checked {
+      background-color: #03dac6;
+      border-color: #03dac6;
+    }
+    .radio-group input[type="radio"]:focus {
+      outline: none;
+      box-shadow: 0 0 2px 2px rgba(85,85,85,0.5);
+    }
+    .fields-container {
+      margin-top: 15px;
+    }
+    .action-container, .copy-container {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .action-container button, .copy-container button {
+      flex: 1;
+      width: 100%;
+    }
+    .call-examples-container {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .call-example {
+      flex: 1;
+    }
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.8em;
+      color: #fff;
+    }
+    #ticketMessage {
+      text-align: center;
+      margin-top: 10px;
+      opacity: 1;
+      transition: opacity 1s ease-out;
+    }
+    #errorMessage {
+      color: red;
+      margin-top: 10px;
+      font-weight: bold;
+      display: none;
+    }
+    .dark-mode {
+      background-color: #222;
+      color: #fff;
+    }
+    .dark-mode .left-container,
+    .dark-mode .middle-container,
+    .dark-mode .right-container {
+      background-color: #000;
+      color: #fff;
+      border-color: #555;
+    }
+    .dark-mode input,
+    .dark-mode textarea {
+      background-color: #333;
+      color: #fff;
+      border: 1px solid #555;
+    }
+    .dark-mode #result,
+    .dark-mode #ticketCreatorOutput {
+      background-color: #000;
+      color: #fff;
+      border-color: #555;
+    }
+    .dark-mode .subheader {
+      color: #ccc;
+    }
     /* Two-column layout for Ticket Creation section */
-    .two-column { display: flex; gap: 20px; }
-    .two-column .column { flex: 1; }
+    .two-column {
+      display: flex;
+      gap: 20px;
+    }
+    .two-column .column {
+      flex: 1;
+    }
     /* Clipboard feedback message style */
     #copyFeedback {
       position: fixed;
@@ -442,7 +518,7 @@
       radio.addEventListener("change", updateCallTypeExtra);
     });
     
-    // Update extra input field based on selected updateCallType option
+    // Update extra input field based on the selected updateCallType option
     function updateCallTypeExtra() {
       var selected = document.querySelector('input[name="updateCallType"]:checked')?.value;
       var container = document.getElementById("updateCallTypeExtraField");
@@ -502,118 +578,102 @@
       setTimeout(function() { feedback.style.display = "none"; }, 5100);
     }
     
+    // generateTemplate function that outputs only non-empty inputs
     function generateTemplate() {
       let template = "";
+      // Helper: Append label and value only if value is non-empty
       function addTemplateLine(label, value) {
         if (value && value.trim() !== "") {
-          template += label + ": " + value + "\n";
+          template += label + ": " + value.trim() + "\n";
         }
       }
-      template += "Ticket Update Template\n";
-      template += "--------------------------\n\n";
+      
       const callType = document.querySelector('input[name="callType"]:checked')?.value || "";
       if (callType === "ticketCreation") {
         addTemplateLine("Update Type", "Ticket Creation");
-        const tc_callersName = document.getElementById("tc_callersName").value;
-        const tc_callersNumber = document.getElementById("tc_callersNumber").value;
-        const tc_lconName = document.getElementById("tc_lconName").value;
-        const tc_lconNumber = document.getElementById("tc_lconNumber").value;
-        const tc_businessHours = document.getElementById("tc_businessHours").value;
-        const tc_accessHours = document.getElementById("tc_accessHours").value;
-        const tc_accessInstructions = document.getElementById("tc_accessInstructions").value;
-        const tc_carrierInfo = document.getElementById("tc_carrierInfo").value;
-        const tc_carrierTicket = document.getElementById("tc_carrierTicket").value;
-        const tc_problemStatement = document.getElementById("tc_problemStatement").value;
-        const tc_troubleshootingResults = document.getElementById("tc_troubleshootingResults").value;
-        const tc_currentStatus = document.getElementById("tc_currentStatus").value;
-        const tc_recommendedNextSteps = document.getElementById("tc_recommendedNextSteps").value;
-        addTemplateLine("POC/Caller Name", tc_callersName);
-        addTemplateLine("POC/Caller Number", tc_callersNumber);
-        addTemplateLine("LCON Name", tc_lconName);
-        addTemplateLine("LCON Number", tc_lconNumber);
-        addTemplateLine("Business Hours", tc_businessHours);
-        addTemplateLine("Access Hours (For IWs)", tc_accessHours);
-        addTemplateLine("Access Special Instructions", tc_accessInstructions);
-        addTemplateLine("Carrier Info", tc_carrierInfo);
-        addTemplateLine("Carrier Ticket", tc_carrierTicket);
-        addTemplateLine("Current Problem Statement/Issue", tc_problemStatement);
-        addTemplateLine("Troubleshooting Performed and Results", tc_troubleshootingResults);
-        addTemplateLine("Current Status", tc_currentStatus);
-        addTemplateLine("Recommended Next Steps", tc_recommendedNextSteps);
+        addTemplateLine("POC/Caller Name", document.getElementById("tc_callersName").value);
+        addTemplateLine("POC/Caller Number", document.getElementById("tc_callersNumber").value);
+        addTemplateLine("LCON Name", document.getElementById("tc_lconName").value);
+        addTemplateLine("LCON Number", document.getElementById("tc_lconNumber").value);
+        addTemplateLine("Business Hours", document.getElementById("tc_businessHours").value);
+        addTemplateLine("Access Hours (For IWs)", document.getElementById("tc_accessHours").value);
+        addTemplateLine("Access Special Instructions", document.getElementById("tc_accessInstructions").value);
+        addTemplateLine("Carrier Info", document.getElementById("tc_carrierInfo").value);
+        addTemplateLine("Carrier Ticket", document.getElementById("tc_carrierTicket").value);
+        addTemplateLine("Current Problem Statement/Issue", document.getElementById("tc_problemStatement").value);
+        addTemplateLine("Troubleshooting Performed and Results", document.getElementById("tc_troubleshootingResults").value);
+        addTemplateLine("Current Status", document.getElementById("tc_currentStatus").value);
+        addTemplateLine("Recommended Next Steps", document.getElementById("tc_recommendedNextSteps").value);
       } else {
         addTemplateLine("Update Type", "General Ticket Update");
-        const ticketUpdateReason = document.getElementById("ticketUpdateReason").value;
-        addTemplateLine("Ticket Update Reason", ticketUpdateReason);
+        addTemplateLine("Ticket Update Reason", document.getElementById("ticketUpdateReason").value);
         const updateCallType = document.querySelector('input[name="updateCallType"]:checked').value;
         addTemplateLine("Ticket Update Type", updateCallType);
         if (updateCallType !== "nocall") {
           var extraInput = document.getElementById("updateCallTypeExtra");
           if (extraInput) {
             var extraValue = extraInput.value;
-            if (extraValue && extraValue.trim() !== "") {
-              var labelText = "";
-              if (updateCallType === "inbound") {
-                labelText = "Inbound Name & Number";
-              } else if (updateCallType === "outbound") {
-                labelText = "Outbound Name & Number";
-              } else if (updateCallType === "teams") {
-                labelText = "Teams Chat/Team/Channel";
-              } else if (updateCallType === "email") {
-                labelText = "Email Link/Subject Line";
-              } else if (updateCallType === "other") {
-                labelText = "Other Description";
-              }
-              addTemplateLine(labelText, extraValue);
+            var labelText = "";
+            if (updateCallType === "inbound") {
+              labelText = "Inbound Name & Number";
+            } else if (updateCallType === "outbound") {
+              labelText = "Outbound Name & Number";
+            } else if (updateCallType === "teams") {
+              labelText = "Teams Chat/Team/Channel";
+            } else if (updateCallType === "email") {
+              labelText = "Email Link/Subject Line";
+            } else if (updateCallType === "other") {
+              labelText = "Other Description";
             }
+            addTemplateLine(labelText, extraValue);
           }
         }
-        const std_currentProblemStatement = document.getElementById("currentProblemStatement").value;
-        const troubleshootingResults = document.getElementById("troubleshootingResults").value;
-        const currentStatus = document.getElementById("currentStatus").value;
-        const recommendedNextSteps = document.getElementById("recommendedNextSteps").value;
-        addTemplateLine("Current Problem Statement/Issue", std_currentProblemStatement);
-        addTemplateLine("Troubleshooting Performed and Results", troubleshootingResults);
-        addTemplateLine("Current Status", currentStatus);
-        addTemplateLine("Recommended Next Steps", recommendedNextSteps);
+        addTemplateLine("Current Problem Statement/Issue", document.getElementById("currentProblemStatement").value);
+        addTemplateLine("Troubleshooting Performed and Results", document.getElementById("troubleshootingResults").value);
+        addTemplateLine("Current Status", document.getElementById("currentStatus").value);
+        addTemplateLine("Recommended Next Steps", document.getElementById("recommendedNextSteps").value);
       }
       
-      // Dedicated Team Section output:
+      // Dedicated Team Section
       const provider = document.querySelector('input[name="provider"]:checked').value;
       addTemplateLine("Dedicated Team", provider ? provider : "None");
       if (provider === "voip") {
-        const phoneNumberIssue = document.getElementById("phoneNumberIssue").value;
-        const numbersAffected = document.getElementById("numbersAffected").value;
-        const callFeaturesAffected = document.getElementById("callFeaturesAffected").value;
-        const macAddress = document.getElementById("macAddress").value;
-        const serialNumber = document.getElementById("serialNumber").value;
-        const adtranIP = document.getElementById("adtranIP").value;
-        addTemplateLine("Phone Number Issue", phoneNumberIssue);
-        addTemplateLine("Numbers Affected", numbersAffected);
-        addTemplateLine("Call Features Affected", callFeaturesAffected);
-        addTemplateLine("Mac Address", macAddress);
-        addTemplateLine("Serial Number", serialNumber);
-        addTemplateLine("Adtran LB IP Address", adtranIP);
+        addTemplateLine("Phone Number Issue", document.getElementById("phoneNumberIssue").value);
+        addTemplateLine("Numbers Affected", document.getElementById("numbersAffected").value);
+        addTemplateLine("Call Features Affected", document.getElementById("callFeaturesAffected").value);
+        addTemplateLine("Mac Address", document.getElementById("macAddress").value);
+        addTemplateLine("Serial Number", document.getElementById("serialNumber").value);
+        addTemplateLine("Adtran LB IP Address", document.getElementById("adtranIP").value);
+        
+        // Call Examples 1
+        addTemplateLine("Call Examples 1 - Date & Time", document.getElementById("call1_datetime") ? document.getElementById("call1_datetime").value : "");
+        addTemplateLine("Call Examples 1 - Phone Number", document.getElementById("call1_phone") ? document.getElementById("call1_phone").value : "");
+        addTemplateLine("Call Examples 1 - Destination Number", document.getElementById("call1_destination") ? document.getElementById("call1_destination").value : "");
+        addTemplateLine("Call Examples 1 - Error Received", document.getElementById("call1_error") ? document.getElementById("call1_error").value : "");
+        
+        // Call Examples 2
+        addTemplateLine("Call Examples 2 - Date & Time", document.getElementById("call2_datetime") ? document.getElementById("call2_datetime").value : "");
+        addTemplateLine("Call Examples 2 - Phone Number", document.getElementById("call2_phone") ? document.getElementById("call2_phone").value : "");
+        addTemplateLine("Call Examples 2 - Destination Number", document.getElementById("call2_destination") ? document.getElementById("call2_destination").value : "");
+        addTemplateLine("Call Examples 2 - Error Received", document.getElementById("call2_error") ? document.getElementById("call2_error").value : "");
+        
+        // Call Examples 3
+        addTemplateLine("Call Examples 3 - Date & Time", document.getElementById("call3_datetime") ? document.getElementById("call3_datetime").value : "");
+        addTemplateLine("Call Examples 3 - Phone Number", document.getElementById("call3_phone") ? document.getElementById("call3_phone").value : "");
+        addTemplateLine("Call Examples 3 - Destination Number", document.getElementById("call3_destination") ? document.getElementById("call3_destination").value : "");
+        addTemplateLine("Call Examples 3 - Error Received", document.getElementById("call3_error") ? document.getElementById("call3_error").value : "");
       } else if (provider === "grid") {
-        const mallName = document.getElementById("mallName").value;
-        const managementReit = document.getElementById("managementReit").value;
-        const mdf = document.getElementById("mdf").value;
-        const idf = document.getElementById("idf").value;
-        const port = document.getElementById("port").value;
-        const speeds = document.getElementById("speeds").value;
-        const staticOrDhcp = document.getElementById("staticOrDhcp").value;
-        const staticIPAddresses = document.getElementById("staticIPAddresses").value;
-        addTemplateLine("Mall Name", mallName);
-        addTemplateLine("Management/REIT", managementReit);
-        addTemplateLine("MDF", mdf);
-        addTemplateLine("IDF", idf);
-        addTemplateLine("Port", port);
-        addTemplateLine("Speeds", speeds);
-        addTemplateLine("Static or DHCP", staticOrDhcp);
-        addTemplateLine("Static IP Addresses", staticIPAddresses);
+        addTemplateLine("Mall Name", document.getElementById("mallName").value);
+        addTemplateLine("Management/REIT", document.getElementById("managementReit").value);
+        addTemplateLine("MDF", document.getElementById("mdf").value);
+        addTemplateLine("IDF", document.getElementById("idf").value);
+        addTemplateLine("Port", document.getElementById("port").value);
+        addTemplateLine("Speeds", document.getElementById("speeds").value);
+        addTemplateLine("Static or DHCP", document.getElementById("staticOrDhcp").value);
+        addTemplateLine("Static IP Addresses", document.getElementById("staticIPAddresses").value);
       }
       
-      const troubleshootingOther = document.getElementById("troubleshootingOther").value;
-      addTemplateLine("Troubleshooting/Other", troubleshootingOther);
+      addTemplateLine("Troubleshooting/Other", document.getElementById("troubleshootingOther").value);
       
       if (template.length > 30000) {
         document.getElementById("errorMessage").textContent = "You have hit the character limit!";
@@ -622,6 +682,7 @@
       } else {
         document.getElementById("errorMessage").style.display = "none";
       }
+      
       document.getElementById("result").innerText = template;
       document.getElementById("ticketCreatorOutput").innerText = template;
       console.log("Template generated:", template);
