@@ -71,19 +71,30 @@
       background: #fff;
       padding: 20px;
       border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       box-sizing: border-box;
       transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
-    .left-container { width: 25%; }
-    .middle-container { width: 50%; position: relative; }
-    .right-container { width: 25%; }
+    .left-container {
+      width: 25%;
+    }
+    .middle-container {
+      width: 50%;
+      position: relative;
+    }
+    .right-container {
+      width: 25%;
+    }
     @media (max-width: 768px) {
       .page-container {
         flex-direction: column;
         align-items: center;
       }
-      .left-container, .middle-container, .right-container { width: 90%; }
+      .left-container,
+      .middle-container,
+      .right-container {
+        width: 90%;
+      }
     }
     .header {
       display: flex;
@@ -91,7 +102,15 @@
       align-items: center;
       margin-bottom: 10px;
     }
-    .header h1, .header h2 { margin: 0; flex: 1; text-align: center; }
+    .left-container .header,
+    .right-container .header {
+      justify-content: center;
+    }
+    .header h1, .header h2 {
+      margin: 0;
+      flex: 1;
+      text-align: center;
+    }
     .subheader {
       text-align: center;
       font-size: 0.9em;
@@ -99,7 +118,10 @@
       margin-bottom: 15px;
       transition: color 0.3s;
     }
-    label { display: block; margin-top: 10px; }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
     input, textarea {
       width: 100%;
       padding: 8px;
@@ -107,9 +129,16 @@
       box-sizing: border-box;
       transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
-    button { padding: 10px 15px; cursor: pointer; }
-    .full-width-btn { width: 100%; margin-top: 15px; }
-    #result, #ticketCreatorOutput {
+    button {
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+    .full-width-btn {
+      width: 100%;
+      margin-top: 15px;
+    }
+    #result,
+    #ticketCreatorOutput {
       margin-top: 20px;
       white-space: pre-wrap;
       background: #f4f4f4;
@@ -121,7 +150,9 @@
       overflow-wrap: break-word;
       transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
-    .radio-group { margin-top: 5px; }
+    .radio-group {
+      margin-top: 5px;
+    }
     .radio-group label {
       display: inline-block;
       margin-right: 15px;
@@ -144,26 +175,39 @@
       background-color: #555;
       border-color: #555;
     }
-    .dark-mode .radio-group input[type="radio"] { border-color: #bbb; }
+    .dark-mode .radio-group input[type="radio"] {
+      border-color: #bbb;
+    }
     .dark-mode .radio-group input[type="radio"]:checked {
       background-color: #03dac6;
       border-color: #03dac6;
     }
     .radio-group input[type="radio"]:focus {
       outline: none;
-      box-shadow: 0 0 2px 2px rgba(85, 85, 85, 0.5);
+      box-shadow: 0 0 2px 2px rgba(85,85,85,0.5);
     }
-    .fields-container { margin-top: 15px; }
-    .action-container, .copy-container {
-      display: flex; gap: 10px; margin-top: 10px;
+    .fields-container {
+      margin-top: 15px;
     }
-    .action-container button, .copy-container button { flex: 1; width: 100%; }
+    .action-container,
+    .copy-container {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .action-container button,
+    .copy-container button {
+      flex: 1;
+      width: 100%;
+    }
     .call-examples-container {
       display: flex;
       gap: 10px;
       margin-top: 10px;
     }
-    .call-example { flex: 1; }
+    .call-example {
+      flex: 1;
+    }
     footer {
       text-align: center;
       margin-top: 20px;
@@ -193,40 +237,85 @@
       color: #fff;
       border-color: #555;
     }
-    .dark-mode input, .dark-mode textarea {
+    .dark-mode input,
+    .dark-mode textarea {
       background-color: #333;
       color: #fff;
       border: 1px solid #555;
     }
-    .dark-mode #result, .dark-mode #ticketCreatorOutput {
+    .dark-mode #result,
+    .dark-mode #ticketCreatorOutput {
       background-color: #000;
       color: #fff;
       border-color: #555;
     }
-    .dark-mode .subheader { color: #ccc; }
-    /* New CSS for two-column layout */
+    .dark-mode .subheader {
+      color: #ccc;
+    }
+    /* Two-column layout for the Ticket Creation section */
     .two-column {
       display: flex;
       gap: 20px;
     }
-    .two-column .column { flex: 1; }
+    .two-column .column {
+      flex: 1;
+    }
   </style>
 </head>
 <body>
   <div class="page-container">
-    <!-- Left container (Account Loader - hidden) -->
+    <!-- Left Container (Account Loader - Non-functional demo) -->
     <div class="left-container hidden">
       <div class="header">
         <h2>Account Loader</h2>
       </div>
       <div class="subheader">Non-functional, for demonstration purposes only</div>
       <form id="leftForm" role="form" aria-label="Account Loader Form">
-        <!-- ... account loader fields ... -->
+        <div class="fields-container">
+          <label for="site">Site:</label>
+          <input type="text" id="site" placeholder="Enter Site">
+        </div>
+        <div class="fields-container">
+          <label for="address1">Address 1:</label>
+          <input type="text" id="address1" placeholder="Enter Address 1">
+        </div>
+        <div class="fields-container">
+          <label for="address2">Address 2:</label>
+          <input type="text" id="address2" placeholder="Enter Address 2">
+        </div>
+        <div class="fields-container">
+          <label for="city">City:</label>
+          <input type="text" id="city" placeholder="Enter City">
+        </div>
+        <div class="fields-container">
+          <label for="state">State:</label>
+          <input type="text" id="state" placeholder="Enter State">
+        </div>
+        <div class="fields-container">
+          <label for="zip">Zip:</label>
+          <input type="text" id="zip" placeholder="Enter Zip">
+        </div>
+        <div class="fields-container">
+          <label for="country">Country:</label>
+          <input type="text" id="country" placeholder="Enter Country">
+        </div>
+        <div class="fields-container">
+          <label for="contact">Contact:</label>
+          <input type="text" id="contact" placeholder="Enter Contact">
+        </div>
+        <div class="fields-container">
+          <label for="phoneNumber">Phone Number:</label>
+          <input type="text" id="phoneNumber" placeholder="Enter Phone Number">
+        </div>
+        <div class="fields-container">
+          <label for="email">Email:</label>
+          <input type="email" id="email" placeholder="Enter Email">
+        </div>
         <button type="button" class="full-width-btn">Pull Account Info</button>
       </form>
     </div>
     
-    <!-- Middle container (Main Form) -->
+    <!-- Middle Container (Main Form) -->
     <div class="middle-container">
       <div class="header">
         <div class="toggle-container">
@@ -247,6 +336,7 @@
       </div>
       <div class="subheader">Functional Version 1</div>
       <form id="ticketForm" role="form" aria-label="Ticket Update Generator Form">
+        <!-- Update Type radio group -->
         <label>Update Type:</label>
         <div class="radio-group">
           <label>
@@ -259,7 +349,7 @@
           </label>
         </div>
         
-        <!-- Ticket Creation section -->
+        <!-- Ticket Creation Section -->
         <div id="ticketCreationFields" class="fields-container" style="display: block;">
           <div class="two-column">
             <div class="column">
@@ -275,11 +365,28 @@
               <input type="text" id="tc_lconNumber" placeholder="Enter LCON number">
             </div>
           </div>
-          <!-- Additional Ticket Creation fields -->
-          <!-- ... other Ticket Creation fields ... -->
+          <!-- Additional Ticket Creation fields (truncated for brevity) -->
+          <label for="tc_businessHours">Business Hours:</label>
+          <input type="text" id="tc_businessHours" placeholder="Enter business hours">
+          <label for="tc_accessHours">Access Hours (For IWs):</label>
+          <input type="text" id="tc_accessHours" placeholder="Enter access hours for IWs">
+          <label for="tc_accessInstructions">Access Special Instructions (e.g., Side door after 5PM):</label>
+          <input type="text" id="tc_accessInstructions" placeholder="Enter special access instructions">
+          <label for="tc_carrierInfo">Carrier Info (Circuit ID/Account/Number):</label>
+          <input type="text" id="tc_carrierInfo" placeholder="Enter carrier info">
+          <label for="tc_carrierTicket">Carrier Ticket:</label>
+          <input type="text" id="tc_carrierTicket" placeholder="Enter carrier ticket">
+          <label for="tc_problemStatement">Current Problem Statement/Issue:</label>
+          <input type="text" id="tc_problemStatement" placeholder="Enter problem statement/issue">
+          <label for="tc_troubleshootingResults">Troubleshooting Performed and Results:</label>
+          <input type="text" id="tc_troubleshootingResults" placeholder="Enter troubleshooting performed and results">
+          <label for="tc_currentStatus">Current Status:</label>
+          <input type="text" id="tc_currentStatus" placeholder="Enter current status">
+          <label for="tc_recommendedNextSteps">Recommended Next Steps:</label>
+          <input type="text" id="tc_recommendedNextSteps" placeholder="Enter recommended next steps">
         </div>
         
-        <!-- General Ticket Update section -->
+        <!-- General Ticket Update Section -->
         <div id="standardFields" class="fields-container" style="display: none;">
           <label for="ticketUpdateReason">Ticket Update Reason:</label>
           <input type="text" id="ticketUpdateReason" placeholder="Enter ticket update reason">
@@ -310,14 +417,40 @@
               Other
             </label>
           </div>
-          <!-- Extra input container -->
+          <!-- Container for the extra input field based on the selection -->
           <div id="updateCallTypeExtraField"></div>
-          <!-- Additional General Ticket Update fields -->
-          <!-- ... other General fields ... -->
+          <!-- Additional General Ticket Update fields (truncated for brevity) -->
+          <label for="currentProblemStatement">Current Problem Statement/Issue:</label>
+          <input type="text" id="currentProblemStatement" placeholder="Enter current problem statement/issue">
+          <label for="troubleshootingResults">Troubleshooting Performed and Results:</label>
+          <input type="text" id="troubleshootingResults" placeholder="Enter troubleshooting performed and results">
+          <label for="currentStatus">Current Status:</label>
+          <input type="text" id="currentStatus" placeholder="Enter current status">
+          <label for="recommendedNextSteps">Recommended Next Steps:</label>
+          <input type="text" id="recommendedNextSteps" placeholder="Enter recommended next steps">
         </div>
         
-        <!-- Dedicated Team section and Troubleshooting/Other field -->
-        <!-- ... other form sections ... -->
+        <!-- Dedicated Team Section -->
+        <label>Dedicated Team:</label>
+        <div class="radio-group" id="providerRadios">
+          <label>
+            <input type="radio" name="provider" value="" checked onclick="handleProviderChange()">
+            None
+          </label>
+          <label>
+            <input type="radio" name="provider" value="voip" onclick="handleProviderChange()">
+            VOIP
+          </label>
+          <label>
+            <input type="radio" name="provider" value="grid" onclick="handleProviderChange()">
+            GRID
+          </label>
+        </div>
+        <div id="providerFields"></div>
+        
+        <!-- Troubleshooting/Other -->
+        <label for="troubleshootingOther">Troubleshooting/Other:</label>
+        <textarea id="troubleshootingOther" placeholder="Enter troubleshooting/other details" rows="10"></textarea>
         
         <div class="action-container">
           <button type="button" onclick="generateTemplate()">Generate Template</button>
@@ -335,7 +468,7 @@
       </div>
     </div>
     
-    <!-- Right container (Ticket Creator - hidden) -->
+    <!-- Right Container (Ticket Creator - Non-functional demo) -->
     <div class="right-container hidden">
       <div class="header">
         <h2>Ticket Creator</h2>
@@ -353,17 +486,16 @@
   </footer>
   
   <script>
-    // Attach "change" event listeners to all updateCallType radios
+    // Attach change event listeners to the updateCallType radios
     document.querySelectorAll('input[name="updateCallType"]').forEach(function(radio) {
       radio.addEventListener("change", updateCallTypeExtra);
     });
     
-    // Function to update the extra input field based on the selected call update type
+    // Update the extra input field based on selected updateCallType
     function updateCallTypeExtra() {
       var selected = document.querySelector('input[name="updateCallType"]:checked')?.value;
       var container = document.getElementById("updateCallTypeExtraField");
-      // Clear previous content:
-      container.innerHTML = "";
+      container.innerHTML = ""; // Clear previous content
       
       if (selected === "inbound") {
         container.innerHTML = `
@@ -391,13 +523,118 @@
           <input type="text" id="updateCallTypeExtra" placeholder="Enter description">
         `;
       }
-      // If "nocall" is selected, the container remains empty.
     }
     
-    // (Other functions like generateTemplate, clearOutput, handleCallTypeChange, etc., remain the same)
-    
+    // Standard functions for generating template, clearing output, etc.
     function generateTemplate() {
-      // ... existing template generation code ...
+      let template = "";
+      function addTemplateLine(label, value) {
+        if (value && value.trim() !== "") {
+          template += "<strong>" + label + ":</strong> " + value + "<br>";
+        }
+      }
+      template += "<strong>Ticket Update Template</strong><br>";
+      template += "<strong>--------------------------</strong><br><br>";
+      const callType = document.querySelector('input[name="callType"]:checked')?.value || "";
+      if (callType === "ticketCreation") {
+        addTemplateLine("Update Type", "Ticket Creation");
+        const tc_callersName = document.getElementById("tc_callersName").value;
+        const tc_callersNumber = document.getElementById("tc_callersNumber").value;
+        const tc_lconName = document.getElementById("tc_lconName").value;
+        const tc_lconNumber = document.getElementById("tc_lconNumber").value;
+        const tc_businessHours = document.getElementById("tc_businessHours").value;
+        const tc_accessHours = document.getElementById("tc_accessHours").value;
+        const tc_accessInstructions = document.getElementById("tc_accessInstructions").value;
+        const tc_carrierInfo = document.getElementById("tc_carrierInfo").value;
+        const tc_carrierTicket = document.getElementById("tc_carrierTicket").value;
+        const tc_problemStatement = document.getElementById("tc_problemStatement").value;
+        const tc_troubleshootingResults = document.getElementById("tc_troubleshootingResults").value;
+        const tc_currentStatus = document.getElementById("tc_currentStatus").value;
+        const tc_recommendedNextSteps = document.getElementById("tc_recommendedNextSteps").value;
+        addTemplateLine("POC/Caller Name", tc_callersName);
+        addTemplateLine("POC/Caller Number", tc_callersNumber);
+        addTemplateLine("LCON Name", tc_lconName);
+        addTemplateLine("LCON Number", tc_lconNumber);
+        addTemplateLine("Business Hours", tc_businessHours);
+        addTemplateLine("Access Hours (For IWs)", tc_accessHours);
+        addTemplateLine("Access Special Instructions", tc_accessInstructions);
+        addTemplateLine("Carrier Info", tc_carrierInfo);
+        addTemplateLine("Carrier Ticket", tc_carrierTicket);
+        addTemplateLine("Current Problem Statement/Issue", tc_problemStatement);
+        addTemplateLine("Troubleshooting Performed and Results", tc_troubleshootingResults);
+        addTemplateLine("Current Status", tc_currentStatus);
+        addTemplateLine("Recommended Next Steps", tc_recommendedNextSteps);
+      } else {
+        addTemplateLine("Update Type", "General Ticket Update");
+        const ticketUpdateReason = document.getElementById("ticketUpdateReason").value;
+        addTemplateLine("Ticket Update Reason", ticketUpdateReason);
+        const updateCallType = document.querySelector('input[name="updateCallType"]:checked').value;
+        addTemplateLine("Call Update Type", updateCallType);
+        if (updateCallType !== "nocall") {
+          var extraInput = document.getElementById("updateCallTypeExtra");
+          if (extraInput) {
+            var extraValue = extraInput.value;
+            if (extraValue && extraValue.trim() !== "") {
+              var labelText = "";
+              if (updateCallType === "inbound") {
+                labelText = "Inbound Name & Number";
+              } else if (updateCallType === "outbound") {
+                labelText = "Outbound Name & Number";
+              } else if (updateCallType === "teams") {
+                labelText = "Teams Chat/Team/Channel";
+              } else if (updateCallType === "email") {
+                labelText = "Email Link/Subject Line";
+              } else if (updateCallType === "other") {
+                labelText = "Other Description";
+              }
+              addTemplateLine(labelText, extraValue);
+            }
+          }
+        }
+        const std_currentProblemStatement = document.getElementById("currentProblemStatement").value;
+        const troubleshootingResults = document.getElementById("troubleshootingResults").value;
+        const currentStatus = document.getElementById("currentStatus").value;
+        const recommendedNextSteps = document.getElementById("recommendedNextSteps").value;
+        addTemplateLine("Current Problem Statement/Issue", std_currentProblemStatement);
+        addTemplateLine("Troubleshooting Performed and Results", troubleshootingResults);
+        addTemplateLine("Current Status", currentStatus);
+        addTemplateLine("Recommended Next Steps", recommendedNextSteps);
+      }
+      const provider = document.querySelector('input[name="provider"]:checked').value;
+      addTemplateLine("Dedicated Team", provider ? provider : "None");
+      // (Provider fields for VOIP or GRID omitted for brevity)
+      const troubleshootingOther = document.getElementById("troubleshootingOther").value;
+      addTemplateLine("Troubleshooting/Other", troubleshootingOther);
+      if (template.length > 30000) {
+        document.getElementById("errorMessage").textContent = "You have hit the character limit!";
+        document.getElementById("errorMessage").style.display = "block";
+        return;
+      } else {
+        document.getElementById("errorMessage").style.display = "none";
+      }
+      document.getElementById("result").innerHTML = template;
+      document.getElementById("ticketCreatorOutput").innerHTML = template;
+      console.log("Template generated:", template);
+    }
+    
+    function copyFormattedTemplate() {
+      const htmlContent = document.getElementById("result").innerHTML;
+      const blob = new Blob([htmlContent], { type: "text/html" });
+      const clipboardItem = new ClipboardItem({ "text/html": blob });
+      navigator.clipboard.write([clipboardItem]).then(function() {
+        alert("Template (with formatting) copied to clipboard!");
+      }, function(err) {
+        alert("Failed to copy: " + err);
+      });
+    }
+    
+    function highlightOutput() {
+      var output = document.getElementById("result");
+      var range = document.createRange();
+      range.selectNodeContents(output);
+      var selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
     }
     
     function clearOutput() {
@@ -421,7 +658,80 @@
       }
     }
     
-    // (Other functions: updateSidePanels, copyFormattedTemplate, highlightOutput, etc.)
+    function handleProviderChange() {
+      const provider = document.querySelector('input[name="provider"]:checked')?.value;
+      const container = document.getElementById("providerFields");
+      if (provider === "voip") {
+        container.innerHTML =
+          '<label for="phoneNumberIssue">All/Partial/Single Phone Number Issue:</label>' +
+          '<input type="text" id="phoneNumberIssue" placeholder="Enter All/Partial/Single Phone Number Issue">' +
+          '<label for="numbersAffected">Number(s) Affected:</label>' +
+          '<input type="text" id="numbersAffected" placeholder="Enter number(s) affected">' +
+          '<label for="callFeaturesAffected">Call Feature(s) Affected:</label>' +
+          '<input type="text" id="callFeaturesAffected" placeholder="Enter call feature(s) affected">' +
+          '<label for="macAddress">Mac Address:</label>' +
+          '<input type="text" id="macAddress" placeholder="Enter Mac Address">' +
+          '<label for="serialNumber">Serial Number:</label>' +
+          '<input type="text" id="serialNumber" placeholder="Enter Serial Number">' +
+          '<label for="adtranIP">Adtran LB IP Address:</label>' +
+          '<input type="text" id="adtranIP" placeholder="Enter Adtran LB IP Address">' +
+          '<div class="call-examples-container">' +
+            '<div class="call-example">' +
+              '<strong>Call Examples 1</strong>' +
+              '<label for="call1_datetime">Date & Time:</label>' +
+              '<input type="text" id="call1_datetime" placeholder="Enter Date & Time">' +
+              '<label for="call1_phone">Phone Number:</label>' +
+              '<input type="text" id="call1_phone" placeholder="Enter Phone Number">' +
+              '<label for="call1_destination">Destination Number:</label>' +
+              '<input type="text" id="call1_destination" placeholder="Enter Destination Number">' +
+              '<label for="call1_error">Error Received:</label>' +
+              '<input type="text" id="call1_error" placeholder="Enter Error Received">' +
+            '</div>' +
+            '<div class="call-example">' +
+              '<strong>Call Examples 2</strong>' +
+              '<label for="call2_datetime">Date & Time:</label>' +
+              '<input type="text" id="call2_datetime" placeholder="Enter Date & Time">' +
+              '<label for="call2_phone">Phone Number:</label>' +
+              '<input type="text" id="call2_phone" placeholder="Enter Phone Number">' +
+              '<label for="call2_destination">Destination Number:</label>' +
+              '<input type="text" id="call2_destination" placeholder="Enter Destination Number">' +
+              '<label for="call2_error">Error Received:</label>' +
+              '<input type="text" id="call2_error" placeholder="Enter Error Received">' +
+            '</div>' +
+            '<div class="call-example">' +
+              '<strong>Call Examples 3</strong>' +
+              '<label for="call3_datetime">Date & Time:</label>' +
+              '<input type="text" id="call3_datetime" placeholder="Enter Date & Time">' +
+              '<label for="call3_phone">Phone Number:</label>' +
+              '<input type="text" id="call3_phone" placeholder="Enter Phone Number">' +
+              '<label for="call3_destination">Destination Number:</label>' +
+              '<input type="text" id="call3_destination" placeholder="Enter Destination Number">' +
+              '<label for="call3_error">Error Received:</label>' +
+              '<input type="text" id="call3_error" placeholder="Enter Error Received">' +
+            '</div>' +
+          '</div>';
+      } else if (provider === "grid") {
+        container.innerHTML =
+          '<label for="mallName">Mall Name:</label>' +
+          '<input type="text" id="mallName" placeholder="Enter Mall Name">' +
+          '<label for="managementReit">Management/REIT:</label>' +
+          '<input type="text" id="managementReit" placeholder="Enter Management/REIT">' +
+          '<label for="mdf">MDF:</label>' +
+          '<input type="text" id="mdf" placeholder="Enter MDF">' +
+          '<label for="idf">IDF:</label>' +
+          '<input type="text" id="idf" placeholder="Enter IDF">' +
+          '<label for="port">Port:</label>' +
+          '<input type="text" id="port" placeholder="Enter Port">' +
+          '<label for="speeds">Speeds:</label>' +
+          '<input type="text" id="speeds" placeholder="Enter Speeds">' +
+          '<label for="staticOrDhcp">Static or DHCP:</label>' +
+          '<input type="text" id="staticOrDhcp" placeholder="Enter Static or DHCP">' +
+          '<label for="staticIPAddresses">Static IP Addresses:</label>' +
+          '<input type="text" id="staticIPAddresses" placeholder="Enter Static IP Addresses">';
+      } else {
+        container.innerHTML = "";
+      }
+    }
   </script>
 </body>
 </html>
