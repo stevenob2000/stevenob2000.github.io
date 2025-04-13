@@ -444,7 +444,6 @@
       <div class="copy-container">
         <button type="button" onclick="copyFormattedTemplate()">Copy Formatted Template</button>
         <button type="button" onclick="highlightOutput()">Highlight Output</button>
-        <button type="button" onclick="printTemplate()">Print Template</button>
       </div>
     </div>
     
@@ -641,18 +640,6 @@
       var selection = window.getSelection();
       selection.removeAllRanges();
       selection.addRange(range);
-    }
-    
-    function printTemplate() {
-      const content = document.getElementById("result").innerHTML;
-      const printWindow = window.open('', '', 'height=600,width=800');
-      printWindow.document.write('<html><head><title>Print Template</title></head><body>');
-      printWindow.document.write(content);
-      printWindow.document.write('</body></html>');
-      printWindow.document.close();
-      printWindow.focus();
-      printWindow.print();
-      printWindow.close();
     }
     
     function clearOutput() {
