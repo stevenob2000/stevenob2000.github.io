@@ -95,7 +95,13 @@
       justify-content: center;
     }
     .header h1, .header h2 { margin: 0; flex: 1; text-align: center; }
-    .subheader { text-align: center; font-size: 0.9em; color: #999; margin-bottom: 15px; transition: color 0.3s; }
+    .subheader {
+      text-align: center;
+      font-size: 0.9em;
+      color: #999;
+      margin-bottom: 15px;
+      transition: color 0.3s;
+    }
     label { display: block; margin-top: 10px; }
     input, textarea {
       width: 100%;
@@ -157,11 +163,9 @@
       background-color: #000; color: #fff; border-color: #555;
     }
     .dark-mode input, .dark-mode textarea { background-color: #333; color: #fff; border: 1px solid #555; }
-    .dark-mode #result, .dark-mode #ticketCreatorOutput {
-      background-color: #000; color: #fff; border-color: #555;
-    }
+    .dark-mode #result, .dark-mode #ticketCreatorOutput { background-color: #000; color: #fff; border-color: #555; }
     .dark-mode .subheader { color: #ccc; }
-    /* Two-column layout */
+    /* Two-column layout for Ticket Creation section */
     .two-column { display: flex; gap: 20px; }
     .two-column .column { flex: 1; }
   </style>
@@ -175,7 +179,46 @@
       </div>
       <div class="subheader">Non-functional, for demonstration purposes only</div>
       <form id="leftForm" role="form" aria-label="Account Loader Form">
-        <!-- Account Loader fields omitted for brevity -->
+        <div class="fields-container">
+          <label for="site">Site:</label>
+          <input type="text" id="site" placeholder="Enter Site">
+        </div>
+        <div class="fields-container">
+          <label for="address1">Address 1:</label>
+          <input type="text" id="address1" placeholder="Enter Address 1">
+        </div>
+        <div class="fields-container">
+          <label for="address2">Address 2:</label>
+          <input type="text" id="address2" placeholder="Enter Address 2">
+        </div>
+        <div class="fields-container">
+          <label for="city">City:</label>
+          <input type="text" id="city" placeholder="Enter City">
+        </div>
+        <div class="fields-container">
+          <label for="state">State:</label>
+          <input type="text" id="state" placeholder="Enter State">
+        </div>
+        <div class="fields-container">
+          <label for="zip">Zip:</label>
+          <input type="text" id="zip" placeholder="Enter Zip">
+        </div>
+        <div class="fields-container">
+          <label for="country">Country:</label>
+          <input type="text" id="country" placeholder="Enter Country">
+        </div>
+        <div class="fields-container">
+          <label for="contact">Contact:</label>
+          <input type="text" id="contact" placeholder="Enter Contact">
+        </div>
+        <div class="fields-container">
+          <label for="phoneNumber">Phone Number:</label>
+          <input type="text" id="phoneNumber" placeholder="Enter Phone Number">
+        </div>
+        <div class="fields-container">
+          <label for="email">Email:</label>
+          <input type="email" id="email" placeholder="Enter Email">
+        </div>
         <button type="button" class="full-width-btn">Pull Account Info</button>
       </form>
     </div>
@@ -230,7 +273,25 @@
               <input type="text" id="tc_lconNumber" placeholder="Enter LCON number">
             </div>
           </div>
-          <!-- Additional Ticket Creation fields omitted for brevity -->
+          <!-- Additional Ticket Creation fields -->
+          <label for="tc_businessHours">Business Hours:</label>
+          <input type="text" id="tc_businessHours" placeholder="Enter business hours">
+          <label for="tc_accessHours">Access Hours (For IWs):</label>
+          <input type="text" id="tc_accessHours" placeholder="Enter access hours for IWs">
+          <label for="tc_accessInstructions">Access Special Instructions (e.g., Side door after 5PM):</label>
+          <input type="text" id="tc_accessInstructions" placeholder="Enter special access instructions">
+          <label for="tc_carrierInfo">Carrier Info (Circuit ID/Account/Number):</label>
+          <input type="text" id="tc_carrierInfo" placeholder="Enter carrier info">
+          <label for="tc_carrierTicket">Carrier Ticket:</label>
+          <input type="text" id="tc_carrierTicket" placeholder="Enter carrier ticket">
+          <label for="tc_problemStatement">Current Problem Statement/Issue:</label>
+          <input type="text" id="tc_problemStatement" placeholder="Enter problem statement/issue">
+          <label for="tc_troubleshootingResults">Troubleshooting Performed and Results:</label>
+          <input type="text" id="tc_troubleshootingResults" placeholder="Enter troubleshooting performed and results">
+          <label for="tc_currentStatus">Current Status:</label>
+          <input type="text" id="tc_currentStatus" placeholder="Enter current status">
+          <label for="tc_recommendedNextSteps">Recommended Next Steps:</label>
+          <input type="text" id="tc_recommendedNextSteps" placeholder="Enter recommended next steps">
         </div>
         
         <!-- General Ticket Update Section -->
@@ -264,12 +325,40 @@
               Other
             </label>
           </div>
-          <!-- Extra input container -->
+          <!-- Extra input container for General Ticket Update -->
           <div id="updateCallTypeExtraField"></div>
-          <!-- Additional General Ticket Update fields omitted for brevity -->
+          <!-- Additional General Ticket Update fields -->
+          <label for="currentProblemStatement">Current Problem Statement/Issue:</label>
+          <input type="text" id="currentProblemStatement" placeholder="Enter current problem statement/issue">
+          <label for="troubleshootingResults">Troubleshooting Performed and Results:</label>
+          <input type="text" id="troubleshootingResults" placeholder="Enter troubleshooting performed and results">
+          <label for="currentStatus">Current Status:</label>
+          <input type="text" id="currentStatus" placeholder="Enter current status">
+          <label for="recommendedNextSteps">Recommended Next Steps:</label>
+          <input type="text" id="recommendedNextSteps" placeholder="Enter recommended next steps">
         </div>
         
-        <!-- Dedicated Team Section and Troubleshooting/Other omitted for brevity -->
+        <!-- Dedicated Team Section -->
+        <label>Dedicated Team:</label>
+        <div class="radio-group" id="providerRadios">
+          <label>
+            <input type="radio" name="provider" value="" checked onclick="handleProviderChange()">
+            None
+          </label>
+          <label>
+            <input type="radio" name="provider" value="voip" onclick="handleProviderChange()">
+            VOIP
+          </label>
+          <label>
+            <input type="radio" name="provider" value="grid" onclick="handleProviderChange()">
+            GRID
+          </label>
+        </div>
+        <div id="providerFields"></div>
+        
+        <!-- Troubleshooting/Other -->
+        <label for="troubleshootingOther">Troubleshooting/Other:</label>
+        <textarea id="troubleshootingOther" placeholder="Enter troubleshooting/other details" rows="10"></textarea>
         
         <div class="action-container">
           <button type="button" onclick="generateTemplate()">Generate Template</button>
@@ -344,7 +433,7 @@
       }
     }
     
-    // Updated copy function with fallback
+    // Updated copy function with fallback for formatted template copy
     function copyFormattedTemplate() {
       const resultElement = document.getElementById("result");
       const htmlContent = resultElement.innerHTML;
