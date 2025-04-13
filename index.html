@@ -252,7 +252,7 @@
     .dark-mode .subheader {
       color: #ccc;
     }
-    /* Two-column layout for the Ticket Creation section */
+    /* Two-column layout for Ticket Creation section */
     .two-column {
       display: flex;
       gap: 20px;
@@ -264,7 +264,7 @@
 </head>
 <body>
   <div class="page-container">
-    <!-- Left Container (Account Loader - Non-functional demo) -->
+    <!-- Left Container (Account Loader - Demo) -->
     <div class="left-container hidden">
       <div class="header">
         <h2>Account Loader</h2>
@@ -365,7 +365,7 @@
               <input type="text" id="tc_lconNumber" placeholder="Enter LCON number">
             </div>
           </div>
-          <!-- Additional Ticket Creation fields (truncated for brevity) -->
+          <!-- Additional Ticket Creation fields -->
           <label for="tc_businessHours">Business Hours:</label>
           <input type="text" id="tc_businessHours" placeholder="Enter business hours">
           <label for="tc_accessHours">Access Hours (For IWs):</label>
@@ -419,7 +419,7 @@
           </div>
           <!-- Container for the extra input field based on the selection -->
           <div id="updateCallTypeExtraField"></div>
-          <!-- Additional General Ticket Update fields (truncated for brevity) -->
+          <!-- Additional General Ticket Update fields -->
           <label for="currentProblemStatement">Current Problem Statement/Issue:</label>
           <input type="text" id="currentProblemStatement" placeholder="Enter current problem statement/issue">
           <label for="troubleshootingResults">Troubleshooting Performed and Results:</label>
@@ -468,7 +468,7 @@
       </div>
     </div>
     
-    <!-- Right Container (Ticket Creator - Non-functional demo) -->
+    <!-- Right Container (Ticket Creator - Demo) -->
     <div class="right-container hidden">
       <div class="header">
         <h2>Ticket Creator</h2>
@@ -491,7 +491,7 @@
       radio.addEventListener("change", updateCallTypeExtra);
     });
     
-    // Update the extra input field based on selected updateCallType
+    // Update extra input field based on selected updateCallType for General Ticket Update
     function updateCallTypeExtra() {
       var selected = document.querySelector('input[name="updateCallType"]:checked')?.value;
       var container = document.getElementById("updateCallTypeExtraField");
@@ -569,7 +569,8 @@
         const ticketUpdateReason = document.getElementById("ticketUpdateReason").value;
         addTemplateLine("Ticket Update Reason", ticketUpdateReason);
         const updateCallType = document.querySelector('input[name="updateCallType"]:checked').value;
-        addTemplateLine("Call Update Type", updateCallType);
+        // Updated label here:
+        addTemplateLine("Ticket Update Type", updateCallType);
         if (updateCallType !== "nocall") {
           var extraInput = document.getElementById("updateCallTypeExtra");
           if (extraInput) {
