@@ -354,13 +354,13 @@
         </div>
         
         <div id="ticketCreationFields" class="fields-container" style="display: block;">
-          <!-- New two-column layout for the first four input fields -->
+          <!-- Two-column layout for the first four fields -->
           <div class="two-column">
             <div class="column">
-              <label for="tc_callersName">Caller's Name:</label>
-              <input type="text" id="tc_callersName" placeholder="Enter caller's name">
-              <label for="tc_callersNumber">Caller's Number:</label>
-              <input type="text" id="tc_callersNumber" placeholder="Enter caller's number">
+              <label for="tc_callersName">POC/Caller Name:</label>
+              <input type="text" id="tc_callersName" placeholder="Enter POC/Caller Name">
+              <label for="tc_callersNumber">POC/Caller Number:</label>
+              <input type="text" id="tc_callersNumber" placeholder="Enter POC/Caller Number">
             </div>
             <div class="column">
               <label for="tc_lconName">LCON Name:</label>
@@ -369,7 +369,7 @@
               <input type="text" id="tc_lconNumber" placeholder="Enter LCON number">
             </div>
           </div>
-          <!-- Remaining fields -->
+          <!-- Remaining Ticket Creation fields -->
           <label for="tc_businessHours">Business Hours:</label>
           <input type="text" id="tc_businessHours" placeholder="Enter business hours">
           <label for="tc_accessHours">Access Hours (For IWs):</label>
@@ -396,30 +396,33 @@
           <label>Is this ticket update due to call or other?</label>
           <div class="radio-group">
             <label>
-              <input type="radio" name="updateCallType" value="nocall" checked>
+              <input type="radio" name="updateCallType" value="nocall" checked onclick="updateCallTypeExtra()">
               None
             </label>
             <label>
-              <input type="radio" name="updateCallType" value="inbound">
+              <input type="radio" name="updateCallType" value="inbound" onclick="updateCallTypeExtra()">
               Inbound Call
             </label>
             <label>
-              <input type="radio" name="updateCallType" value="outbound">
+              <input type="radio" name="updateCallType" value="outbound" onclick="updateCallTypeExtra()">
               Outbound Call
             </label>
             <label>
-              <input type="radio" name="updateCallType" value="teams">
+              <input type="radio" name="updateCallType" value="teams" onclick="updateCallTypeExtra()">
               Teams
             </label>
             <label>
-              <input type="radio" name="updateCallType" value="email">
+              <input type="radio" name="updateCallType" value="email" onclick="updateCallTypeExtra()">
               Email
             </label>
             <label>
-              <input type="radio" name="updateCallType" value="other">
+              <input type="radio" name="updateCallType" value="other" onclick="updateCallTypeExtra()">
               Other
             </label>
           </div>
+          <!-- Container for the extra input field based on the selection -->
+          <div id="updateCallTypeExtraField"></div>
+          
           <label for="currentProblemStatement">Current Problem Statement/Issue:</label>
           <input type="text" id="currentProblemStatement" placeholder="Enter current problem statement/issue">
           <label for="troubleshootingResults">Troubleshooting Performed and Results:</label>
@@ -484,6 +487,7 @@
   </footer>
   
   <script>
+    // Dark mode toggle code
     if (localStorage.getItem("darkMode") === "true") {
       document.body.classList.add("dark-mode");
       document.getElementById("darkModeSwitch").checked = true;
@@ -499,6 +503,7 @@
         localStorage.setItem("darkMode", "false");
       }
     });
+    
     function updateSidePanels(visible) {
       const left = document.querySelector(".left-container");
       const right = document.querySelector(".right-container");
@@ -518,6 +523,26 @@
       this.checked = !this.checked;
       updateSidePanels(this.checked);
     });
+    
+    // Function to show extra input field based on update call type selection
+    function updateCallTypeExtra() {
+      var selected = document.querySelector('input[name="updateCallType"]:checked').value;
+      var container = document.getElementById("updateCallTypeExtraField");
+      if (selected === "inbound") {
+        container.innerHTML = '<label for="updateCallTypeExtra">Inbound Name & Number:</label><input type="text" id="updateCallTypeExtra" placeholder="Enter Inbound Name & Number">';
+      } else if (selected === "outbound") {
+        container.innerHTML = '<label for="updateCallTypeExtra">Outbound Name & Number:</label><input type="text" id="updateCallTypeExtra" placeholder="Enter Outbound Name & Number">';
+      } else if (selected === "teams") {
+        container.innerHTML = '<label for="updateCallTypeExtra">Teams Chat/Team/Channel:</label><input type="text" id="updateCallTypeExtra" placeholder="Enter Teams Chat/Team/Channel">';
+      } else if (selected === "email") {
+        container.innerHTML = '<label for="updateCallTypeExtra">Provide Email Link or Subject Line:</label><input type="text" id="updateCallTypeExtra" placeholder="Enter Email Link or Subject Line">';
+      } else if (selected === "other") {
+        container.innerHTML = '<label for="updateCallTypeExtra">Please Describe Other:</label><input type="text" id="updateCallTypeExtra" placeholder="Enter description">';
+      } else {
+        container.innerHTML = "";
+      }
+    }
+    
     function generateTemplate() {
       let template = "";
       function addTemplateLine(label, value) {
@@ -543,8 +568,8 @@
         const tc_troubleshootingResults = document.getElementById("tc_troubleshootingResults").value;
         const tc_currentStatus = document.getElementById("tc_currentStatus").value;
         const tc_recommendedNextSteps = document.getElementById("tc_recommendedNextSteps").value;
-        addTemplateLine("Caller's Name", tc_callersName);
-        addTemplateLine("Caller's Number", tc_callersNumber);
+        addTemplateLine("POC/Caller Name", tc_callersName);
+        addTemplateLine("POC/Caller Number", tc_callersNumber);
         addTemplateLine("LCON Name", tc_lconName);
         addTemplateLine("LCON Number", tc_lconNumber);
         addTemplateLine("Business Hours", tc_businessHours);
@@ -562,6 +587,28 @@
         addTemplateLine("Ticket Update Reason", ticketUpdateReason);
         const updateCallType = document.querySelector('input[name="updateCallType"]:checked').value;
         addTemplateLine("Call Update Type", updateCallType);
+        // Check for extra call update info if applicable
+        if (updateCallType !== "nocall") {
+          var extraInput = document.getElementById("updateCallTypeExtra");
+          if (extraInput) {
+            var extraValue = extraInput.value;
+            if (extraValue && extraValue.trim() !== "") {
+              var labelText = "";
+              if (updateCallType === "inbound") {
+                labelText = "Inbound Name & Number";
+              } else if (updateCallType === "outbound") {
+                labelText = "Outbound Name & Number";
+              } else if (updateCallType === "teams") {
+                labelText = "Teams Chat/Team/Channel";
+              } else if (updateCallType === "email") {
+                labelText = "Email Link/Subject Line";
+              } else if (updateCallType === "other") {
+                labelText = "Other Description";
+              }
+              addTemplateLine(labelText, extraValue);
+            }
+          }
+        }
         const std_currentProblemStatement = document.getElementById("currentProblemStatement").value;
         const troubleshootingResults = document.getElementById("troubleshootingResults").value;
         const currentStatus = document.getElementById("currentStatus").value;
@@ -669,6 +716,7 @@
       document.getElementById("ticketForm").reset();
       handleCallTypeChange();
       handleProviderChange();
+      updateCallTypeExtra();
     }
     
     function handleCallTypeChange() {
@@ -681,6 +729,7 @@
         document.getElementById("ticketCreationFields").style.display = "none";
         document.getElementById("standardFields").style.display = "block";
         document.getElementById("callerFields").style.display = "none";
+        updateCallTypeExtra();
       }
     }
     
