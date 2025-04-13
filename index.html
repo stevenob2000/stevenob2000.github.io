@@ -615,7 +615,7 @@
       const troubleshootingOther = document.getElementById("troubleshootingOther").value;
       addTemplateLine("Troubleshooting/Other", troubleshootingOther);
       if (template.length > 30000) {
-        document.getElementById("errorMessage").textContent = "You have hit the Bryan Limit";
+        document.getElementById("errorMessage").textContent = "You have hit the character limit!";
         document.getElementById("errorMessage").style.display = "block";
         return;
       } else {
