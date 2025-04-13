@@ -94,7 +94,11 @@
     .left-container .header, .right-container .header {
       justify-content: center;
     }
-    .header h1, .header h2 { margin: 0; flex: 1; text-align: center; }
+    .header h1, .header h2 {
+      margin: 0;
+      flex: 1;
+      text-align: center;
+    }
     .subheader {
       text-align: center;
       font-size: 0.9em;
@@ -148,10 +152,20 @@
       border-color: #555;
     }
     .dark-mode .radio-group input[type="radio"] { border-color: #bbb; }
-    .dark-mode .radio-group input[type="radio"]:checked { background-color: #03dac6; border-color: #03dac6; }
-    .radio-group input[type="radio"]:focus { outline: none; box-shadow: 0 0 2px 2px rgba(85,85,85,0.5); }
+    .dark-mode .radio-group input[type="radio"]:checked {
+      background-color: #03dac6;
+      border-color: #03dac6;
+    }
+    .radio-group input[type="radio"]:focus {
+      outline: none;
+      box-shadow: 0 0 2px 2px rgba(85,85,85,0.5);
+    }
     .fields-container { margin-top: 15px; }
-    .action-container, .copy-container { display: flex; gap: 10px; margin-top: 10px; }
+    .action-container, .copy-container {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
     .action-container button, .copy-container button { flex: 1; width: 100%; }
     .call-examples-container { display: flex; gap: 10px; margin-top: 10px; }
     .call-example { flex: 1; }
@@ -163,7 +177,9 @@
       background-color: #000; color: #fff; border-color: #555;
     }
     .dark-mode input, .dark-mode textarea { background-color: #333; color: #fff; border: 1px solid #555; }
-    .dark-mode #result, .dark-mode #ticketCreatorOutput { background-color: #000; color: #fff; border-color: #555; }
+    .dark-mode #result, .dark-mode #ticketCreatorOutput {
+      background-color: #000; color: #fff; border-color: #555;
+    }
     .dark-mode .subheader { color: #ccc; }
     /* Two-column layout for Ticket Creation section */
     .two-column { display: flex; gap: 20px; }
@@ -244,7 +260,7 @@
       </div>
       <div class="subheader">Functional Version 1</div>
       <form id="ticketForm" role="form" aria-label="Ticket Update Generator Form">
-        <!-- Update Type radio group -->
+        <!-- Update Type Radio Group -->
         <label>Update Type:</label>
         <div class="radio-group">
           <label>
@@ -273,7 +289,7 @@
               <input type="text" id="tc_lconNumber" placeholder="Enter LCON number">
             </div>
           </div>
-          <!-- Additional Ticket Creation fields -->
+          <!-- Additional Ticket Creation Fields -->
           <label for="tc_businessHours">Business Hours:</label>
           <input type="text" id="tc_businessHours" placeholder="Enter business hours">
           <label for="tc_accessHours">Access Hours (For IWs):</label>
@@ -327,7 +343,7 @@
           </div>
           <!-- Extra input container for General Ticket Update -->
           <div id="updateCallTypeExtraField"></div>
-          <!-- Additional General Ticket Update fields -->
+          <!-- Additional General Ticket Update Fields -->
           <label for="currentProblemStatement">Current Problem Statement/Issue:</label>
           <input type="text" id="currentProblemStatement" placeholder="Enter current problem statement/issue">
           <label for="troubleshootingResults">Troubleshooting Performed and Results:</label>
@@ -371,7 +387,7 @@
       <div id="result"></div>
       
       <div class="copy-container">
-        <button type="button" onclick="copyFormattedTemplate()">Copy Formatted Template</button>
+        <button type="button" onclick="copyTemplate()">Copy Template</button>
         <button type="button" onclick="highlightOutput()">Highlight Output</button>
       </div>
     </div>
@@ -394,12 +410,12 @@
   </footer>
   
   <script>
-    // Attach change event listeners to the updateCallType radios
+    // Attach change event listeners to the updateCallType radios in General Ticket Update
     document.querySelectorAll('input[name="updateCallType"]').forEach(function(radio) {
       radio.addEventListener("change", updateCallTypeExtra);
     });
     
-    // Update extra input field based on selected updateCallType for General Ticket Update
+    // Update extra input field based on the selected updateCallType option
     function updateCallTypeExtra() {
       var selected = document.querySelector('input[name="updateCallType"]:checked')?.value;
       var container = document.getElementById("updateCallTypeExtraField");
@@ -433,36 +449,14 @@
       }
     }
     
-    // Updated copy function with fallback for formatted template copy
-    function copyFormattedTemplate() {
+    // Copy function that copies plain text only
+    function copyTemplate() {
       const resultElement = document.getElementById("result");
-      const htmlContent = resultElement.innerHTML;
+      const plainText = resultElement.innerText;
       
-      if (navigator.clipboard && navigator.clipboard.write) {
-        try {
-          const blob = new Blob([htmlContent], { type: "text/html" });
-          const clipboardItem = new ClipboardItem({ "text/html": blob });
-          navigator.clipboard.write([clipboardItem]).then(function() {
-            alert("Template (with formatting) copied to clipboard!");
-          }, function(err) {
-            console.error("Failed to copy formatted template: ", err);
-            navigator.clipboard.writeText(resultElement.innerText).then(function() {
-              alert("Formatted copy not supported, template copied as plain text instead!");
-            }, function(err2) {
-              alert("Failed to copy template: " + err2);
-            });
-          });
-        } catch (err) {
-          console.error("Exception when copying HTML: ", err);
-          navigator.clipboard.writeText(resultElement.innerText).then(function() {
-            alert("Template copied as plain text!");
-          }, function(err2) {
-            alert("Failed to copy template: " + err2);
-          });
-        }
-      } else if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(resultElement.innerText).then(function() {
-          alert("Template copied as plain text!");
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(plainText).then(function() {
+          alert("Template copied to clipboard!");
         }, function(err) {
           alert("Failed to copy template: " + err);
         });
@@ -475,11 +469,11 @@
       let template = "";
       function addTemplateLine(label, value) {
         if (value && value.trim() !== "") {
-          template += "<strong>" + label + ":</strong> " + value + "<br>";
+          template += label + ": " + value + "\n";
         }
       }
-      template += "<strong>Ticket Update Template</strong><br>";
-      template += "<strong>--------------------------</strong><br><br>";
+      template += "Ticket Update Template\n";
+      template += "--------------------------\n\n";
       const callType = document.querySelector('input[name="callType"]:checked')?.value || "";
       if (callType === "ticketCreation") {
         addTemplateLine("Update Type", "Ticket Creation");
@@ -556,8 +550,8 @@
       } else {
         document.getElementById("errorMessage").style.display = "none";
       }
-      document.getElementById("result").innerHTML = template;
-      document.getElementById("ticketCreatorOutput").innerHTML = template;
+      document.getElementById("result").innerText = template;
+      document.getElementById("ticketCreatorOutput").innerText = template;
       console.log("Template generated:", template);
     }
     
@@ -572,8 +566,8 @@
     
     function clearOutput() {
       if (!confirm("Are you sure you want to clear all?")) return;
-      document.getElementById("result").innerHTML = "";
-      document.getElementById("ticketCreatorOutput").innerHTML = "";
+      document.getElementById("result").innerText = "";
+      document.getElementById("ticketCreatorOutput").innerText = "";
       document.getElementById("ticketForm").reset();
       handleCallTypeChange();
       updateCallTypeExtra();
