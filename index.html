@@ -252,6 +252,14 @@
     .dark-mode .subheader {
       color: #ccc;
     }
+    /* New CSS for two-column layout */
+    .two-column {
+      display: flex;
+      gap: 20px;
+    }
+    .two-column .column {
+      flex: 1;
+    }
   </style>
 </head>
 <body>
@@ -346,14 +354,22 @@
         </div>
         
         <div id="ticketCreationFields" class="fields-container" style="display: block;">
-          <label for="tc_callersName">Caller's Name:</label>
-          <input type="text" id="tc_callersName" placeholder="Enter caller's name">
-          <label for="tc_callersNumber">Caller's Number:</label>
-          <input type="text" id="tc_callersNumber" placeholder="Enter caller's number">
-          <label for="tc_lconName">LCON Name:</label>
-          <input type="text" id="tc_lconName" placeholder="Enter LCON name">
-          <label for="tc_lconNumber">LCON Number:</label>
-          <input type="text" id="tc_lconNumber" placeholder="Enter LCON number">
+          <!-- New two-column layout for the first four input fields -->
+          <div class="two-column">
+            <div class="column">
+              <label for="tc_callersName">Caller's Name:</label>
+              <input type="text" id="tc_callersName" placeholder="Enter caller's name">
+              <label for="tc_callersNumber">Caller's Number:</label>
+              <input type="text" id="tc_callersNumber" placeholder="Enter caller's number">
+            </div>
+            <div class="column">
+              <label for="tc_lconName">LCON Name:</label>
+              <input type="text" id="tc_lconName" placeholder="Enter LCON name">
+              <label for="tc_lconNumber">LCON Number:</label>
+              <input type="text" id="tc_lconNumber" placeholder="Enter LCON number">
+            </div>
+          </div>
+          <!-- Remaining fields -->
           <label for="tc_businessHours">Business Hours:</label>
           <input type="text" id="tc_businessHours" placeholder="Enter business hours">
           <label for="tc_accessHours">Access Hours (For IWs):</label>
