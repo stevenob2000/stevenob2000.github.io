@@ -91,7 +91,9 @@
       align-items: center;
       margin-bottom: 10px;
     }
-    .left-container .header, .right-container .header { justify-content: center; }
+    .left-container .header, .right-container .header {
+      justify-content: center;
+    }
     .header h1, .header h2 {
       margin: 0;
       flex: 1;
@@ -149,14 +151,8 @@
       border-color: #555;
     }
     .dark-mode .radio-group input[type="radio"] { border-color: #bbb; }
-    .dark-mode .radio-group input[type="radio"]:checked {
-      background-color: #03dac6;
-      border-color: #03dac6;
-    }
-    .radio-group input[type="radio"]:focus {
-      outline: none;
-      box-shadow: 0 0 2px 2px rgba(85,85,85,0.5);
-    }
+    .dark-mode .radio-group input[type="radio"]:checked { background-color: #03dac6; border-color: #03dac6; }
+    .radio-group input[type="radio"]:focus { outline: none; box-shadow: 0 0 2px 2px rgba(85,85,85,0.5); }
     .fields-container { margin-top: 15px; }
     .action-container, .copy-container { display: flex; gap: 10px; margin-top: 10px; }
     .action-container button, .copy-container button { flex: 1; width: 100%; }
@@ -170,9 +166,7 @@
       background-color: #000; color: #fff; border-color: #555;
     }
     .dark-mode input, .dark-mode textarea { background-color: #333; color: #fff; border: 1px solid #555; }
-    .dark-mode #result, .dark-mode #ticketCreatorOutput {
-      background-color: #000; color: #fff; border-color: #555;
-    }
+    .dark-mode #result, .dark-mode #ticketCreatorOutput { background-color: #000; color: #fff; border-color: #555; }
     .dark-mode .subheader { color: #ccc; }
     /* Two-column layout for Ticket Creation section */
     .two-column { display: flex; gap: 20px; }
@@ -379,7 +373,7 @@
         </div>
         <div id="providerFields"></div>
         
-        <!-- Troubleshooting/Other -->
+        <!-- Troubleshooting/Other Section -->
         <label for="troubleshootingOther">Troubleshooting/Other:</label>
         <textarea id="troubleshootingOther" placeholder="Enter troubleshooting/other details" rows="10"></textarea>
         
@@ -443,12 +437,12 @@
       }
     });
     
-    // Attach change event listeners to the updateCallType radios in General Ticket Update
+    // Attach change event listeners to updateCallType radios in General Ticket Update
     document.querySelectorAll('input[name="updateCallType"]').forEach(function(radio) {
       radio.addEventListener("change", updateCallTypeExtra);
     });
     
-    // Update extra input field based on the selected updateCallType option
+    // Update extra input field based on selected updateCallType option
     function updateCallTypeExtra() {
       var selected = document.querySelector('input[name="updateCallType"]:checked')?.value;
       var container = document.getElementById("updateCallTypeExtraField");
@@ -482,7 +476,7 @@
       }
     }
     
-    // Copy function using plain text and showing clipboard feedback
+    // Copy function that copies plain text and shows clipboard feedback
     function copyTemplate() {
       const resultElement = document.getElementById("result");
       const plainText = resultElement.innerText;
@@ -504,16 +498,8 @@
       feedback.innerText = "Template copied to clipboard!";
       feedback.style.display = "block";
       feedback.style.opacity = "1";
-      
-      // Use a slight delay to trigger the CSS transition
-      setTimeout(function() {
-        feedback.style.opacity = "0";
-      }, 100);
-      
-      // Hide the element completely after 5.1 seconds
-      setTimeout(function() {
-        feedback.style.display = "none";
-      }, 5100);
+      setTimeout(function() { feedback.style.opacity = "0"; }, 100);
+      setTimeout(function() { feedback.style.display = "none"; }, 5100);
     }
     
     function generateTemplate() {
@@ -590,10 +576,45 @@
         addTemplateLine("Current Status", currentStatus);
         addTemplateLine("Recommended Next Steps", recommendedNextSteps);
       }
+      
+      // Dedicated Team Section output:
       const provider = document.querySelector('input[name="provider"]:checked').value;
       addTemplateLine("Dedicated Team", provider ? provider : "None");
+      if (provider === "voip") {
+        const phoneNumberIssue = document.getElementById("phoneNumberIssue").value;
+        const numbersAffected = document.getElementById("numbersAffected").value;
+        const callFeaturesAffected = document.getElementById("callFeaturesAffected").value;
+        const macAddress = document.getElementById("macAddress").value;
+        const serialNumber = document.getElementById("serialNumber").value;
+        const adtranIP = document.getElementById("adtranIP").value;
+        addTemplateLine("Phone Number Issue", phoneNumberIssue);
+        addTemplateLine("Numbers Affected", numbersAffected);
+        addTemplateLine("Call Features Affected", callFeaturesAffected);
+        addTemplateLine("Mac Address", macAddress);
+        addTemplateLine("Serial Number", serialNumber);
+        addTemplateLine("Adtran LB IP Address", adtranIP);
+      } else if (provider === "grid") {
+        const mallName = document.getElementById("mallName").value;
+        const managementReit = document.getElementById("managementReit").value;
+        const mdf = document.getElementById("mdf").value;
+        const idf = document.getElementById("idf").value;
+        const port = document.getElementById("port").value;
+        const speeds = document.getElementById("speeds").value;
+        const staticOrDhcp = document.getElementById("staticOrDhcp").value;
+        const staticIPAddresses = document.getElementById("staticIPAddresses").value;
+        addTemplateLine("Mall Name", mallName);
+        addTemplateLine("Management/REIT", managementReit);
+        addTemplateLine("MDF", mdf);
+        addTemplateLine("IDF", idf);
+        addTemplateLine("Port", port);
+        addTemplateLine("Speeds", speeds);
+        addTemplateLine("Static or DHCP", staticOrDhcp);
+        addTemplateLine("Static IP Addresses", staticIPAddresses);
+      }
+      
       const troubleshootingOther = document.getElementById("troubleshootingOther").value;
       addTemplateLine("Troubleshooting/Other", troubleshootingOther);
+      
       if (template.length > 30000) {
         document.getElementById("errorMessage").textContent = "You have hit the character limit!";
         document.getElementById("errorMessage").style.display = "block";
