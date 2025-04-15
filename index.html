@@ -86,7 +86,9 @@
         flex-direction: column;
         align-items: center;
       }
-      .left-container, .middle-container, .right-container { width: 90%; }
+      .left-container, .middle-container, .right-container {
+        width: 90%;
+      }
     }
     /* Header and subheader styles */
     .header {
@@ -95,8 +97,9 @@
       align-items: center;
       margin-bottom: 10px;
     }
-    .left-container .header, .right-container .header { 
-      justify-content: center; 
+    .left-container .header,
+    .right-container .header {
+      justify-content: center;
     }
     .header h1, .header h2 {
       margin: 0;
@@ -168,22 +171,22 @@
       background-color: #555;
       border-color: #555;
     }
-    .dark-mode .radio-group input[type="radio"] { 
-      border-color: #bbb; 
+    .dark-mode .radio-group input[type="radio"] {
+      border-color: #bbb;
     }
-    .dark-mode .radio-group input[type="radio"]:checked { 
-      background-color: #03dac6; 
-      border-color: #03dac6; 
+    .dark-mode .radio-group input[type="radio"]:checked {
+      background-color: #03dac6;
+      border-color: #03dac6;
     }
     .radio-group input[type="radio"]:focus {
       outline: none;
       box-shadow: 0 0 2px 2px rgba(85,85,85,0.5);
     }
-    /* Fields container */
+    /* Container for grouped input fields */
     .fields-container {
       margin-top: 15px;
     }
-    /* Action and copy container */
+    /* Action and copy button container */
     .action-container, .copy-container {
       display: flex;
       gap: 10px;
@@ -201,7 +204,7 @@
     .two-column .column {
       flex: 1;
     }
-    /* Call examples container */
+    /* Container for call examples */
     .call-examples-container {
       display: flex;
       gap: 10px;
@@ -217,7 +220,7 @@
       font-size: 0.8em;
       color: #fff;
     }
-    /* Message styling for ticket creation confirmation */
+    /* Ticket creation confirmation message styling */
     #ticketMessage {
       text-align: center;
       margin-top: 10px;
@@ -276,7 +279,7 @@
 </head>
 <body>
   <div class="page-container">
-    <!-- Left Container (Account Loader Demo) -->
+    <!-- Left Container: Account Loader (Demo Only) -->
     <div class="left-container hidden">
       <div class="header">
         <h2>Account Loader</h2>
@@ -327,7 +330,7 @@
       </form>
     </div>
     
-    <!-- Middle Container (Main Form) -->
+    <!-- Middle Container: Main Form -->
     <div class="middle-container">
       <div class="header">
         <div class="toggle-container">
@@ -348,9 +351,8 @@
       </div>
       <div class="subheader">Functional Version 1</div>
       
-      <!-- Main Form for ticket generation -->
       <form id="ticketForm" role="form" aria-label="Ticket Update Generator Form">
-        <!-- New Ticket Number field (always visible) -->
+        <!-- Ticket Number field (always visible) -->
         <div class="fields-container">
           <label for="ticketNumber">Ticket Number:</label>
           <input type="text" id="ticketNumber" placeholder="Enter Ticket Number">
@@ -436,7 +438,7 @@
               Other
             </label>
           </div>
-          <!-- Extra field for updateCallType dynamic input -->
+          <!-- Extra input container for dynamic updateCallType field -->
           <div id="updateCallTypeExtraField"></div>
           <label for="currentProblemStatement">Current Problem Statement/Issue:</label>
           <input type="text" id="currentProblemStatement" placeholder="Enter current problem statement/issue">
@@ -488,7 +490,7 @@
       <div id="copyFeedback"></div>
     </div>
     
-    <!-- Right Container (Ticket Creator Demo) -->
+    <!-- Right Container: Ticket Creator (Demo Only) -->
     <div class="right-container hidden">
       <div class="header">
         <h2>Ticket Creator</h2>
@@ -506,7 +508,7 @@
   </footer>
   
   <script>
-    // DARK MODE FUNCTIONALITY
+    // Dark Mode functionality
     document.getElementById("darkModeSwitch").addEventListener("change", function() {
       if (this.checked) {
         document.body.classList.add("dark-mode");
@@ -517,7 +519,7 @@
       }
     });
 
-    // SIDE PANELS TOGGLE
+    // Side Panels toggle
     document.getElementById("sidePanelsSwitch").addEventListener("change", function() {
       var left = document.querySelector(".left-container");
       var right = document.querySelector(".right-container");
@@ -530,17 +532,16 @@
       }
     });
     
-    // Add change event listeners for updateCallType radio buttons
+    // Attach change event listeners to updateCallType radio buttons for dynamic extra field update
     document.querySelectorAll('input[name="updateCallType"]').forEach(function(radio) {
       radio.addEventListener("change", updateCallTypeExtra);
     });
     
-    // Updates dynamic extra field based on the selected updateCallType option
+    // Update dynamic extra input field based on selected updateCallType option
     function updateCallTypeExtra() {
       var selected = document.querySelector('input[name="updateCallType"]:checked')?.value;
       var container = document.getElementById("updateCallTypeExtraField");
       container.innerHTML = ""; // Clear previous content
-      
       if (selected === "inbound") {
         container.innerHTML = `
           <label for="updateCallTypeExtra">Inbound Name & Number:</label>
@@ -569,11 +570,10 @@
       }
     }
     
-    // COPY TEMPLATE FUNCTION (Plain Text) WITH FEEDBACK
+    // Copy Template function (plain text) with clipboard feedback
     function copyTemplate() {
       const resultElement = document.getElementById("result");
       const plainText = resultElement.innerText;
-      
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(plainText).then(function() {
           showClipboardFeedback();
@@ -585,7 +585,7 @@
       }
     }
     
-    // Displays a clipboard feedback message that fades out over 5 seconds
+    // Shows a clipboard feedback message that fades out over 5 seconds
     function showClipboardFeedback() {
       const feedback = document.getElementById("copyFeedback");
       feedback.innerText = "Template copied to clipboard!";
@@ -595,20 +595,20 @@
       setTimeout(function() { feedback.style.display = "none"; }, 5100);
     }
     
-    // GENERATE TEMPLATE FUNCTION
+    // Generate Template function that outputs only nonempty field values
     function generateTemplate() {
       let template = "";
-      // Helper function that appends a line only if the field is nonempty
+      // Helper function that appends a label and its value if the value is nonempty
       function addTemplateLine(label, value) {
         if (value && value.trim() !== "") {
           template += label + ": " + value.trim() + "\n";
         }
       }
       
-      // Output Ticket Number (always shown)
+      // Output the Ticket Number (always visible)
       addTemplateLine("Ticket Number", document.getElementById("ticketNumber").value);
       
-      // Determine which main section to output based on the Update Type
+      // Check which main section should be output based on Update Type radio selection
       const callType = document.querySelector('input[name="callType"]:checked')?.value || "";
       if (callType === "ticketCreation") {
         addTemplateLine("Update Type", "Ticket Creation");
@@ -696,6 +696,7 @@
       
       addTemplateLine("Troubleshooting/Other", document.getElementById("troubleshootingOther").value);
       
+      // Check for character limit
       if (template.length > 30000) {
         document.getElementById("errorMessage").textContent = "You have hit the character limit!";
         document.getElementById("errorMessage").style.display = "block";
@@ -742,7 +743,7 @@
       }
     }
     
-    // Loads the appropriate fields for the dedicated team (VOIP or GRID)
+    // Loads the appropriate fields for the Dedicated Team section (VOIP or GRID)
     function handleProviderChange() {
       const provider = document.querySelector('input[name="provider"]:checked')?.value;
       const container = document.getElementById("providerFields");
