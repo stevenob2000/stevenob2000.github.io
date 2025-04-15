@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Ticket Update Generator (TUG)</title>
   <style>
+    /* Base page styles */
     body {
       background-color: #3B5CA9;
       font-family: Arial, sans-serif;
@@ -15,6 +16,7 @@
     .hidden {
       display: none !important;
     }
+    /* Toggle switches for dark mode and side panels */
     .toggle-container {
       display: flex;
       align-items: center;
@@ -59,6 +61,7 @@
     input:checked + .slider:before {
       transform: translateX(26px);
     }
+    /* Layout container */
     .page-container {
       display: flex;
       justify-content: center;
@@ -83,19 +86,17 @@
         flex-direction: column;
         align-items: center;
       }
-      .left-container, .middle-container, .right-container {
-        width: 90%;
-      }
+      .left-container, .middle-container, .right-container { width: 90%; }
     }
+    /* Header and subheader styles */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
     }
-    .left-container .header,
-    .right-container .header {
-      justify-content: center;
+    .left-container .header, .right-container .header { 
+      justify-content: center; 
     }
     .header h1, .header h2 {
       margin: 0;
@@ -109,6 +110,7 @@
       margin-bottom: 15px;
       transition: color 0.3s;
     }
+    /* Input and button styling */
     label {
       display: block;
       margin-top: 10px;
@@ -128,6 +130,7 @@
       width: 100%;
       margin-top: 15px;
     }
+    /* Output areas */
     #result, #ticketCreatorOutput {
       margin-top: 20px;
       white-space: pre-wrap;
@@ -139,6 +142,7 @@
       overflow-wrap: break-word;
       transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
+    /* Radio button group styles */
     .radio-group {
       margin-top: 5px;
     }
@@ -164,20 +168,22 @@
       background-color: #555;
       border-color: #555;
     }
-    .dark-mode .radio-group input[type="radio"] {
-      border-color: #bbb;
+    .dark-mode .radio-group input[type="radio"] { 
+      border-color: #bbb; 
     }
-    .dark-mode .radio-group input[type="radio"]:checked {
-      background-color: #03dac6;
-      border-color: #03dac6;
+    .dark-mode .radio-group input[type="radio"]:checked { 
+      background-color: #03dac6; 
+      border-color: #03dac6; 
     }
     .radio-group input[type="radio"]:focus {
       outline: none;
       box-shadow: 0 0 2px 2px rgba(85,85,85,0.5);
     }
+    /* Fields container */
     .fields-container {
       margin-top: 15px;
     }
+    /* Action and copy container */
     .action-container, .copy-container {
       display: flex;
       gap: 10px;
@@ -187,6 +193,15 @@
       flex: 1;
       width: 100%;
     }
+    /* Two-column layout for Ticket Creation section */
+    .two-column {
+      display: flex;
+      gap: 20px;
+    }
+    .two-column .column {
+      flex: 1;
+    }
+    /* Call examples container */
     .call-examples-container {
       display: flex;
       gap: 10px;
@@ -195,24 +210,28 @@
     .call-example {
       flex: 1;
     }
+    /* Footer styling */
     footer {
       text-align: center;
       margin-top: 20px;
       font-size: 0.8em;
       color: #fff;
     }
+    /* Message styling for ticket creation confirmation */
     #ticketMessage {
       text-align: center;
       margin-top: 10px;
       opacity: 1;
       transition: opacity 1s ease-out;
     }
+    /* Error message styling */
     #errorMessage {
       color: red;
       margin-top: 10px;
       font-weight: bold;
       display: none;
     }
+    /* Dark mode overrides */
     .dark-mode {
       background-color: #222;
       color: #fff;
@@ -239,14 +258,6 @@
     .dark-mode .subheader {
       color: #ccc;
     }
-    /* Two-column layout for Ticket Creation section */
-    .two-column {
-      display: flex;
-      gap: 20px;
-    }
-    .two-column .column {
-      flex: 1;
-    }
     /* Clipboard feedback message style */
     #copyFeedback {
       position: fixed;
@@ -270,7 +281,7 @@
       <div class="header">
         <h2>Account Loader</h2>
       </div>
-      <div class="subheader">Non-functional, for demonstration purposes only</div>
+      <div class="subheader">Non-functional, demonstration only</div>
       <form id="leftForm" role="form" aria-label="Account Loader Form">
         <div class="fields-container">
           <label for="site">Site:</label>
@@ -336,7 +347,15 @@
         </div>
       </div>
       <div class="subheader">Functional Version 1</div>
+      
+      <!-- Main Form for ticket generation -->
       <form id="ticketForm" role="form" aria-label="Ticket Update Generator Form">
+        <!-- New Ticket Number field (always visible) -->
+        <div class="fields-container">
+          <label for="ticketNumber">Ticket Number:</label>
+          <input type="text" id="ticketNumber" placeholder="Enter Ticket Number">
+        </div>
+        
         <!-- Update Type Radio Group -->
         <label>Update Type:</label>
         <div class="radio-group">
@@ -366,7 +385,6 @@
               <input type="text" id="tc_lconNumber" placeholder="Enter LCON number">
             </div>
           </div>
-          <!-- Additional Ticket Creation Fields -->
           <label for="tc_businessHours">Business Hours:</label>
           <input type="text" id="tc_businessHours" placeholder="Enter business hours">
           <label for="tc_accessHours">Access Hours (For IWs):</label>
@@ -418,9 +436,8 @@
               Other
             </label>
           </div>
-          <!-- Extra input container for General Ticket Update -->
+          <!-- Extra field for updateCallType dynamic input -->
           <div id="updateCallTypeExtraField"></div>
-          <!-- Additional General Ticket Update Fields -->
           <label for="currentProblemStatement">Current Problem Statement/Issue:</label>
           <input type="text" id="currentProblemStatement" placeholder="Enter current problem statement/issue">
           <label for="troubleshootingResults">Troubleshooting Performed and Results:</label>
@@ -476,7 +493,7 @@
       <div class="header">
         <h2>Ticket Creator</h2>
       </div>
-      <div class="subheader">Non-functional, for demonstration purposes only</div>
+      <div class="subheader">Non-functional, demonstration only</div>
       <h2>Ticket Creator Output:</h2>
       <div id="ticketCreatorOutput"></div>
       <button type="button" id="ticketCreatorButton" class="full-width-btn">Create Ticket</button>
@@ -485,11 +502,11 @@
   </div>
   
   <footer>
-    Created by Steven Burgos, with invaluable support from my teammates.
+    Created by Steven Burgos, with invaluable support from teammates.
   </footer>
   
   <script>
-    // Restore Dark Mode functionality
+    // DARK MODE FUNCTIONALITY
     document.getElementById("darkModeSwitch").addEventListener("change", function() {
       if (this.checked) {
         document.body.classList.add("dark-mode");
@@ -500,7 +517,7 @@
       }
     });
 
-    // Restore Side Panels functionality
+    // SIDE PANELS TOGGLE
     document.getElementById("sidePanelsSwitch").addEventListener("change", function() {
       var left = document.querySelector(".left-container");
       var right = document.querySelector(".right-container");
@@ -513,12 +530,12 @@
       }
     });
     
-    // Attach change event listeners to updateCallType radios in General Ticket Update
+    // Add change event listeners for updateCallType radio buttons
     document.querySelectorAll('input[name="updateCallType"]').forEach(function(radio) {
       radio.addEventListener("change", updateCallTypeExtra);
     });
     
-    // Update extra input field based on the selected updateCallType option
+    // Updates dynamic extra field based on the selected updateCallType option
     function updateCallTypeExtra() {
       var selected = document.querySelector('input[name="updateCallType"]:checked')?.value;
       var container = document.getElementById("updateCallTypeExtraField");
@@ -552,7 +569,7 @@
       }
     }
     
-    // Copy function that copies plain text and shows clipboard feedback
+    // COPY TEMPLATE FUNCTION (Plain Text) WITH FEEDBACK
     function copyTemplate() {
       const resultElement = document.getElementById("result");
       const plainText = resultElement.innerText;
@@ -568,7 +585,7 @@
       }
     }
     
-    // Show clipboard feedback that fades out over 5 seconds
+    // Displays a clipboard feedback message that fades out over 5 seconds
     function showClipboardFeedback() {
       const feedback = document.getElementById("copyFeedback");
       feedback.innerText = "Template copied to clipboard!";
@@ -578,16 +595,20 @@
       setTimeout(function() { feedback.style.display = "none"; }, 5100);
     }
     
-    // generateTemplate function that outputs only non-empty inputs
+    // GENERATE TEMPLATE FUNCTION
     function generateTemplate() {
       let template = "";
-      // Helper: Append label and value only if value is non-empty
+      // Helper function that appends a line only if the field is nonempty
       function addTemplateLine(label, value) {
         if (value && value.trim() !== "") {
           template += label + ": " + value.trim() + "\n";
         }
       }
       
+      // Output Ticket Number (always shown)
+      addTemplateLine("Ticket Number", document.getElementById("ticketNumber").value);
+      
+      // Determine which main section to output based on the Update Type
       const callType = document.querySelector('input[name="callType"]:checked')?.value || "";
       if (callType === "ticketCreation") {
         addTemplateLine("Update Type", "Ticket Creation");
@@ -634,7 +655,7 @@
         addTemplateLine("Recommended Next Steps", document.getElementById("recommendedNextSteps").value);
       }
       
-      // Dedicated Team Section
+      // Dedicated Team Section output
       const provider = document.querySelector('input[name="provider"]:checked').value;
       addTemplateLine("Dedicated Team", provider ? provider : "None");
       if (provider === "voip") {
@@ -688,6 +709,7 @@
       console.log("Template generated:", template);
     }
     
+    // Highlights the generated template text
     function highlightOutput() {
       var output = document.getElementById("result");
       var range = document.createRange();
@@ -697,6 +719,7 @@
       selection.addRange(range);
     }
     
+    // Clears the form and output areas
     function clearOutput() {
       if (!confirm("Are you sure you want to clear all?")) return;
       document.getElementById("result").innerText = "";
@@ -706,6 +729,7 @@
       updateCallTypeExtra();
     }
     
+    // Switches between Ticket Creation and General Ticket Update sections
     function handleCallTypeChange() {
       const callType = document.querySelector('input[name="callType"]:checked')?.value || "";
       if (callType === "ticketCreation") {
@@ -718,6 +742,7 @@
       }
     }
     
+    // Loads the appropriate fields for the dedicated team (VOIP or GRID)
     function handleProviderChange() {
       const provider = document.querySelector('input[name="provider"]:checked')?.value;
       const container = document.getElementById("providerFields");
